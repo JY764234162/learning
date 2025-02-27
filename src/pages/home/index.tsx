@@ -6,11 +6,11 @@ const Home: React.FC = () => {
   const [routes, setRoutes] = useState<string[]>([]);
 
   useEffect(() => {
-    // 使用与routers.tsx相同的方式获取所有路由路径
-    const pagesPaths = Object.keys(import.meta.glob("@/pages/*/index.tsx"));
+    // 使用相同的模块加载方式
+    const modules = import.meta.glob("../*/index.tsx", { eager: true });
 
     // 提取路由名称
-    const routeNames = pagesPaths
+    const routeNames = Object.keys(modules)
       .map((path) => {
         const pathList = path.split("/");
         return pathList[pathList.length - 2];

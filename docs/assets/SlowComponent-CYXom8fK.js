@@ -1,1 +1,0 @@
-import{G as o}from"./index-Gqy7a80Z.js";import{af as a,ag as r}from"./index-Dn3wCLmq.js";const{Text:s}=r,n=()=>o.jsx(a,{style:{background:"#f6f8fa"},children:o.jsx(s,{children:"这是一个模拟加载较慢的组件，通过 lazy 和 Suspense 实现了延迟加载。 你可以看到在加载过程中显示了 loading 状态，加载完成后平滑过渡到实际内容。"})});export{n as default};

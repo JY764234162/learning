@@ -3,6 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "license": "MIT",
+  "homepage": "https://jy764234162.github.io/learning",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JY764234162/learning"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -64,6 +70,7 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",
+    "vite-plugin-dynamic-import": "^1.6.0",
     "vite-plugin-inspect": "^0.8.1",
     "vite-plugin-raw": "^1.0.3"
   }
