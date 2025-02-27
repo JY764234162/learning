@@ -1,1 +1,0 @@
-import{r,j as t,R as c}from"./index-Cpi3xnDM.js";function a(){const[o,n]=r.useState(0),s=(...e)=>{console.log(e),console.log(e[5]-e[4])};return r.useEffect(()=>{n(5e4)},[]),t.jsx(c.Profiler,{id:"profiler",onRender:s,children:new Array(o).fill(1).map((e,l)=>t.jsx("div",{children:e},l))})}export{a as default};
