@@ -61,6 +61,7 @@ export default defineConfig({
     },
   },
   build: {
+    outDir: "docs",
     rollupOptions: {
       plugins: [myExample()],
     },
