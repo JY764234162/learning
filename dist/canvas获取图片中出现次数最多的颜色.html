@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>获取图片中出现次数最多的颜色</title>
+    <style>
+      a {
+        color: rgba(10, 10, 44, 255);
+      }
+    </style>
+  </head>
+  <body>
+    <input type="file" id="fileInput" accept="image/*" />
+    <canvas id="canvas" style="display: none"></canvas>
+    <div id="result"></div>
+
+    <script>
+      function reduceImageQuality(file, quality = 0.7) {
+        const img = new Image();
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        img.onload = () => {
+          // 设置画布大小
+          canvas.width = img.width;
+          canvas.height = img.height;
+
+          // 将图像绘制到画布上
+          ctx.drawImage(img, 0, 0);
+
+          // 导出图像，设置质量
+          canvas.toBlob(
+            (blob) => {
+              const reducedImageUrl = URL.createObjectURL(blob);
+              window.open(reducedImageUrl);
+              console.log(reducedImageUrl); // 处理压缩后的图像
+            },
+            "image/jpeg",
+            0.001
+          ); // 'image/jpeg' 可以改为 'image/png'
+        };
+
+        img.src = URL.createObjectURL(file);
+      }
+
+      // 使用示例
+      const input = document.querySelector('input[type="file"]');
+      input.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        reduceImageQuality(file, 0.1); // 0.5 表示50%的质量
+      });
+    </script>
+    <script>
+      document
+        .getElementById("fileInput")
+        .addEventListener("change", function (event) {
+          const file = event.target.files[0];
+          if (file) {
+            const img = new Image();
+            img.onload = function () {
+              const canvas = document.getElementById("canvas");
+              const ctx = canvas.getContext("2d");
+              canvas.width = img.width;
+              canvas.height = img.height;
+              ctx.drawImage(img, 0, 0);
+
+              const imageData = ctx.getImageData(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+              );
+              console.log(imageData);
+              const data = imageData.data;
+
+              const colorCount = {};
+              let maxCount = 0;
+              let mostFrequentColor = "";
+
+              for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                const a = data[i + 3];
+
+                // 只考虑不透明的像素
+                // if (a > 0) {
+                const color = `rgba(${r},${g},${b},${a})`;
+                colorCount[color] = (colorCount[color] || 0) + 1;
+
+                if (colorCount[color] > maxCount) {
+                  maxCount = colorCount[color];
+                  mostFrequentColor = color;
+                }
+                // }
+              }
+
+              document.getElementById("result").innerText =
+                `出现次数最多的颜色: ${mostFrequentColor} (次数: ${maxCount})`;
+            };
+            img.src = URL.createObjectURL(file);
+          }
+        });
+    </script>
+  </body>
+</html>

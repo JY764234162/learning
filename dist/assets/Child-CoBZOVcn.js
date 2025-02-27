@@ -1,0 +1,1 @@
+import{j as r,r as s}from"./index-Cpi3xnDM.js";import{BigSpinner as i}from"./index-Bsn73mrT.js";const t=()=>r.jsx("span",{children:"ChildChild"}),n=()=>r.jsxs(s.Suspense,{fallback:r.jsx(i,{}),children:["Child",r.jsx(t,{})]});export{n as default};

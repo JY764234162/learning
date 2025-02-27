@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/Child-CoBZOVcn.js","assets/index-Cpi3xnDM.js"])))=>i.map(i=>d[i]);
+import{j as r,r as s,_ as e}from"./index-Cpi3xnDM.js";const n=s.lazy(()=>e(()=>import("./Child-CoBZOVcn.js"),__vite__mapDeps([0,1])));function i(){return r.jsxs(s.Suspense,{fallback:r.jsx(t,{}),children:[r.jsx("span",{children:"parent"}),r.jsx(n,{})]})}const t=()=>r.jsx("h2",{children:"🌀 Loading..."});export{t as BigSpinner,i as default};

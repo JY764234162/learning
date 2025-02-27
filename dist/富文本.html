@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .container {
+        position: relative;
+        width: 300px;
+        width: 500px;
+        height: 150px;
+      }
+
+      #highlight {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        font-family: Arial;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        overflow: auto;
+        pointer-events: none;
+        color: transparent;
+      }
+
+      #input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 8px;
+        border: none;
+        font-family: Arial;
+        line-height: 1.5;
+        resize: none;
+        background-color: transparent;
+        z-index: 2;
+        caret-color: black; /* 光标颜色 */
+      }
+
+      .red-bg {
+        background-color: #ff000080;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="highlight"></div>
+      <textarea id="input" spellcheck="false"></textarea>
+    </div>
+
+    <script>
+      const input = document.getElementById("input");
+      const highlight = document.getElementById("highlight");
+
+      function updateHighlight() {
+        // 获取并转义输入内容
+        const text = input.value
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+
+        // 添加红色背景
+        const highlighted = text.replace(
+          /123/g,
+          '<span class="red-bg">123</span>'
+        );
+
+        // 更新显示层
+        highlight.innerHTML = highlighted.replace(/\n/g, "<br>"); // 处理换行
+
+        // 同步滚动位置
+        highlight.scrollTop = input.scrollTop;
+        highlight.scrollLeft = input.scrollLeft;
+      }
+
+      // 监听输入和滚动事件
+      input.addEventListener("input", updateHighlight);
+      input.addEventListener("scroll", updateHighlight);
+
+      // 初始化
+      updateHighlight();
+    </script>
+  </body>
+</html>

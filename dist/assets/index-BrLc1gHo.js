@@ -1,0 +1,1 @@
+import{r as i,j as t}from"./index-Cpi3xnDM.js";function e(){return i.useEffect(()=>{"Notification"in window&&(Notification.requestPermission().then(function(n){}),new Notification("title",{body:"body",icon:"icon.png"}))},[]),t.jsx("div",{children:"notification"})}export{e as default};

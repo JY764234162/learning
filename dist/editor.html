@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>输入框内高亮并添加撤销重做</title>
+    <style>
+        #input {
+            width: 300px;
+            height: 100px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            /* 保留换行符 */
+        }
+
+        .highlight {
+            background-color: red;
+            color: white;
+            /* 让文字更易读 */
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="input" contenteditable="true" oninput="highlightText()" spellcheck="false"></div>
+    <button onclick="undo()">撤销</button>
+    <button onclick="redo()">重做</button>
+
+    <script>
+        let history = []; // 存储历史记录  
+        let historyIndex = -1; // 当前历史记录索引  
+
+        function highlightText() {
+            const inputDiv = document.getElementById('input');
+            const text = inputDiv.innerText; // 获取用户输入的文本  
+            const highlightedText = text.replace(/(123)/g, '<span class="highlight">$1</span>');
+
+            inputDiv.innerHTML = highlightedText;
+
+            // // 调整光标位置  
+            setCursorPosition(inputDiv);
+
+
+        }
+
+        function setCursorPosition(inputDiv) {
+            // 重新设置光标位置  
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(inputDiv);
+            range.collapse(false); // 在内容的尾部位置  
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+
+
+
+
+    </script>
+
+</body>
+
+</html>

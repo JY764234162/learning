@@ -1,0 +1,27 @@
+.parsed-content {
+  padding: 16px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.parsed-content h2,
+.parsed-content h3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.parsed-content p {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.parsed-content ref-list {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+.parsed-content xref {
+  color: #1890ff;
+  cursor: pointer;
+}

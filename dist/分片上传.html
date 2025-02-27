@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>upload file</title>
+  </head>
+  <body id="app">
+    <h1 style="text-align: center">大文件切片上传-实例</h1>
+    <form
+      method="post"
+      enctype="multipart/form-data"
+      onsubmit="return false"
+      style="
+        left: 10vw;
+        position: relative;
+        display: flex;
+        height: 30vh;
+        flex-direction: column;
+        width: 80vw;
+        margin: 20px;
+        text-align: center;
+      "
+    >
+      <input
+        type="file"
+        id="file"
+        name="ff"
+        multiple="multiple"
+        style="margin-left: 30px"
+      /><br />
+      <input
+        type="submit"
+        value="提交"
+        id="xx"
+        onclick="upload()"
+        style="margin-left: 30px; width: 70px"
+      />
+    </form>
+    <div style="height: 30px; width: 80vw; left: 10vw; position: relative">
+      <span>上传过程：</span>
+    </div>
+    <div
+      style="
+        display: block;
+        height: 40vh;
+        width: 80vw;
+        overflow: scroll;
+        background: darkgray;
+        left: 10vw;
+        position: relative;
+      "
+    >
+      <textarea id="ct" style="height: 100%; width: 100%"></textarea>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/spark-md5/3.0.0/spark-md5.min.js"></script>
+  <script>
+    const chunkSize = 2 * 1024 * 1024; // 每个chunk的大小，设置为2兆
+    const blobSlice =
+      File.prototype.slice ||
+      File.prototype.mozSlice ||
+      File.prototype.webkitSlice;
+    const spark = new SparkMD5.ArrayBuffer();
+    const getHash = (file) => {
+      const result = spark.end();
+      const sparkMd5 = new SparkMD5();
+      sparkMd5.append(result);
+      sparkMd5.append(file.name);
+      return sparkMd5.end();
+    };
+    const uploadFile = async (file, hash) => {
+      return;
+    };
+    const upload = async () => {
+      const fileDom = $("#file")[0];
+      // 获取到的files为一个File对象数组，如果允许多选的时候，文件为多个
+      const files = fileDom.files;
+      const file = files[0];
+      if (!file) {
+        alert("没有获取文件");
+        return;
+      }
+      const blockCount = Math.ceil(file.size / chunkSize); // 分片总数
+      const axiosPromiseArray = []; // axiosPromise数组
+      const hash = getHash(file); //文件 hash
+      // 获取文件hash之后，如果需要做断点续传，可以根据hash值去后台进行校验。
+      // 看看是否已经上传过该文件，并且是否已经传送完成以及已经上传的切片。
+      new Promise((resolve, reject) => {
+        const chunks = Math.ceil(file.size / chunkSize);
+        let currentChunk = 0;
+        const fileReader = new FileReader();
+        const loadNext = () => {
+          const start = currentChunk * chunkSize;
+          const end =
+            start + chunkSize >= file.size ? file.size : start + chunkSize;
+          // 构建表单
+          const form = new FormData();
+          form.append("file", blobSlice.call(file, start, end));
+          form.append("name", file.name);
+          form.append("total", blockCount);
+          form.append("index", currentChunk);
+          form.append("size", file.size);
+          form.append("hash", hash);
+          // ajax提交 分片，此时 content-type 为 multipart/form-data
+          const axiosOptions = {
+            onUploadProgress: (e) => {
+              ct = document.getElementById("ct");
+              ct.textContent =
+                ct.textContent + `第${currentChunk}分片上传完成\n\r`;
+            },
+          };
+          // 加入到 Promise 数组中
+          axiosPromiseArray.push(axios.post("/uploadFile", form, axiosOptions));
+        };
+        while (currentChunk < chunks) {
+          loadNext();
+          currentChunk++;
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+      await axios
+        .all(axiosPromiseArray)
+        .then((result) => {
+          // 合并chunks
+          const data = {
+            size: file.size,
+            name: file.name,
+            total: blockCount,
+            hash,
+          };
+          const form = new FormData();
+          form.append("size", file.size);
+          form.append("name", file.name);
+          form.append("total", blockCount);
+          form.append("hash", hash);
+          console.log(result);
+          axios.post("/file/chunks", form).then((res) => {
+            //console.log(res)
+            ct = document.getElementById("ct");
+            ct.textContent = ct.textContent + `上传完成\n\r`;
+            console.log("全部上传完毕");
+          });
+        })
+        .catch((err) => {});
+    };
+  </script>
+</html>

@@ -1,0 +1,38 @@
+.loadingContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.loadingContent {
+  text-align: center;
+  padding: 20px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.loadingText {
+  margin-top: 12px;
+  color: #666;
+  font-size: 14px;
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .loadingContent {
+    padding: 16px;
+  }
+
+  .loadingText {
+    font-size: 12px;
+  }
+}

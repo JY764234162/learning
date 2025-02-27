@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head> </head>
+  <body>
+    <div class="container">
+      <div id="highlight"></div>
+      <textarea id="input" spellcheck="false"></textarea>
+    </div>
+    <script>
+      function* generator() {
+        for (let i = 0; i < 10; i++) {
+          yield i;
+        }
+      }
+      console.log(generator().next());
+      for (const element of generator()) {
+        console.log(element);
+      }
+    </script>
+  </body>
+</html>
