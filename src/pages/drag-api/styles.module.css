@@ -1,0 +1,90 @@
+.listContainer {
+  padding: 10px 0;
+}
+
+.listItem {
+  margin-bottom: 8px;
+  padding: 8px 16px;
+  background-color: white;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  cursor: move;
+  user-select: none;
+  display: flex !important;
+  align-items: center !important;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 64px;
+
+  /* 添加平滑过渡动画 */
+  transition: transform 0.2s ease-out, background-color 0.2s ease-out;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.listItem:hover {
+  background-color: #fafafa;
+}
+
+/* 拖拽时的样式 */
+.dragging {
+  opacity: 0.6;
+  background-color: #e6f7ff !important;
+  border: 1px dashed #1890ff !important;
+}
+
+/* 移动动画 */
+.moveUp {
+  transform: translateY(-72px);
+}
+
+.moveDown {
+  transform: translateY(72px);
+}
+
+/* Ant Design List.Item.Meta 样式覆盖 */
+:global(.ant-list-item-meta) {
+  flex: 1;
+  margin: 0 !important;
+  align-items: center;
+  display: flex !important;
+}
+
+:global(.ant-list-item-meta-content) {
+  flex: 1;
+}
+
+:global(.ant-list-item-meta-avatar) {
+  margin-right: 16px !important;
+  display: flex;
+  align-items: center;
+}
+
+.dragHandle {
+  cursor: grab;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+/* 拖拽图像的样式 - 用于完整克隆 */
+.dragImage {
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background-color: white;
+}
+
+/* 拖拽目标位置的样式 */
+.dragOver {
+  border-top: 2px solid #1890ff;
+  margin-top: -2px;
+}
+
+/* 其他元素在拖拽时的动画效果 */
+.listItem:not(.dragging) {
+  transform: translateY(0);
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
