@@ -10,10 +10,8 @@ interface Item {
   color: string;
 }
 
-const DragApiDemo = () => {
-  const [isPending, startTransition] = useTransition();
-  const dragItemRef = useRef<string>(null);
-  const nodeRef = useRef(null);
+const DragSort = () => {
+  const dragItemRef = useRef<string | null>(null);
   const [items, setItems] = useState<Item[]>([
     { id: "1", content: "拖拽项目 1", color: "#ff4d4f" },
     { id: "2", content: "拖拽项目 2", color: "#1890ff" },
@@ -44,13 +42,11 @@ const DragApiDemo = () => {
       const dragIndex = items.findIndex(
         (item) => item.id === dragItemRef.current
       );
-      startTransition(() => {
-        setItems((prevItems) => {
-          const newItems = [...prevItems];
-          const [draggedItem] = newItems.splice(dragIndex, 1);
-          newItems.splice(targetIndex, 0, draggedItem);
-          return newItems;
-        });
+      setItems((prevItems) => {
+        const newItems = [...prevItems];
+        const [draggedItem] = newItems.splice(dragIndex, 1);
+        newItems.splice(targetIndex, 0, draggedItem);
+        return newItems;
       });
     }
   };
@@ -239,4 +235,4 @@ const handleDrop = () => {
   );
 };
 
-export default DragApiDemo;
+export default DragSort;
