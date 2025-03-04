@@ -1,22 +1,12 @@
 .listContainer {
-  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .listItem {
-  margin-bottom: 8px;
-  padding: 8px 16px;
-  background-color: white;
-  border: 1px solid #f0f0f0;
-  border-radius: 4px;
-  cursor: move;
-  user-select: none;
-  display: flex !important;
-  align-items: center !important;
-  width: 100%;
-  box-sizing: border-box;
-  min-height: 64px;
-
   /* 添加平滑过渡动画 */
+
   transition: transform 0.2s ease-out, background-color 0.2s ease-out;
   transform-origin: center;
   will-change: transform;

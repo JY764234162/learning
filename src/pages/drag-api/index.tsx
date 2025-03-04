@@ -1,7 +1,7 @@
-import React, { useState, useRef, Key } from "react";
+import React, { useState, useRef, Key, useTransition } from "react";
 import { Typography, Card, Alert, Space, List, Avatar } from "antd";
 import styles from "./styles.module.css";
-
+import { CSSTransition } from "react-transition-group";
 const { Title, Paragraph, Text } = Typography;
 
 interface Item {
@@ -11,6 +11,9 @@ interface Item {
 }
 
 const DragApiDemo = () => {
+  const [isPending, startTransition] = useTransition();
+  const dragItemRef = useRef<string>(null);
+  const nodeRef = useRef(null);
   const [items, setItems] = useState<Item[]>([
     { id: "1", content: "拖拽项目 1", color: "#ff4d4f" },
     { id: "2", content: "拖拽项目 2", color: "#1890ff" },
@@ -20,14 +23,14 @@ const DragApiDemo = () => {
   ]);
 
   const onDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    const id = (e.currentTarget as HTMLDivElement).dataset.id;
+    const id = (e.currentTarget as HTMLDivElement).dataset.id || "";
+    e.dataTransfer.setData("text/plain", id);
+    e.currentTarget.style.opacity = "0.5";
+    dragItemRef.current = id;
     console.log("拖动开始...", id);
   };
   // 拖动元素开始拖动时触发
-  const onDrag = (e: React.DragEvent<HTMLDivElement>) => {
-    const id = (e.currentTarget as HTMLDivElement).dataset.id;
-    console.log("拖动中...", id);
-  };
+  const onDrag = (e: React.DragEvent<HTMLDivElement>) => {};
   // 拖动元素经过目标元素时触发
   const onDragOver = (e: React.DragEvent) => {
     // 阻止默认行为，使元素成为有效的放置目标( 必须 ),否则无法触发 drop 事件
@@ -35,18 +38,24 @@ const DragApiDemo = () => {
   };
   // 拖动元素进入目标元素时触发
   const onDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLDivElement).hasAttribute("data-id")) {
-      const id = (e.currentTarget as HTMLDivElement).dataset.id;
-      console.log("拖动元素进入目标元素", id);
+    if ((e.target as HTMLDivElement).hasAttribute("draggable")) {
+      const targetId = (e.currentTarget as HTMLDivElement).dataset.id;
+      const targetIndex = items.findIndex((item) => item.id === targetId);
+      const dragIndex = items.findIndex(
+        (item) => item.id === dragItemRef.current
+      );
+      startTransition(() => {
+        setItems((prevItems) => {
+          const newItems = [...prevItems];
+          const [draggedItem] = newItems.splice(dragIndex, 1);
+          newItems.splice(targetIndex, 0, draggedItem);
+          return newItems;
+        });
+      });
     }
   };
   // 拖动元素离开目标元素时触发
-  const onDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLDivElement).hasAttribute("data-id")) {
-      const id = (e.currentTarget as HTMLDivElement).dataset.id;
-      console.log("拖动元素离开目标元素", id);
-    }
-  };
+  const onDragLeave = (e: React.DragEvent<HTMLDivElement>) => {};
   // 拖动元素放置到目标元素时触发
   const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
     const id = (e.currentTarget as HTMLDivElement).dataset.id;
@@ -56,6 +65,8 @@ const DragApiDemo = () => {
   const onDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
     const id = (e.currentTarget as HTMLDivElement).dataset.id;
     console.log("拖拽结束", id);
+    dragItemRef.current = null;
+    e.currentTarget.style.opacity = "1";
   };
 
   return (
@@ -73,42 +84,40 @@ const DragApiDemo = () => {
       <Space direction="vertical" style={{ width: "100%" }}>
         <Card title="演示效果">
           <div className={styles.listContainer}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {items.map((item) => (
+            {items.map((item, index) => (
+              <div
+                data-id={item.id}
+                data-index={index}
+                draggable
+                key={item.id}
+                onDragStart={onDragStart}
+                onDrag={onDrag}
+                onDragOver={onDragOver}
+                onDragEnter={onDragEnter}
+                onDragLeave={onDragLeave}
+                onDrop={onDrop}
+                onDragEnd={onDragEnd}
+              >
                 <div
-                  data-id={item.id}
-                  draggable
-                  key={item.id}
-                  onDragStart={onDragStart}
-                  onDrag={onDrag}
-                  onDragOver={onDragOver}
-                  onDragEnter={onDragEnter}
-                  onDragLeave={onDragLeave}
-                  onDrop={onDrop}
-                  onDragEnd={onDragEnd}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "10px",
+                    gap: 8,
+                    border: "1px solid #e0e0e0",
+                    borderRadius: 8,
+                    background: "#fff",
+                    pointerEvents: "none",
+                    boxSizing: "border-box",
+                  }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      padding: "10px",
-                      gap: 8,
-                      border: "1px solid #e0e0e0",
-                      borderRadius: 8,
-                      pointerEvents: "none",
-                    }}
-                  >
-                    <Avatar
-                      draggable={false}
-                      style={{ background: item.color }}
-                    >
-                      {item.id}
-                    </Avatar>
-                    {item.content}
-                  </div>
+                  <Avatar draggable={false} style={{ background: item.color }}>
+                    {item.id}
+                  </Avatar>
+                  {item.content}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </Card>
 
