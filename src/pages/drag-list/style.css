@@ -1,0 +1,52 @@
+.drag-list-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.drag-list {
+  width: 200px;
+  min-height: 300px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.drag-list-item {
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: move;
+}
+
+.drag-list-item.empty {
+  height: 20px;
+  border: 1px dashed #ccc;
+  background: transparent;
+}
+
+/* 顶部插入线指示器 */
+.drag-list-item.drop-top::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #2196f3;
+  pointer-events: none;
+}
+
+/* 底部插入线指示器 */
+.drag-list-item.drop-bottom::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #2196f3;
+  pointer-events: none;
+}
