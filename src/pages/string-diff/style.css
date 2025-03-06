@@ -1,0 +1,10 @@
+.diff-result {
+  padding: 16px;
+  background-color: #fafafa;
+  border-radius: 4px;
+  min-height: 60px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: monospace;
+  line-height: 1.6;
+}
