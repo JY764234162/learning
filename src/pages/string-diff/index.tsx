@@ -12,7 +12,7 @@ export default function StringDiffPage() {
   const [textTwo, setTextTwo] = useState("beep boob blah");
 
   const diffResult = diffWords(textOne, textTwo);
-
+  console.log(diffResult);
   const renderDiff = (diffData: Change[]) => {
     return diffData.map((part, index) => {
       const color = part.added
