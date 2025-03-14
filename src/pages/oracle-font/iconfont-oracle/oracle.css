@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "oracle"; /* Project id 4442564 */
+  src: url("./iconfont.woff2?v=2") format("woff2"),
+    url("./iconfont.woff?v=2") format("woff"),
+    url("./iconfont.ttf?v=2") format("truetype");
+}
+
+/* 
+    在body添加全局字体样式oracle保底，如果局部样式有font-family，
+    则这条样式不生效，切勿与其他iconfont图标 unicode编码冲突，
+    目前的kx、以及kx-color图标 iconfont图标是以symbol形式使用的，不会出现unicode冲突问题 
+*/
+.oracle {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, PingFang SC, noto sans,
+    Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif, oracle,
+    Hiragino Sans GB;
+}
