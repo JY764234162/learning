@@ -7,6 +7,21 @@
     <title>前端技术学习实验室 | Frontend Lab</title>
   </head>
   <body>
+    <!-- 全局定义svg渐变 -->
+    <svg style="position: absolute; width: 0px; height: 0px; overflow: hidden">
+      <defs>
+        <linearGradient id="globalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop
+            offset="0%"
+            style="stop-color: rgb(255, 255, 0); stop-opacity: 1"
+          />
+          <stop
+            offset="100%"
+            style="stop-color: rgb(255, 0, 0); stop-opacity: 1"
+          />
+        </linearGradient>
+      </defs>
+    </svg>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

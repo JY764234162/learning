@@ -4,6 +4,7 @@ import Basic from "./demos/Basic";
 import Size from "./demos/Size";
 import Color from "./demos/Color";
 import Gradient from "./demos/Gradient";
+import GlobalGradient from "./demos/GlobalGradient";
 import Custom from "./demos/Custom";
 import "./assets/iconfont";
 const { Title, Paragraph } = Typography;
@@ -40,6 +41,38 @@ const IconFontPage: React.FC = () => {
         <Card title="渐变效果">
           <Paragraph>通过 resourceDefs 可以添加 SVG 渐变效果：</Paragraph>
           <Gradient />
+        </Card>
+
+        <Card title="全局渐变">
+          <Paragraph>使用全局定义的渐变效果（在index.html中定义）：</Paragraph>
+          <GlobalGradient />
+          <pre
+            style={{
+              background: "rgb(246, 248, 250)",
+              padding: "16px",
+              borderRadius: "6px",
+            }}
+          >
+            {`<body>
+  <!-- 全局定义svg渐变 -->
+  <svg style="position: absolute; width: 0px; height: 0px; overflow: hidden">
+    <defs>
+      <linearGradient id="globalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop
+          offset="0%"
+          style="stop-color: rgb(255, 255, 0); stop-opacity: 1"
+        />
+        <stop
+          offset="100%"
+          style="stop-color: rgb(255, 0, 0); stop-opacity: 1"
+        />
+      </linearGradient>
+    </defs>
+  </svg>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>`}
+          </pre>
         </Card>
 
         <Card title="与按钮组合">
