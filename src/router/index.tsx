@@ -3,9 +3,10 @@ import Routes from "./routers";
 import { Suspense } from "react";
 import Loading from "../components/Loading";
 
+const env = import.meta.env.MODE;
 export default function Router() {
   return (
-    <BrowserRouter basename="/learning">
+    <BrowserRouter basename={env === "development" ? undefined : "/learning"}>
       <Suspense fallback={<Loading />}>
         <Routes />
       </Suspense>
