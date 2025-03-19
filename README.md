@@ -32,7 +32,7 @@
 | 20. xml-parser | [在线演示](https://jy764234162.github.io/learning/#/xml-parser) | [查看源码](https://github.com/JY764234162/learning/blob/main/src/pages/xml-parser/index.tsx) |
 
 ## 功能详情
-
+    部分功能只在本地有效，如严格模式、vite热更新
 
 ## 技术栈
 
