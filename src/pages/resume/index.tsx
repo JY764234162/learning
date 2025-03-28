@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./index.module.less";
-
+import avatar from "./avatar.jpg";
 const Resume: React.FC = () => {
   return (
     <div className={styles.resumeContainer}>
@@ -13,20 +13,58 @@ const Resume: React.FC = () => {
             <p>电话：138xxxxxxxx | 邮箱：zhangsan@email.com</p>
             <p>GitHub：github.com/zhangsan | 博客：blog.zhangsan.com</p>
           </div>
+          <div className={styles.avatar}>
+            <img src={avatar}></img>
+          </div>
         </header>
 
         <section className={styles.section}>
           <h2>个人优势</h2>
-          <ul>
-            <li>有从0-1搭建到开发完整项目经验，能独立负责整个前端项目</li>
-            <li>
-              熟悉前端工程化，阅读过vite源码，深入理解vite构建原理，能够独立开发脚手架
-            </li>
-            <li>精通React、Vue及其生态，熟悉TypeScript</li>
-            <li>有前端规范化经验，能够统一前端代码规范、git commit 规范</li>
-            <li>熟悉前端自动化部署流程，熟悉容器化部署</li>
-            <li>有后端开发经验，熟悉Node.js、Koa、MySQL、Redis等后端技术</li>
-          </ul>
+          <div className={styles.advantageList}>
+            {[
+              {
+                title: "全栈开发能力",
+                detail: "有从0-1搭建到开发完整项目经验，能独立负责整个前端项目",
+                icon: "🚀",
+              },
+              {
+                title: "工程化专家",
+                detail:
+                  "熟悉前端工程化，阅读过vite源码，深入理解vite构建原理，能够独立开发脚手架",
+                icon: "⚙️",
+              },
+              {
+                title: "技术栈扎实",
+                detail: "精通React、Vue及其生态，熟悉TypeScript",
+                icon: "💻",
+              },
+              {
+                title: "规范化经验",
+                detail:
+                  "有前端规范化经验，能够统一前端代码规范、git commit 规范",
+                icon: "📋",
+              },
+              {
+                title: "部署运维",
+                detail: "熟悉前端自动化部署流程，熟悉容器化部署",
+                icon: "🔄",
+              },
+              {
+                title: "后端技术",
+                detail:
+                  "有后端开发经验，熟悉Node.js、Koa、MySQL、Redis等后端技术",
+                icon: "🛠️",
+              },
+            ].map((item) => (
+              <div key={item.title} className={styles.advantageItem}>
+                <span className={styles.advantageIcon}>{item.icon}</span>
+                <div className={styles.advantageContent}>
+                  <h4>{item.title}</h4>
+                  <p>{item.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
 
         <section className={styles.section}>
@@ -87,26 +125,43 @@ const Resume: React.FC = () => {
           <h2>项目经历</h2>
           <div className={styles.projects}>
             <div className={styles.project}>
-              <h3>企业级中台项目</h3>
-              <p className={styles.duration}>2021.06 - 2022.12</p>
+              <div className={styles.projectHeader}>
+                <h3>企业级中台项目</h3>
+                <span className={styles.duration}>2021.06 - 2022.12</span>
+              </div>
               <div className={styles.projectContent}>
-                <p className={styles.description}>
-                  基于 React + TypeScript
-                  的大型中台项目，服务于集团内部多个业务线
-                </p>
-                <h4>主要职责：</h4>
-                <ul>
-                  <li>负责项目整体技术方案设计和架构搭建</li>
-                  <li>设计并实现微前端架构，解决多团队协作问题</li>
-                  <li>构建组件库，提升开发效率</li>
-                  <li>实现权限管理系统，支持灵活的权限控制</li>
-                </ul>
-                <h4>技术亮点：</h4>
-                <ul>
-                  <li>使用 qiankun 实现微前端架构</li>
-                  <li>基于 React + TypeScript 开发自定义组件库</li>
-                  <li>实现了高性能的数据状态管理方案</li>
-                </ul>
+                <div className={styles.projectOverview}>
+                  <span className={styles.projectIcon}>🏢</span>
+                  <p className={styles.description}>
+                    基于 React + TypeScript
+                    的大型中台项目，服务于集团内部多个业务线
+                  </p>
+                </div>
+
+                <div className={styles.projectDetails}>
+                  <div className={styles.detailSection}>
+                    <h4>
+                      <span className={styles.detailIcon}>👨‍💻</span>
+                      主要职责
+                    </h4>
+                    <ul>
+                      <li>负责项目整体技术方案设计和架构搭建</li>
+                      <li>设计并实现微前端架构，解决多团队协作问题</li>
+                      <li>实现权限管理系统，支持灵活的权限控制</li>
+                    </ul>
+                  </div>
+
+                  <div className={styles.detailSection}>
+                    <h4>
+                      <span className={styles.detailIcon}>✨</span>
+                      技术亮点
+                    </h4>
+                    <ul>
+                      <li>使用 qiankun 实现微前端架构</li>
+                      <li>实现了高性能的数据状态管理方案</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
