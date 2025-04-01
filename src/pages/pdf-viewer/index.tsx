@@ -5,6 +5,8 @@ import contactAbout from "./icon/contact_me.svg";
 import "./index.css";
 
 export default function index() {
+  const originPath =
+    location.origin + location.pathname + "/pdfjs-5.1.91-dist/web/viewer.html";
   return (
     <Flex vertical style={{ height: "100vh" }}>
       <div className="header">
@@ -14,7 +16,7 @@ export default function index() {
       <Flex flex={1}>
         <embed
           style={{ width: "100%", height: "100%" }}
-          src="/pdfjs-5.1.91-dist/web/viewer.html"
+          src={originPath}
         ></embed>
       </Flex>
 
