@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment, useGLTF, OrbitControls } from "@react-three/drei";
 
-function Model(props) {
+function Model() {
   const groupRef = useRef();
   const { scene } = useGLTF("/xiaomi_su7/scene.gltf");
   return <primitive object={scene} />;
