@@ -3,13 +3,17 @@ import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment, useGLTF, OrbitControls } from "@react-three/drei";
 
+const originPath = location.origin + location.pathname;
+
+const gltfPath = originPath + "/xiaomi_su7/scene.gltf";
+
 function Model() {
   const groupRef = useRef();
-  const { scene } = useGLTF("/xiaomi_su7/scene.gltf");
+  const { scene } = useGLTF(gltfPath);
   return <primitive object={scene} />;
 }
 
-useGLTF.preload("/xiaomi_su7/scene.gltf");
+useGLTF.preload(gltfPath);
 
 export default function App() {
   return (
@@ -22,7 +26,7 @@ export default function App() {
             enablePan={true} // 允许平移
             enableRotate={true} // 允许旋转
             minDistance={2} // 最小缩放距离
-            maxDistance={100} // 最大缩放距离
+            maxDistance={20} // 最大缩放距离
           />
           <Environment preset="city" />
         </Suspense>
