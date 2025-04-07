@@ -4,10 +4,20 @@ import react from "@vitejs/plugin-react";
 import Inspect from "vite-plugin-inspect";
 import myExample from "./custom-rollup-plugins/custom-rollup-plugin";
 import dynamicImport from "vite-plugin-dynamic-import";
+import gltf from "vite-plugin-gltf";
+import { draco } from "@gltf-transform/functions";
+
 const a: PreviewOptions = {};
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), Inspect(), dynamicImport()],
+  plugins: [
+    react(),
+    Inspect(),
+    dynamicImport(),
+    gltf({
+      transforms: [draco()],
+    }),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
