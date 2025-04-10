@@ -1,14 +1,20 @@
 import React, { useRef } from "react";
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Environment, useGLTF, OrbitControls } from "@react-three/drei";
+import {
+  Environment,
+  useGLTF,
+  OrbitControls,
+  useEnvironment,
+} from "@react-three/drei";
 
 const originPath = location.origin + location.pathname;
 
-const gltfPath = originPath + "/xiaomi_su7/scene.gltf";
+const gltfPath = originPath + "/threejs/xiaomi_su7/scene.gltf";
+
+const environmentPath = originPath + "/threejs/balcony_1k.hdr";
 
 function Model() {
-  const groupRef = useRef();
   const { scene } = useGLTF(gltfPath);
   return <primitive object={scene} />;
 }
@@ -28,7 +34,7 @@ export default function App() {
             minDistance={2} // 最小缩放距离
             maxDistance={20} // 最大缩放距离
           />
-          <Environment preset="city" />
+          <Environment files={environmentPath} />
         </Suspense>
       </Canvas>
     </div>

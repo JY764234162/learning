@@ -1,6 +1,9 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
+import eruda from "eruda";
+
+eruda.init();
 
 const rootElement = document.getElementById("root");
 
