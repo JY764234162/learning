@@ -8,12 +8,9 @@ export interface Props extends BaseProps {
 }
 
 export const Title = (props: Props) => {
-  const { node, depth = 0, id, tagName } = props;
+  const { node, depth = 0, id = "", tagName } = props;
 
-  const headingLevel = `h${Math.min(
-    2 + depth,
-    6
-  )}` as keyof JSX.IntrinsicElements;
+  const headingLevel = `h${Math.min(2 + depth, 6)}` as any;
   const TagName = tagName ?? headingLevel;
   return (
     <TagName id={id && `${id}.title`}>
