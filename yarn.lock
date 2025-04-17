@@ -2191,11 +2191,6 @@ error-stack-parser-es@^0.1.5:
   resolved "https://registry.npmjs.org/error-stack-parser-es/-/error-stack-parser-es-0.1.5.tgz"
   integrity sha512-xHku1X40RO+fO8yJ8Wh2f2rZWVjqyhb1zgq1yZ8aZRQkv6OOKhKWRUaht3eSCUbAOBaKIgM+ykwFLE+QUxgGeg==
 
-eruda@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.npmjs.org/eruda/-/eruda-3.4.1.tgz#5ff04fa2c55c3a5f4998e48c952adb759307b53f"
-  integrity sha512-RmaO5yD97URY/9Q0lye3cmmNPoXNKreeePIw7c/zllbscR92CjGFZFuQ70+0fLIvLcKW3Xha8DS8NFhmeNbEBQ==
-
 es-define-property@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz"
