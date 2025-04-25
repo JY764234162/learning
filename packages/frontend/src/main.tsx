@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
+import axios from "axios";
 
 const rootElement = document.getElementById("root");
 
@@ -20,3 +21,22 @@ if (import.meta.hot) {
     console.log("updated: count is now ", newModule);
   });
 }
+
+axios
+  .get(
+    "https://pic.rmb.bdstatic.com/bjh/news/426c6fafb8b351ae64ca1b080a39ec9c.jpeg",
+    {
+      responseType: "arraybuffer",
+    }
+  )
+  .then((result) => {
+    const blob = new Blob([result.data], { type: "image/jpeg" });
+    const url = URL.createObjectURL(blob);
+    console.log(url);
+    document.appendChild(
+      Object.assign(document.createElement("img"), {
+        src: url,
+      })
+    );
+  })
+  .catch((err) => {});

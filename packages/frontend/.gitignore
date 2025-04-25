@@ -1,0 +1,12 @@
+nginx
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Mac General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+vite.config.ts.timestamp-*
