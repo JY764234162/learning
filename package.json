@@ -7,11 +7,7 @@
     ]
   },
   "scripts": {
-    "dev:web": "yarn workspace frontend dev",
-    "dev:web:prod": "yarn workspace frontend dev:prod",
-    "dev:admin": "yarn workspace admin dev",
-    "dev:admin:prod": "yarn workspace admin dev:prod",
-    "build": "yarn workspace frontend build  && yarn workspace admin build",
-    "format": "prettier ./packages/**/*.{ts,tsx,js} --write"
+    "dev": "yarn workspace frontend dev",
+    "build": "yarn workspace frontend build"
   }
 }
