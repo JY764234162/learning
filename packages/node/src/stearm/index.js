@@ -8,3 +8,9 @@ fs.watchFile(filePath, (currentState, prevState) => {
   console.log("当前文件状态：", currentState);
   console.log("之前文件状态", prevState);
 });
+
+console.log(`文件监听中... 以下文件正在被监听`);
+console.log(`${filePath}`);
+
+//api不稳定，不同的系统下表现不同，不推荐使用
+fs.watch();

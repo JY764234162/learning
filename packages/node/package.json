@@ -5,12 +5,13 @@
   "type": "commonjs",
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "node index.js"
   },
   "devDependencies": {
     "@types/node": "^22.7.5"
+  },
+  "dependencies": {
+    "fs-extra": "^11.3.0",
+    "minimist": "^1.2.8"
   }
 }
