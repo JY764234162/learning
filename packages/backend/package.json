@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "commonjs",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.5"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "fs-extra": "^11.3.0",
+    "minimist": "^1.2.8",
+    "ws": "^8.18.2"
+  }
+}
