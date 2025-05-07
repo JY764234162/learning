@@ -12,8 +12,6 @@
   },
   "dependencies": {
     "express": "^5.1.0",
-    "fs-extra": "^11.3.0",
-    "minimist": "^1.2.8",
     "ws": "^8.18.2"
   }
 }

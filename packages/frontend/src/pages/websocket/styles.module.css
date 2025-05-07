@@ -1,0 +1,104 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.messageContainer {
+  margin-top: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius: 8px;
+  background: #f8f9fe;
+  padding: 16px;
+}
+
+.message {
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.message:hover {
+  transform: translateX(4px);
+}
+
+.sent {
+  background: #e8f5fe;
+  margin-left: 40px;
+}
+
+.received {
+  background: white;
+  margin-right: 40px;
+}
+
+.system {
+  background: #f5f5f5;
+  text-align: center;
+  margin: 8px 0;
+  color: #666;
+}
+
+.messageHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.userId {
+  font-size: 12px;
+}
+
+.messageTime {
+  font-size: 12px;
+  color: #a8a4e6;
+  margin-bottom: 4px;
+}
+
+.messageContent {
+  color: #2d3436;
+  line-height: 1.5;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.connected {
+  background: #52c41a;
+}
+
+.disconnected {
+  background: #ff4d4f;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+
+  .message {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+}

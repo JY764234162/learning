@@ -26,13 +26,6 @@ export default defineConfig({
   optimizeDeps: { exclude: ["latex.js"] },
   server: {
     open: true,
-    proxy: {
-      "/api": {
-        target: "http://localhost:8080",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
-    },
     hmr: {
       // 配置 HMR 连接
       host: "localhost",
