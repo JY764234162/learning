@@ -181,14 +181,8 @@ export default function Index() {
       const dataUrl = await htmlToImage.toJpeg(contentRef.current, {
         quality: 1,
         backgroundColor: "#fff",
+        pixelRatio: window.devicePixelRatio || 1,
       });
-      // const blob = await htmlToImage.toBlob(contentRef.current);
-      // const url = URL.createObjectURL(blob);
-      // const a = document.createElement("a");
-      // a.href = url;
-      // a.download = "filename.png";
-      // a.click();
-      // URL.revokeObjectURL(url);
 
       setPreviewUrl(dataUrl);
     } catch (error) {
