@@ -1,0 +1,82 @@
+.captureWrapper {
+  padding: 20px;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  background: #fff;
+  min-height: 100px;
+  /* 确保字体渲染一致 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.contentArea {
+  background: #fff;
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.editorWrapper {
+  padding: 8px;
+}
+
+/* 确保表格样式正确 */
+.captureWrapper :global(.ant-table) {
+  background: #fff !important;
+}
+
+.captureWrapper :global(.ant-table-cell) {
+  background: #fff !important;
+  padding: 8px !important;
+}
+
+/* 确保输入框样式正确 */
+.captureWrapper :global(.ant-input) {
+  border: 1px solid #d9d9d9 !important;
+  background: #fff !important;
+}
+
+/* 确保 Markdown 编辑器样式正确 */
+.captureWrapper :global(.w-md-editor) {
+  box-shadow: none !important;
+  background: #fff !important;
+}
+
+.captureWrapper :global(.w-md-editor-toolbar) {
+  border-bottom: 1px solid #d9d9d9 !important;
+  background: #fff !important;
+}
+
+.previewWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0f2f5;
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 200px;
+}
+
+.previewImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.previewContent {
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  min-height: 100px;
+}
+
+/* 确保字体渲染一致 */
+:global(*) {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media screen and (max-width: 768px) {
+  .previewWrapper {
+    padding: 8px;
+  }
+}
