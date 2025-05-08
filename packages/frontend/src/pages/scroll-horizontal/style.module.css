@@ -1,0 +1,39 @@
+.scrollContainer {
+  height: 200px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  height: 6px; /* 设置高度 */
+  width: 6px; /* 横向滚动条宽度默认是100% */
+}
+
+/* 竖向滚动条样式 */
+.scrollContainer::-webkit-scrollbar-vertical {
+  width: 6px; /* 设置宽度 */
+  height: 6px; /* 竖向滚动条高度默认是100% */
+}
+
+/* 轨道背景 */
+.scrollContainer::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* 滑块 */
+.scrollContainer::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 6px;
+}
+
+.scrollContainer:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.24);
+}
