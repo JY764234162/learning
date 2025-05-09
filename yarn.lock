@@ -1220,6 +1220,11 @@
   resolved "https://registry.npmjs.org/@types/estree/-/estree-1.0.7.tgz#4158d3105276773d5b7695cd4834b1722e4f37a8"
   integrity sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==
 
+"@types/geojson@*":
+  version "7946.0.16"
+  resolved "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.16.tgz#8ebe53d69efada7044454e3305c19017d97ced2a"
+  integrity sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==
+
 "@types/hast@^2.0.0":
   version "2.3.10"
   resolved "https://registry.npmjs.org/@types/hast/-/hast-2.3.10.tgz#5c9d9e0b304bbb8879b857225c5ebab2d81d7643"
@@ -1250,6 +1255,13 @@
   version "0.16.7"
   resolved "https://registry.npmjs.org/@types/katex/-/katex-0.16.7.tgz#03ab680ab4fa4fbc6cb46ecf987ecad5d8019868"
   integrity sha512-HMwFiRujE5PjrgwHQ25+bsLJgowjGjm5Z8FVSf0N6PwgJrwxH0QxzHYDcKsTfV3wva0vzrpqMTJS2jXPr5BMEQ==
+
+"@types/leaflet@^1.9.17":
+  version "1.9.17"
+  resolved "https://registry.npmjs.org/@types/leaflet/-/leaflet-1.9.17.tgz#f7f12f9306029df48801cd830f66597d614a2e08"
+  integrity sha512-IJ4K6t7I3Fh5qXbQ1uwL3CFVbCi6haW9+53oLWgdKlLP7EaS21byWFJxxqOx9y8I0AP0actXSJLVMbyvxhkUTA==
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/lodash@^4.17.9":
   version "4.17.16"
@@ -3585,6 +3597,11 @@ latex.js@^0.12.6:
     js-beautify "1.14.x"
     stdin "*"
     svgdom "^0.1.8"
+
+leaflet@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz#23fae724e282fa25745aff82ca4d394748db7d8d"
+  integrity sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==
 
 less@^4.2.0:
   version "4.3.0"

@@ -1,0 +1,29 @@
+/* 修复 Leaflet 控件样式 */
+.leaflet-control-container .leaflet-control {
+  z-index: 1000;
+}
+
+/* 自定义弹出窗口样式 */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.2);
+}
+
+.leaflet-popup-content {
+  margin: 12px 16px;
+  line-height: 1.5;
+}
+
+/* 自定义标记悬停效果 */
+.leaflet-marker-icon {
+  transition: transform 0.2s;
+}
+
+.leaflet-marker-icon:hover {
+  transform: scale(1.2);
+}
+
+/* 自定义地图容器样式 */
+.leaflet-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
