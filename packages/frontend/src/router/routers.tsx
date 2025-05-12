@@ -1,6 +1,7 @@
 import { useRoutes, Navigate } from "react-router";
 import React, { Suspense } from "react";
 import Loading from "../components/Loading";
+import PageLayout from "../components/PageLayout";
 
 // 1. 预先导入所有页面模块
 const modules = import.meta.glob("../pages/*/index.tsx", {
@@ -16,11 +17,26 @@ const routes = Object.entries(modules).map(([path, module]) => {
   // 使用 TypeScript 类型断言来处理模块类型
   const Component = (module as { default: React.ComponentType }).default;
 
+  // 为首页路由使用不同的布局
+  if (name === "home") {
+    return {
+      path: routePath,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <Component />
+        </Suspense>
+      ),
+    };
+  }
+
+  // 为其他路由添加通用布局
   return {
     path: routePath,
     element: (
       <Suspense fallback={<Loading />}>
-        <Component />
+        <PageLayout>
+          <Component />
+        </PageLayout>
       </Suspense>
     ),
   };
