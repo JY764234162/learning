@@ -3,24 +3,11 @@ import { Typography, Card, Alert, Space, Flex, Slider, Form } from "antd";
 import styles from "./style.module.css";
 const { Title, Paragraph, Text } = Typography;
 
-const imgUrlList = [
-  "https://gips0.baidu.com/it/u=3602773692,1512483864&fm=3028&app=3028&f=JPEG&fmt=auto?w=960&h=1280",
-  "https://gips3.baidu.com/it/u=100751361,1567855012&fm=3028&app=3028&f=JPEG&fmt=auto?w=960&h=1280",
-  "https://gips3.baidu.com/it/u=2489404253,92500118&fm=3028&app=3028&f=JPEG&fmt=auto?w=960&h=1280",
-  "https://gips0.baidu.com/it/u=1939859157,1111239881&fm=3028&app=3028&f=JPEG&fmt=auto&q=100&size=f600_800",
-  "https://gips3.baidu.com/it/u=1930947562,702557436&fm=3028&app=3028&f=JPEG&fmt=auto?w=1920&h=2560",
-  "https://gips0.baidu.com/it/u=1370402140,2009956566&fm=3028&app=3028&f=JPEG&fmt=auto?w=960&h=1280",
-  "https://gips3.baidu.com/it/u=1874299413,3253595329&fm=3028&app=3028&f=JPEG&fmt=auto?w=1920&h=2560",
-  "https://gips3.baidu.com/it/u=2475428638,3303591043&fm=3028&app=3028&f=JPEG&fmt=auto?w=1920&h=2560",
-  "https://gips0.baidu.com/it/u=3602773692,1512483864&fm=3028&app=3028&f=JPEG&fmt=auto?w=960&h=1280",
-  "https://gips3.baidu.com/it/u=100751361,1567855012&fm=3028&app=3028&f=JPEG&fmt=auto?w=960&h=1280",
-  "https://gips3.baidu.com/it/u=2489404253,92500118&fm=3028&app=3028&f=JPEG&fmt=auto?w=960&h=1280",
-  "https://gips0.baidu.com/it/u=1939859157,1111239881&fm=3028&app=3028&f=JPEG&fmt=auto&q=100&size=f600_800",
-  "https://gips3.baidu.com/it/u=1930947562,702557436&fm=3028&app=3028&f=JPEG&fmt=auto?w=1920&h=2560",
-  "https://gips0.baidu.com/it/u=1370402140,2009956566&fm=3028&app=3028&f=JPEG&fmt=auto?w=960&h=1280",
-  "https://gips3.baidu.com/it/u=1874299413,3253595329&fm=3028&app=3028&f=JPEG&fmt=auto?w=1920&h=2560",
-  "https://gips3.baidu.com/it/u=2475428638,3303591043&fm=3028&app=3028&f=JPEG&fmt=auto?w=1920&h=2560",
-];
+const imgUrlList = Array.from({ length: 20 }, (_, i) => ({
+  id: i,
+  src: `https://picsum.photos/200/300?random=${i}`,
+  alt: `Random Image ${i}`,
+}));
 
 const ScrollDemo = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -84,11 +71,11 @@ const ScrollDemo = () => {
 
         <div ref={scrollRef} className={styles.scrollContainer}>
           {/* 上半部分元素 */}
-          {imgUrlList.map((item, index) => (
+          {imgUrlList.map((item) => (
             <Flex
               justify="center"
               align="center"
-              key={index}
+              key={item.id}
               style={{
                 flexShrink: 0,
                 background: "#fafafa",
@@ -97,7 +84,11 @@ const ScrollDemo = () => {
                 height: "100%",
               }}
             >
-              <img style={{ width: "100%" }} src={item}></img>
+              <img
+                style={{ width: "100%" }}
+                src={item.src}
+                alt={item.alt}
+              ></img>
             </Flex>
           ))}
         </div>
