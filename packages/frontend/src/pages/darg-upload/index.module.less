@@ -1,0 +1,40 @@
+.dropZone {
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  padding: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: #fafafa;
+
+  &:hover {
+    border-color: #1890ff;
+  }
+
+  &.dragging {
+    border-color: #1890ff;
+    background: #e6f7ff;
+  }
+}
+
+.uploadIcon {
+  font-size: 48px;
+  color: #1890ff;
+  margin-bottom: 16px;
+}
+
+.fileList {
+  margin-top: 16px;
+}
+
+.fileItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.fileProgress {
+  width: 200px;
+}
