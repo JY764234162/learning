@@ -257,6 +257,7 @@ const FileUploadDemo: React.FC = () => {
               type="file"
               ref={folderInputRef}
               onChange={handleFolderSelect}
+              /* @ts-expect-error */
               webkitdirectory=""
               style={{ display: "none" }}
             />
