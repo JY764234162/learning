@@ -1,4 +1,10 @@
+import { ConfigProvider } from "antd";
 import Router from "./router";
+import "./App.css";
 export default function App() {
-  return <Router />;
+  return (
+    <ConfigProvider>
+      <Router />
+    </ConfigProvider>
+  );
 }
