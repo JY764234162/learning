@@ -1,0 +1,47 @@
+.container {
+  padding: 24px;
+
+  .card {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .alert {
+    margin: 16px 0;
+  }
+
+  .previewContainer {
+    margin-top: 24px;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 2px;
+
+    .preview {
+      :global {
+        // Word 文档样式覆盖
+        img {
+          max-width: 100%;
+          height: auto;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 16px 0;
+
+          th,
+          td {
+            border: 1px solid #d9d9d9;
+            padding: 8px;
+          }
+        }
+
+        p {
+          margin: 8px 0;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+}
