@@ -229,9 +229,9 @@ type AppendArgument<F extends (...args: any[]) => any, A> = (
  * @template T - 输入的数组类型
  * @example
  * type Input = ["a", ["b", ["c", ["e"]]], ["d"]];
- * type Output = NaiveFlat<Input>; // "a" | "b" | "c" | "e" | "d"
+ * type Output = DeepFlat<Input>; // "a" | "b" | "c" | "e" | "d"
  * type Input2 = [1, [2, [3, [4, 1]]]];
- * type Output2 = NaiveFlat<Input2>; // 1 | 2 | 3 | 4
+ * type Output2 = DeepFlat<Input2>; // 1 | 2 | 3 | 4
  */
 
 type DeepFlat<T> = T extends [infer First, ...infer Rest]
@@ -239,3 +239,23 @@ type DeepFlat<T> = T extends [infer First, ...infer Rest]
   : T extends any[]
   ? DeepFlat<T[number]>
   : T;
+
+/**
+ * 将字符串数组拼接成一个字符串(递归)
+ * @template Arr - 输入的字符串数组类型
+ * @template Separator - 分隔符类型
+ * @template Result - 结果类型
+ * @example
+ * type Names = ["Sem", "Lolo", "Kaquko"];
+ * type NamesComma = JoinStrArray<Names, ",">; // "Sem,Lolo,Kaquko"
+ */
+
+type JoinStrArray<
+  Arr extends string[],
+  Separator extends string,
+  Result extends string = ""
+> = Arr extends [infer First extends string, ...infer Rest extends string[]]
+  ? Result extends ""
+    ? JoinStrArray<Rest, Separator, First>
+    : JoinStrArray<Rest, Separator, `${Result}${Separator}${First}`>
+  : Result;
