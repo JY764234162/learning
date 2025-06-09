@@ -253,9 +253,71 @@ type DeepFlat<T> = T extends [infer First, ...infer Rest]
 type JoinStrArray<
   Arr extends string[],
   Separator extends string,
-  Result extends string = ""
+  Result extends string = ''
 > = Arr extends [infer First extends string, ...infer Rest extends string[]]
-  ? Result extends ""
+  ? Result extends ''
     ? JoinStrArray<Rest, Separator, First>
     : JoinStrArray<Rest, Separator, `${Result}${Separator}${First}`>
   : Result;
+
+/**
+ * 将字符串类型转换为联合类型
+ * @template S - 输入的字符串类型
+ * @example
+ * type Input = "123";
+ * type Output = StringToUnion<Input>; // "1" | "2" | "3"
+ */
+type StringToUnion<S extends string> = S extends `${infer First}${infer Rest}`
+  ? First | StringToUnion<Rest>
+  : never;
+
+/**
+ * 去掉字符串开头的空格(递归)
+ * @template S - 输入的字符串类型
+ * @example
+ * type Input = "  Hello World";
+ * type Output = TrimLeft<Input>; // "Hello World"
+ */
+
+type TrimLeft<S extends string> = S extends ` ${infer Rest}`
+  ? TrimLeft<Rest>
+  : S;
+
+/**
+ * 去掉字符串结尾的空格(递归)
+ * @template S - 输入的字符串类型
+ * @example
+ * type Input = "Hello World  ";
+ * type Output = TrimRight<Input>; // "Hello World"
+ */
+
+type TrimRight<S extends string> = S extends `${infer Rest} `
+  ? TrimRight<Rest>
+  : S;
+
+/**
+ * 将联合类型转换为交叉类型（利用分发特性将联合类型转化为交叉类型）
+ * @template U - 输入的联合类型
+ * @example
+ * type Input = "1" | "2" | "3";
+ * type Output = UnionToIntersection<Input>; // never
+ */
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I
+) => void
+  ? I
+  : never;
+
+/**
+ * 至少选择一个属性(其他属性保持不变)
+ * @template ObjectType - 输入的对象类型
+ * @template KeysType - 需要选择的属性键类型
+ * @example
+ * type Input = { a: string; b: string; c: string };
+ * type Output = RequireAtLeastOne<Input, 'a' | 'b'>; // { a: string,c: string } | { b: string,c: string}
+ */
+type RequireAtLeastOne<
+  ObjectType,
+  KeysType extends keyof ObjectType = keyof ObjectType
+> = { [K in KeysType]: Pick<ObjectType, K> }[KeysType] &
+  Omit<ObjectType, KeysType>;
