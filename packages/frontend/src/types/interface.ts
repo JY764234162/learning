@@ -253,12 +253,27 @@ type DeepFlat<T> = T extends [infer First, ...infer Rest]
 type JoinStrArray<
   Arr extends string[],
   Separator extends string,
-  Result extends string = ''
+  Result extends string = ""
 > = Arr extends [infer First extends string, ...infer Rest extends string[]]
-  ? Result extends ''
+  ? Result extends ""
     ? JoinStrArray<Rest, Separator, First>
     : JoinStrArray<Rest, Separator, `${Result}${Separator}${First}`>
   : Result;
+
+/**
+ * 将字符串用分隔符分割成数组(递归)
+ * @template S - 输入的字符串类型
+ * @template Separator - 分隔符类型
+ * @example
+ * type Names = "Sem,Lolo,Kaquko";
+ * type NamesComma = SplitArrStr<Names, ",">; // ["Sem", "Lolo", "Kaquko"]
+ */
+type SplitArrString<
+  S extends string,
+  Separator extends string = ""
+> = S extends `${infer First}${Separator}${infer Rest}`
+  ? [First, ...SplitArrString<Rest, Separator>]
+  : [S];
 
 /**
  * 将字符串类型转换为联合类型
@@ -321,3 +336,43 @@ type RequireAtLeastOne<
   KeysType extends keyof ObjectType = keyof ObjectType
 > = { [K in KeysType]: Pick<ObjectType, K> }[KeysType] &
   Omit<ObjectType, KeysType>;
+
+/**
+ * 判断类型是否为never
+ * @template T - 输入的类型
+ * @example
+ * type Input = never;
+ * type Output = IsNever<Input>; // true
+ */
+type IsNever<T> = [T] extends [never] ? true : false;
+
+/**
+ * 将数组类型转换为逆序类型
+ * @template Arr - 输入的数组类型
+ * @example
+ * type Input = [1, 2, 3];
+ * type Output = Reserve<Input>; // [3, 2, 1]
+ */
+
+type Reserve<Arr extends any[]> = Arr extends [infer First, ...infer Rest]
+  ? [...Reserve<Rest>, First]
+  : [];
+
+/**
+ * 链式调用
+ * @template T - 输入的对象类型
+ * @example
+ * type ResultType = typeof result;
+ * 期望 ResultType 的类型是：
+ * {
+ *   age: number
+ *   name: string
+ *   address: {
+ *     value: string
+ *   }
+ * }
+ */
+type Chainable<T extends Record<string, any> = {}> = {
+  option<K extends string, V>(key: K, value: V): Chainable<T & { [P in K]: V }>;
+  get(): T;
+};
