@@ -23,8 +23,8 @@ useGLTF.preload(gltfPath);
 
 export default function App() {
   return (
-    <div style={{ height: "100%", width: "100%" }}>
-      <Canvas camera={{ position: [10000, 20000, 10000], fov: 100 }}>
+    <div style={{ height: 800, width: 800 }}>
+      <Canvas camera={{ position: [10000, 20000, 10000], fov: 70 }}>
         <Suspense fallback={null}>
           <Model />
           <OrbitControls

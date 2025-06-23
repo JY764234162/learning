@@ -24,17 +24,6 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 获取当前路由名称
-  const currentRoute = location.pathname.slice(1) || "home";
-
-  // 格式化路由名称为标题
-  const formatRouteToTitle = (route: string) => {
-    return route
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
-
   return (
     <Layout className={styles.layout}>
       <Content className={styles.content}>
