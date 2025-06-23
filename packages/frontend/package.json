@@ -55,6 +55,7 @@
     "recharts": "^2.13.0",
     "recoil": "^0.7.4",
     "redux": "^5.0.1",
+    "sass": "^1.89.2",
     "scroll-into-view-if-needed": "2.2.20",
     "tailwind-merge": "^2.5.3",
     "three": "^0.175.0",

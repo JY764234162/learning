@@ -1,0 +1,12 @@
+{
+    "presets": [
+      [
+        "@babel/env",
+        {
+          // "modules": false 表示不转换模块语法（比如 import 和 export）
+          "modules": false
+        }
+      ]
+    ]
+  }
+  

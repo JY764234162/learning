@@ -1,2 +1,32 @@
 {
-}
+    // 在保存文件时执行的代码操作
+    "editor.codeActionsOnSave": {
+      // 保存时自动修复 ESLint 错误
+      "source.fixAll.eslint": "explicit",
+      // 禁用保存时自动整理导入语句
+      "source.organizeImports": "never"
+    },
+    // 启用 ESLint 的扁平配置文件支持
+    "eslint.useFlatConfig": true,
+    // 启用括号对指南线
+    "editor.guides.bracketPairs": "active",
+    // 禁用保存时自动格式化
+    "editor.formatOnSave": false,
+    // 指定 ESLint 验证的文件类型
+    "eslint.validate": ["html", "css", "scss", "json", "jsonc"],
+    // 启用文件嵌套功能
+    "explorer.fileNesting.enabled": true,
+    // 定义文件嵌套规则
+    "explorer.fileNesting.patterns": {
+      // package.json 文件下嵌套显示这些相关文件
+      "package.json": "package-lock.json, pnpm*, .editorconfig,.gitattributes,.npmrc",
+      // .env 文件下嵌套显示所有 .env 开头的文件
+      ".env": ".env*",
+      // vite.config.ts 文件下嵌套显示所有配置文件
+      "vite.config.ts": "*.config.ts,*.config.js"
+    },
+    // 启用 Prettier 格式化支持
+    "prettier.enable": true,
+    // 指定 TypeScript 语言服务器的路径
+    "typescript.tsdk": "node_modules/typescript/lib"
+  }

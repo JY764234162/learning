@@ -7,7 +7,6 @@ import dynamicImport from "vite-plugin-dynamic-import";
 import gltf from "vite-plugin-gltf";
 import { draco } from "@gltf-transform/functions";
 
-const a: PreviewOptions = {};
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -37,6 +36,14 @@ export default defineConfig({
     outDir: "../../docs",
     rollupOptions: {
       plugins: [myExample()],
+    },
+    //cssnano
+    cssMinify: true,
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
     },
   },
 });

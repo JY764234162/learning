@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // 目标JavaScript版本
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // 支持浏览器DOM API及ESNext特性
+    "jsx": "react-jsx", // 使用React 17+的新的jsx转换（无需引入React）
+    "module": "ESNext", // 模块系统，配合Vite
+    "moduleResolution": "node", // 模块解析策略
+    "strict": true, // 开启所有严格类型检查
+    "allowJs": false, // 不允许JS文件（除非特殊需要）
+    "skipLibCheck": true, // 跳过库文件的类型检查，加快编译
+    "esModuleInterop": true, // 兼容CommonJS和ES Module导入
+    "useDefineForClassFields": true, // 类字段的定义行为
+    "forceConsistentCasingInFileNames": true, // 文件名大小写一致
+    "noEmit": true, // 只做类型检查，不输出JS文件，交给Vite处理
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true // 每个文件作为单独模块进行检查
+  },
+  "include": ["src"], // 包含src目录
+  "exclude": ["node_modules"] // 排除node_modules
+}
