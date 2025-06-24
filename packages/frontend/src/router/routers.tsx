@@ -1,21 +1,18 @@
 import { useRoutes, Navigate } from "react-router";
-import React, { Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import Loading from "../components/Loading";
 import PageLayout from "../components/PageLayout";
 
 // 1. 预先导入所有页面模块
-const modules = import.meta.glob("../pages/*/index.tsx", {
-  eager: true, // 立即加载所有模块
-});
+const modules = import.meta.glob("../pages/*/index.tsx");
 
 // 2. 创建路由配置
 const routes = Object.entries(modules).map(([path, module]) => {
   const pathList = path.split("/");
   const name = pathList[pathList.length - 2];
   const routePath = name === "home" ? "/" : name;
-
   // 使用 TypeScript 类型断言来处理模块类型
-  const Component = (module as { default: React.ComponentType }).default;
+  const Component = lazy(module as any);
 
   // 为首页路由使用不同的布局
   if (name === "home") {

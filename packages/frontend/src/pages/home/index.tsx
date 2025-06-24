@@ -7,7 +7,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     // 使用相同的模块加载方式
-    const modules = import.meta.glob("../*/index.tsx", { eager: true });
+    const modules = import.meta.glob("../*/index.tsx");
 
     // 提取路由名称
     const routeNames = Object.keys(modules)
