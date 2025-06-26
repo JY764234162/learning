@@ -3,7 +3,7 @@ import { defineConfig, PreviewOptions } from "vite";
 import react from "@vitejs/plugin-react";
 import Inspect from "vite-plugin-inspect";
 import dynamicImport from "vite-plugin-dynamic-import";
-import vitePluginResourceClassification from "./custom-rollup-plugins/vite-plugin-resource-classification";
+import vitePluginResourceClassification from "./custom-vite-plugins/vite-plugin-resource-classification";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
