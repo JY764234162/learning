@@ -15,16 +15,16 @@
     // 指定 ESLint 验证的文件类型
     "eslint.validate": ["html", "css", "scss", "json", "jsonc"],
     // 启用文件嵌套功能
-    "explorer.fileNesting.enabled": true,
+    // "explorer.fileNesting.enabled": true,
     // 定义文件嵌套规则
-    "explorer.fileNesting.patterns": {
-      // package.json 文件下嵌套显示这些相关文件
-      "package.json": "package-lock.json, pnpm*, .editorconfig,.gitattributes,.npmrc",
-      // .env 文件下嵌套显示所有 .env 开头的文件
-      ".env": ".env*",
-      // vite.config.ts 文件下嵌套显示所有配置文件
-      "vite.config.ts": "*.config.ts,*.config.js"
-    },
+    // "explorer.fileNesting.patterns": {
+    //   // package.json 文件下嵌套显示这些相关文件
+    //   // "package.json": "package-lock.json, pnpm*, .editorconfig,.gitattributes,.npmrc",
+    //   // .env 文件下嵌套显示所有 .env 开头的文件
+    //   // ".env": ".env*",
+    //   // vite.config.ts 文件下嵌套显示所有配置文件
+    //   // "vite.config.ts": "*.config.ts,*.config.js"
+    // },
     // 启用 Prettier 格式化支持
     "prettier.enable": true,
     // 指定 TypeScript 语言服务器的路径
