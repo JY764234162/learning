@@ -1,0 +1,6 @@
+/.gitlab-ci.yml
+**/*/dist
+**/*/assets
+**/*/node_modules
+docs
+.vscode
