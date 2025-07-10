@@ -187,8 +187,8 @@ export default function WebSocketPage() {
           isSystem
             ? styles.system
             : isCurrentUser
-            ? styles.sent
-            : styles.received
+              ? styles.sent
+              : styles.received
         }`}
       >
         {!isSystem && (

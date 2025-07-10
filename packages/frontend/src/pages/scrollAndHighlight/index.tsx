@@ -111,9 +111,9 @@ const ScrollDemo = () => {
             <li>
               <Text code>scrollIntoView()</Text>: 将元素滚动到可视区域
               <ul>
-                <li>behavior: "smooth" - 平滑滚动</li>
-                <li>block: "center" - 垂直居中对齐</li>
-                <li>inline: "center" - 水平居中对齐</li>
+                <li>behavior: &quot;smooth&quot; - 平滑滚动</li>
+                <li>block: &quot;center&quot; - 垂直居中对齐</li>
+                <li>inline: &quot;center&quot; - 水平居中对齐</li>
               </ul>
             </li>
             <li>

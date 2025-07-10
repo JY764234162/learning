@@ -57,9 +57,8 @@ type SvgIconProps = {
   resourceDefs?: React.ReactNode;
 };
 const SvgIcon = (props: SvgIconProps) => {
-  const { icon, attributes, children, className, style, size, resourceDefs } =
-    props;
-  let attribute = {
+  const { icon, attributes, children, className, style, size, resourceDefs } = props;
+  const attribute = {
     ...attributes,
   };
 
@@ -68,15 +67,10 @@ const SvgIcon = (props: SvgIconProps) => {
     attribute.width = size;
     attribute.viewBox = `0 0 ${size} ${size}`;
   }
-  style && (attribute.style = style);
-  className && (attribute.className = className);
+  if (style) attribute.style = style;
+  if (className) attribute.className = className;
   // TODO: 设置icon默认大小为20px 兼容没有设置宽高的情况
-  if (
-    !size &&
-    !className &&
-    !style &&
-    (!attribute.height || !attribute.width)
-  ) {
+  if (!size && !className && !style && (!attribute.height || !attribute.width)) {
     attribute.height = 20;
     attribute.width = 20;
     attribute.viewBox = `0 0 20 20`;

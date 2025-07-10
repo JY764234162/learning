@@ -11,7 +11,8 @@
     "dev:web:prod": "yarn workspace frontend dev:prod",
     "dev:web:preview": "yarn workspace frontend preview",
     "build:web": "yarn workspace frontend build",
+    "format:web": "yarn workspace frontend format",
     "dev:express": "yarn workspace backend dev",
-    "format": "prettier --write '**/*.{js,jsx,ts,tsx}'"
+    "format": "prettier -c --write '**/*.{js,jsx,ts,tsx}' --cache"
   }
 }

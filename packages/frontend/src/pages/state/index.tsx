@@ -122,8 +122,8 @@ const StateManagement = () => {
                   {reduxState.loading
                     ? "加载中..."
                     : reduxState.asyncData !== null
-                    ? `${reduxState.asyncData}`
-                    : "无数据"}
+                      ? `${reduxState.asyncData}`
+                      : "无数据"}
                 </Text>
               </Paragraph>
               {reduxState.error && (

@@ -14,7 +14,8 @@
     "dev:prod": "vite --mode production",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier -c --write '**/*.{js,jsx,ts,tsx}' --cache"
   },
   "dependencies": {
     "@arco-design/web-react": "^2.38.1",
@@ -45,6 +46,7 @@
     "lucide-react": "^0.452.0",
     "mammoth": "^1.9.0",
     "opencc-js": "^1.0.5",
+    "pdfjs-dist": "^5.3.93",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.2.0",

@@ -353,9 +353,9 @@ export default function Index() {
           <ol>
             <li>选择编辑模式（纯文本/Markdown/表格）</li>
             <li>编辑内容</li>
-            <li>点击"生成截图"按钮</li>
+            <li>点击&quot;生成截图&quot;按钮</li>
             <li>在预览区域查看效果</li>
-            <li>点击"下载图片"保存结果</li>
+            <li>点击&quot;下载图片&quot;保存结果</li>
           </ol>
         </Card>
       </Space>

@@ -22,6 +22,7 @@ const Tabs = () => {
         {tabs.map((item) => {
           return (
             <div
+              key={item.name}
               className={activeTab === item.name ? "active tab" : "tab"}
               onClick={() => {
                 setActiveTab(item.name);
@@ -36,9 +37,7 @@ const Tabs = () => {
             className="bezier"
             style={{
               clipPath:
-                activeTab === "tab1"
-                  ? 'path("M0 0 C30 0, 0 50,30 50 L 30 50 L0 50 z")'
-                  : 'path("M0 50 C30 50, 0 0,30 0 L 30 0 L30 50 z")',
+                activeTab === "tab1" ? 'path("M0 0 C30 0, 0 50,30 50 L 30 50 L0 50 z")' : 'path("M0 50 C30 50, 0 0,30 0 L 30 0 L30 50 z")',
             }}
           ></div>
         </div>

@@ -18,13 +18,13 @@ export default function StringDiffPage() {
       const color = part.added
         ? token.colorSuccess
         : part.removed
-        ? token.colorError
-        : "inherit";
+          ? token.colorError
+          : "inherit";
       const backgroundColor = part.added
         ? token.colorSuccessBg
         : part.removed
-        ? token.colorErrorBg
-        : "transparent";
+          ? token.colorErrorBg
+          : "transparent";
 
       return (
         <span

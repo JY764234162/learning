@@ -1,6 +1,6 @@
-import xpath from 'xpath';
-import { imageStateAttrs, parseAttrNumber } from './helper';
-import { Props } from './interface';
+import xpath from "xpath";
+import { imageStateAttrs, parseAttrNumber } from "./helper";
+import { Props } from "./interface";
 
 export interface GraphicSourceProps extends Props {
   zoom?: number;
@@ -8,21 +8,24 @@ export interface GraphicSourceProps extends Props {
 }
 
 export const GraphicSource = (props: GraphicSourceProps) => {
-  const { node, zoom = 1, baseUrl = '' } = props;
-  const specificUse = xpath.select1('string(@specific-use)', node) || 'print';
-  const href = xpath.select1('string(./@*[name()="xlink:href"])', node) as string;
+  const { node, zoom = 1, baseUrl = "" } = props;
+  const specificUse = xpath.select1("string(@specific-use)", node) || "print";
+  const href = xpath.select1(
+    'string(./@*[name()="xlink:href"])',
+    node
+  ) as string;
   const piAttrs = imageStateAttrs(node);
-  let media = '';
+  let media = "";
 
   switch (specificUse) {
-    case 'small':
-      media = 'max-width(768px)';
+    case "small":
+      media = "max-width(768px)";
       break;
-    case 'big':
-      media = 'min-width(769px)';
+    case "big":
+      media = "min-width(769px)";
       break;
-    case 'print':
-      media = 'print';
+    case "print":
+      media = "print";
       break;
   }
 
@@ -30,8 +33,8 @@ export const GraphicSource = (props: GraphicSourceProps) => {
     <source
       srcSet={`${baseUrl}${href}`}
       media={media}
-      width={zoom * parseAttrNumber(piAttrs?.getNamedItem('width'))}
-      height={zoom * parseAttrNumber(piAttrs?.getNamedItem('height'))}
+      width={zoom * parseAttrNumber(piAttrs?.getNamedItem("width"))}
+      height={zoom * parseAttrNumber(piAttrs?.getNamedItem("height"))}
     />
   );
 };

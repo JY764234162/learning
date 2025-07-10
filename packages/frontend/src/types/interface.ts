@@ -59,7 +59,7 @@ type UnCapitalizeString<T extends string> = T extends `${infer F}${infer R}`
  * type Input = { Name: string, Age: number };
  * type Output = UnCapitalizeObj<Input>; // { nAME: string, aGE: number }
  */
-type UnCapitalizeObj<T extends Object> = {
+type UnCapitalizeObj<T extends object> = {
   [K in keyof T as UnCapitalizeString<K & string>]: T[K];
 };
 
@@ -84,11 +84,8 @@ type MyOmit<T extends object, E extends keyof T> = {
  * @example
  * type Result = IfEquals<string, string, true, false>; // true
  */
-type IfEquals<X, Y, A = X, B = never> = (<T>() => T extends X ? 1 : 2) extends <
-  T
->() => T extends Y ? 1 : 2
-  ? A
-  : B;
+type IfEquals<X, Y, A = X, B = never> =
+  (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? A : B;
 
 /**
  * 从对象类型中提取所有只读属性
@@ -237,8 +234,8 @@ type AppendArgument<F extends (...args: any[]) => any, A> = (
 type DeepFlat<T> = T extends [infer First, ...infer Rest]
   ? DeepFlat<First> | DeepFlat<Rest>
   : T extends any[]
-  ? DeepFlat<T[number]>
-  : T;
+    ? DeepFlat<T[number]>
+    : T;
 
 /**
  * 将字符串数组拼接成一个字符串(递归)
@@ -253,7 +250,7 @@ type DeepFlat<T> = T extends [infer First, ...infer Rest]
 type JoinStrArray<
   Arr extends string[],
   Separator extends string,
-  Result extends string = ""
+  Result extends string = "",
 > = Arr extends [infer First extends string, ...infer Rest extends string[]]
   ? Result extends ""
     ? JoinStrArray<Rest, Separator, First>
@@ -270,7 +267,7 @@ type JoinStrArray<
  */
 type SplitArrString<
   S extends string,
-  Separator extends string = ""
+  Separator extends string = "",
 > = S extends `${infer First}${Separator}${infer Rest}`
   ? [First, ...SplitArrString<Rest, Separator>]
   : [S];
@@ -333,7 +330,7 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
  */
 type RequireAtLeastOne<
   ObjectType,
-  KeysType extends keyof ObjectType = keyof ObjectType
+  KeysType extends keyof ObjectType = keyof ObjectType,
 > = { [K in KeysType]: Pick<ObjectType, K> }[KeysType] &
   Omit<ObjectType, KeysType>;
 
@@ -372,7 +369,7 @@ type Reserve<Arr extends any[]> = Arr extends [infer First, ...infer Rest]
  *   }
  * }
  */
-type Chainable<T extends Record<string, any> = {}> = {
+type Chainable<T extends Record<string, any> = object> = {
   option<K extends string, V>(key: K, value: V): Chainable<T & { [P in K]: V }>;
   get(): T;
 };

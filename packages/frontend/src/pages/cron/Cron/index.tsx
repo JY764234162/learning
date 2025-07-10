@@ -1,11 +1,22 @@
-import { FieldTimeOutlined, InsertRowAboveOutlined } from '@ant-design/icons';
-import { Button, Card, Input, InputProps, Popconfirm, Popover, Radio, RadioChangeEvent, Tabs, Tooltip } from 'antd';
-import React, { CSSProperties, ReactNode, useEffect, useState } from 'react';
-import TimeSelect from './TimeSelect';
-import DayCron from './DayCron';
-import useLanguage from './Language';
-import './index.css';
-import ExecutingTimePicker from './TimePicker';
+import { FieldTimeOutlined, InsertRowAboveOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Input,
+  InputProps,
+  Popconfirm,
+  Popover,
+  Radio,
+  RadioChangeEvent,
+  Tabs,
+  Tooltip,
+} from "antd";
+import React, { CSSProperties, ReactNode, useEffect, useState } from "react";
+import TimeSelect from "./TimeSelect";
+import DayCron from "./DayCron";
+import useLanguage from "./Language";
+import "./index.css";
+import ExecutingTimePicker from "./TimePicker";
 
 type CronProps = {
   value?: string;
@@ -15,9 +26,9 @@ type CronProps = {
   closeClearEditData?: boolean;
   style?: CSSProperties;
   className?: string;
-  language?: 'cn' | 'en';
+  language?: "cn" | "en";
   noYear?: boolean;
-  handleLanguage?: (language: 'cn' | 'en') => void;
+  handleLanguage?: (language: "cn" | "en") => void;
   onChange?: (value: string) => void;
 };
 
@@ -29,7 +40,7 @@ const Cron: React.FC<CronProps> = ({
   closeClearEditData,
   style,
   className,
-  language = 'cn',
+  language = "cn",
   noYear = false,
   handleLanguage,
   onChange,
@@ -39,7 +50,7 @@ const Cron: React.FC<CronProps> = ({
     <Popover
       content={
         <CronContent
-          value={value || '0 0 0 * * ? *'}
+          value={value || "0 0 0 * * ? *"}
           height={height}
           onChange={(value) => onChange && onChange(value)}
           open={open}
@@ -54,7 +65,16 @@ const Cron: React.FC<CronProps> = ({
       open={open}
       onOpenChange={setOpen}
     >
-      {children || <Input value={value} suffix={<FieldTimeOutlined />} readOnly className={className} style={style} {...inputProps} />}
+      {children || (
+        <Input
+          value={value}
+          suffix={<FieldTimeOutlined />}
+          readOnly
+          className={className}
+          style={style}
+          {...inputProps}
+        />
+      )}
     </Popover>
   );
 };
@@ -69,13 +89,16 @@ const getTab = (title: string) => {
 };
 
 // 正则
-const secondReg = /^\*$|(^([0-9]|[0-5][0-9])-([0-9]|[0-5][0-9])$)|(^([0-9]|[0-5][0-9])\/\d+$)|(^(([0-9]|[0-5][0-9]),)*([0-9]|[0-5][0-9])$)/;
-const minuteReg = /^\*$|(^([0-9]|[0-5][0-9])-([0-9]|[0-5][0-9])$)|(^([0-9]|[0-5][0-9])\/\d+$)|(^(([0-9]|[0-5][0-9]),)*([0-9]|[0-5][0-9])$)/;
+const secondReg =
+  /^\*$|(^([0-9]|[0-5][0-9])-([0-9]|[0-5][0-9])$)|(^([0-9]|[0-5][0-9])\/\d+$)|(^(([0-9]|[0-5][0-9]),)*([0-9]|[0-5][0-9])$)/;
+const minuteReg =
+  /^\*$|(^([0-9]|[0-5][0-9])-([0-9]|[0-5][0-9])$)|(^([0-9]|[0-5][0-9])\/\d+$)|(^(([0-9]|[0-5][0-9]),)*([0-9]|[0-5][0-9])$)/;
 const hourReg =
   /(^\*$)|(^([0-9]|([0-1][0-9])|(2[0-3]))-([0-9]|([0-1][0-9])|(2[0-3]))$)|(^([0-9]|([0-1][0-9])|(2[0-3]))\/\d+$)|(^(([0-9]|([0-1][0-9])|(2[0-3])),)*([0-9]|([0-1][0-9])|(2[0-3]))$)/;
 const dayReg =
   /^\*$|^\?$|(^([1-9]|[1-2][0-9]|3[0-1])-([1-9]|[1-2][0-9]|3[0-1])$)|(^([1-9]|[1-2][0-9]|3[0-1])\/\d+$)|(^(([1-9]|[1-2][0-9]|3[0-1]),)*([1-9]|[1-2][0-9]|3[0-1])$)|LW|L/;
-const monthReg = /^\*$|(^([1-9]|1[0-2])-([1-9]|1[0-2])$)|(^([1-9]|1[0-2])\/\d+$)|(^(([1-9]|1[0-2]),)*([1-9]|1[0-2])$)/;
+const monthReg =
+  /^\*$|(^([1-9]|1[0-2])-([1-9]|1[0-2])$)|(^([1-9]|1[0-2])\/\d+$)|(^(([1-9]|1[0-2]),)*([1-9]|1[0-2])$)/;
 const weekReg =
   /^\*$|^\?$|(^(SUN|MON|TUE|WED|THU|FRI|SAT)-(SUN|MON|TUE|WED|THU|FRI|SAT)$)|(^(SUN|MON|TUE|WED|THU|FRI|SAT)#\d+$)|(^(SUN|MON|TUE|WED|THU|FRI|SAT)#\d+$)|(^[1-7]L$)|(^((SUN|MON|TUE|WED|THU|FRI|SAT),)*(SUN|MON|TUE|WED|THU|FRI|SAT)$)|([1-7]#[1-5])/;
 const yearReg =
@@ -85,22 +108,32 @@ const CronContent: React.FC<{
   value: string;
   height?: string | number;
   open: boolean;
-  language: 'cn' | 'en';
+  language: "cn" | "en";
   noYear: boolean;
-  handleLanguage?: (language: 'cn' | 'en') => void;
+  handleLanguage?: (language: "cn" | "en") => void;
   setOpen: (open: boolean) => void;
   onChange: (value: string) => void;
   closeClearEditData?: boolean;
-}> = ({ value, height, setOpen, onChange, closeClearEditData, open, language, handleLanguage, noYear }) => {
-  const [active, setActive] = useState<string>('second');
-  const [cronText, setCronText] = useState<string>('');
-  const [second, setSecond] = useState('*');
-  const [minute, setMinute] = useState('*');
-  const [hour, setHour] = useState('*');
-  const [day, setDay] = useState('*');
-  const [month, setMonth] = useState('*');
-  const [week, setWeek] = useState('*');
-  const [year, setYear] = useState('*');
+}> = ({
+  value,
+  height,
+  setOpen,
+  onChange,
+  closeClearEditData,
+  open,
+  language,
+  handleLanguage,
+  noYear,
+}) => {
+  const [active, setActive] = useState<string>("second");
+  const [cronText, setCronText] = useState<string>("");
+  const [second, setSecond] = useState("*");
+  const [minute, setMinute] = useState("*");
+  const [hour, setHour] = useState("*");
+  const [day, setDay] = useState("*");
+  const [month, setMonth] = useState("*");
+  const [week, setWeek] = useState("*");
+  const [year, setYear] = useState("*");
   const Language = useLanguage(language);
 
   // 监听打开
@@ -115,20 +148,24 @@ const CronContent: React.FC<{
 
   const initData = () => {
     // 初始化数据
-    const [second, minute, hour, day, month, week, year] = value!.split(' ');
-    setSecond(secondReg.test(second) ? second : '*');
-    setMinute(minuteReg.test(minute) ? minute : '*');
-    setHour(hourReg.test(hour) ? hour : '*');
-    setDay(dayReg.test(day) ? day : '*');
-    setMonth(monthReg.test(month) ? month : '*');
-    setWeek(weekReg.test(week) ? week : '?');
-    setYear(yearReg.test(year) ? year : '*');
-    setCronText(`${second} ${minute} ${hour} ${day} ${month} ${week}${noYear ? '' : ` ${year}`}`);
+    const [second, minute, hour, day, month, week, year] = value!.split(" ");
+    setSecond(secondReg.test(second) ? second : "*");
+    setMinute(minuteReg.test(minute) ? minute : "*");
+    setHour(hourReg.test(hour) ? hour : "*");
+    setDay(dayReg.test(day) ? day : "*");
+    setMonth(monthReg.test(month) ? month : "*");
+    setWeek(weekReg.test(week) ? week : "?");
+    setYear(yearReg.test(year) ? year : "*");
+    setCronText(
+      `${second} ${minute} ${hour} ${day} ${month} ${week}${noYear ? "" : ` ${year}`}`
+    );
   };
 
   // 监听回调数据变化
   useEffect(() => {
-    setCronText(`${second} ${minute} ${hour} ${day} ${month} ${week}${noYear ? '' : ` ${year}`}`);
+    setCronText(
+      `${second} ${minute} ${hour} ${day} ${month} ${week}${noYear ? "" : ` ${year}`}`
+    );
   }, [second, minute, hour, day, month, week, year, noYear]);
 
   return (
@@ -138,7 +175,7 @@ const CronContent: React.FC<{
         styles={{
           body: {
             padding: 0,
-            width: language === 'cn' ? 480 : 645,
+            width: language === "cn" ? 480 : 645,
             maxHeight: height,
           },
         }}
@@ -153,22 +190,43 @@ const CronContent: React.FC<{
           items={
             [
               {
-                key: 'second',
+                key: "second",
                 label: getTab(Language.second.name),
-                children: <TimeSelect value={second} onChange={setSecond} type="second" language={language} />,
-                className: 'react-cron-bh-tab',
+                children: (
+                  <TimeSelect
+                    value={second}
+                    onChange={setSecond}
+                    type="second"
+                    language={language}
+                  />
+                ),
+                className: "react-cron-bh-tab",
               },
               {
-                key: 'minute',
+                key: "minute",
                 label: getTab(Language.minute.name),
-                children: <TimeSelect value={minute} onChange={setMinute} type="minute" language={language} />,
-                className: 'react-cron-bh-tab',
+                children: (
+                  <TimeSelect
+                    value={minute}
+                    onChange={setMinute}
+                    type="minute"
+                    language={language}
+                  />
+                ),
+                className: "react-cron-bh-tab",
               },
               {
-                key: 'hour',
+                key: "hour",
                 label: getTab(Language.hour.name),
-                children: <TimeSelect value={hour} onChange={setHour} type="hour" language={language} />,
-                className: 'react-cron-bh-tab',
+                children: (
+                  <TimeSelect
+                    value={hour}
+                    onChange={setHour}
+                    type="hour"
+                    language={language}
+                  />
+                ),
+                className: "react-cron-bh-tab",
               },
               // {
               //   key: 'time',
@@ -181,22 +239,44 @@ const CronContent: React.FC<{
               //   className: 'react-cron-bh-tab',
               // },
               {
-                key: 'day',
+                key: "day",
                 label: getTab(Language.day.name),
-                children: <DayCron day={day} week={week} setDay={setDay} setWeek={setWeek} language={language} />,
-                className: 'react-cron-bh-tab',
+                children: (
+                  <DayCron
+                    day={day}
+                    week={week}
+                    setDay={setDay}
+                    setWeek={setWeek}
+                    language={language}
+                  />
+                ),
+                className: "react-cron-bh-tab",
               },
               {
-                key: 'month',
+                key: "month",
                 label: getTab(Language.month.name),
-                children: <TimeSelect value={month} onChange={setMonth} type="month" language={language} />,
-                className: 'react-cron-bh-tab',
+                children: (
+                  <TimeSelect
+                    value={month}
+                    onChange={setMonth}
+                    type="month"
+                    language={language}
+                  />
+                ),
+                className: "react-cron-bh-tab",
               },
               !noYear && {
-                key: 'year',
+                key: "year",
                 label: getTab(Language.year.name),
-                children: <TimeSelect value={year} onChange={setYear} type="year" language={language} />,
-                className: 'react-cron-bh-tab',
+                children: (
+                  <TimeSelect
+                    value={year}
+                    onChange={setYear}
+                    type="year"
+                    language={language}
+                  />
+                ),
+                className: "react-cron-bh-tab",
               },
             ].filter(Boolean) as any
           }
@@ -206,7 +286,9 @@ const CronContent: React.FC<{
         {handleLanguage ? (
           <Radio.Group
             options={Language.language}
-            onChange={({ target: { value } }: RadioChangeEvent) => handleLanguage?.(value)}
+            onChange={({ target: { value } }: RadioChangeEvent) =>
+              handleLanguage?.(value)
+            }
             value={language}
             optionType="button"
             buttonStyle="solid"

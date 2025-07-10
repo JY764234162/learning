@@ -31,7 +31,10 @@ export class ValidationError extends CustomError {
 
 // 渲染错误
 export class RenderError extends CustomError {
-  constructor(message: string, public readonly componentName?: string) {
+  constructor(
+    message: string,
+    public readonly componentName?: string
+  ) {
     super(message);
   }
 }

@@ -16,13 +16,9 @@ child_process.exec(`node ${childPath}`, function (error, stdout, stderr) {
 });
 
 const ws = fs.createWriteStream("log.txt");
-const logger = child_process.spawn(
-  "node",
-  [path.resolve(__dirname, "count.js")],
-  {
-    stdio: ["ignore", "pipe", process.stderr],
-  }
-);
+const logger = child_process.spawn("node", [path.resolve(__dirname, "count.js")], {
+  stdio: ["ignore", "pipe", process.stderr],
+});
 logger.stdout.pipe(ws);
 
 console.log(__filename);

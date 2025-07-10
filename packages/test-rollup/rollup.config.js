@@ -58,7 +58,7 @@ export default defineConfig({
     postcss({
       extract: true, // 将 CSS 提取到单独的文件中
       minimize: true, // 压缩 CSS
-      use: ['autoprefixer'] // 使用 autoprefixer 来添加浏览器前缀
-    })
+      use: ["autoprefixer"], // 使用 autoprefixer 来添加浏览器前缀
+    }),
   ],
 });

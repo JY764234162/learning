@@ -1,11 +1,11 @@
-import { InputNumber, Radio, RadioChangeEvent, Select } from 'antd';
-import React, { useEffect, useState } from 'react';
-import useLanguage from '../Language';
+import { InputNumber, Radio, RadioChangeEvent, Select } from "antd";
+import React, { useEffect, useState } from "react";
+import useLanguage from "../Language";
 
 const DayCron: React.FC<{
   day: string;
   week: string;
-  language: 'cn' | 'en';
+  language: "cn" | "en";
   setDay: (day: string) => void;
   setWeek: (week: string) => void;
 }> = ({ day, week, setDay, setWeek, language }) => {
@@ -20,62 +20,64 @@ const DayCron: React.FC<{
   const [startWeek, setStartWeek] = useState<number>(Language.Week[0].value); // 开始的星期   7
   const [spaceDay, setSpaceDay] = useState<number>(1); // 开始的星期相隔天数              7
   const [selectDayList, setSelectDayList] = useState<number[]>([1]); // 具体的哪天    8
-  const [selectWeekList, setSelectWeekList] = useState<string[]>([Language.Week[0].name]); // 具体的哪星期    9
+  const [selectWeekList, setSelectWeekList] = useState<string[]>([
+    Language.Week[0].name,
+  ]); // 具体的哪星期    9
   const [lastWeek, setLastWeek] = useState<number>(Language.Week[0].value); // 最后一个星期几   10
   const [conunt, setConunt] = useState<number>(1); // 这个月第几周         11
   const [conWeek, setConWeek] = useState<number>(Language.Week[0].value); // 这个月第几周星期几   11
 
   useEffect(() => {
     // 回显数据
-    if (week === '?') {
-      if (day === '*') {
+    if (week === "?") {
+      if (day === "*") {
         setSelectRadio(0);
-      } else if (day.indexOf('L') !== -1) {
-        if (day === 'L') {
+      } else if (day.indexOf("L") !== -1) {
+        if (day === "L") {
           setSelectRadio(1);
-        } else if (day === 'LW') {
+        } else if (day === "LW") {
           setSelectRadio(2);
         } else {
           // 均不是 则只会是L-?了 直接取后一节
           setSelectRadio(3);
           setLastDay(parseInt(day.slice(2)));
         }
-      } else if (day.indexOf('W') !== -1) {
+      } else if (day.indexOf("W") !== -1) {
         // 只会是 ?W的情况了 所有可以直接截取
         setSelectRadio(4);
         setWorkDay(parseInt(day.slice(0, -1)));
-      } else if (day.indexOf('/') !== -1) {
+      } else if (day.indexOf("/") !== -1) {
         setSelectRadio(5);
-        const [start, end] = day.split('/');
+        const [start, end] = day.split("/");
         setCircleStart(parseInt(start));
         setCircleTime(parseInt(end));
-      } else if (day.indexOf('-') !== -1) {
+      } else if (day.indexOf("-") !== -1) {
         setSelectRadio(6);
-        const [start, end] = day.split('-');
+        const [start, end] = day.split("-");
         setCycleStart(parseInt(start));
         setCycleEnd(parseInt(end));
       } else {
         setSelectRadio(8);
-        setSelectDayList(day.split(',').map((item) => parseInt(item)));
+        setSelectDayList(day.split(",").map((item) => parseInt(item)));
       }
     } else {
-      if (week.indexOf('/') !== -1) {
+      if (week.indexOf("/") !== -1) {
         setSelectRadio(7);
-        const [start, end] = week.split('/');
+        const [start, end] = week.split("/");
         setStartWeek(parseInt(start));
         setSpaceDay(parseInt(end));
-      } else if (week.indexOf('L') !== -1) {
+      } else if (week.indexOf("L") !== -1) {
         // 只会是 ?L的情况了 所有可以直接截取
         setSelectRadio(10);
         setLastWeek(parseInt(week.slice(0, -1)));
-      } else if (week.indexOf('#') !== -1) {
+      } else if (week.indexOf("#") !== -1) {
         setSelectRadio(11);
-        const [start, end] = week.split('#');
+        const [start, end] = week.split("#");
         setConWeek(parseInt(start));
         setConunt(parseInt(end));
       } else {
         setSelectRadio(9);
-        setSelectWeekList(week.split(',').map((item) => item));
+        setSelectWeekList(week.split(",").map((item) => item));
       }
     }
   }, [day, week]);
@@ -85,67 +87,83 @@ const DayCron: React.FC<{
     setSelectRadio(e.target.value);
     switch (e.target.value) {
       case 0:
-        handlerCron('*', 'day');
+        handlerCron("*", "day");
         break;
       case 1:
-        handlerCron('L', 'day');
+        handlerCron("L", "day");
         break;
       case 2:
-        handlerCron('LW', 'day');
+        handlerCron("LW", "day");
         break;
       case 3:
-        handlerCron(`L-${lastDay}`, 'day');
+        handlerCron(`L-${lastDay}`, "day");
         break;
       case 4:
-        handlerCron(`${workDay}W`, 'day');
+        handlerCron(`${workDay}W`, "day");
         break;
       case 5:
-        handlerCron(`${circleStart}/${circleTime}`, 'day');
+        handlerCron(`${circleStart}/${circleTime}`, "day");
         break;
       case 6:
-        handlerCron(`${cycleStart}-${cycleEnd}`, 'day');
+        handlerCron(`${cycleStart}-${cycleEnd}`, "day");
         break;
       case 7:
-        handlerCron(`${startWeek}/${spaceDay}`, 'week');
+        handlerCron(`${startWeek}/${spaceDay}`, "week");
         break;
       case 8:
-        handlerCron(selectDayList.length > 0 ? selectDayList.sort().join(',') : '1', 'day');
+        handlerCron(
+          selectDayList.length > 0 ? selectDayList.sort().join(",") : "1",
+          "day"
+        );
         break;
       case 9:
-        handlerCron(selectWeekList.length > 0 ? selectWeekList.sort().join(',') : 'SUN', 'week');
+        handlerCron(
+          selectWeekList.length > 0 ? selectWeekList.sort().join(",") : "SUN",
+          "week"
+        );
         break;
       case 10:
-        handlerCron(`${lastWeek}L`, 'week');
+        handlerCron(`${lastWeek}L`, "week");
         break;
       default:
-        handlerCron(`${conWeek}#${conunt}`, 'week');
+        handlerCron(`${conWeek}#${conunt}`, "week");
         break;
     }
   };
   // 修改Cron
-  const handlerCron = (value: string, type: 'day' | 'week' = 'day') => {
-    if (type === 'day') {
+  const handlerCron = (value: string, type: "day" | "week" = "day") => {
+    if (type === "day") {
       setDay(value);
-      setWeek('?');
+      setWeek("?");
     } else {
       setWeek(value);
-      setDay('?');
+      setDay("?");
     }
   };
 
   return (
-    <Radio.Group onChange={handleRadio} value={selectRadio} className="react-cron-bh-radio-group">
+    <Radio.Group
+      onChange={handleRadio}
+      value={selectRadio}
+      className="react-cron-bh-radio-group"
+    >
       <div>
         <Radio value={0} />
-        <span className="react-cron-bh-radio-content">{Language.day.oneDay[0]}</span>
+        <span className="react-cron-bh-radio-content">
+          {Language.day.oneDay[0]}
+        </span>
       </div>
       <div>
         <Radio value={1} />
-        <span className="react-cron-bh-radio-content">{Language.day.oneDay[1]}</span>
+        <span className="react-cron-bh-radio-content">
+          {Language.day.oneDay[1]}
+        </span>
       </div>
       <div>
         <Radio value={2} />
-        <span className="react-cron-bh-radio-content">{Language.day.oneDay[2]}</span>
+        <span className="react-cron-bh-radio-content">
+          {Language.day.oneDay[2]}
+        </span>
       </div>
       <div>
         <Radio value={3} />
@@ -158,7 +176,7 @@ const DayCron: React.FC<{
             value={lastDay}
             onChange={(value) => {
               if (!value) return;
-              if (selectRadio === 3) handlerCron(`L-${value}`, 'day');
+              if (selectRadio === 3) handlerCron(`L-${value}`, "day");
               else setLastDay(value || 1);
             }}
           />
@@ -279,7 +297,11 @@ const DayCron: React.FC<{
               .fill(0)
               .map((item, index) => ({ label: index + 1, value: index + 1 }))}
             onChange={(values) => {
-              if (selectRadio === 8) handlerCron(values.length > 0 ? values.sort().join(',') : '1', 'day');
+              if (selectRadio === 8)
+                handlerCron(
+                  values.length > 0 ? values.sort().join(",") : "1",
+                  "day"
+                );
               else setSelectDayList(values);
             }}
           />
@@ -295,9 +317,13 @@ const DayCron: React.FC<{
             className="react-cron-bh-radio-content-select"
             value={selectWeekList}
             options={Language.Week}
-            fieldNames={{ value: 'name' }}
+            fieldNames={{ value: "name" }}
             onChange={(values) => {
-              if (selectRadio === 9) handlerCron(values.length > 0 ? values.sort().join(',') : 'SUN', 'week');
+              if (selectRadio === 9)
+                handlerCron(
+                  values.length > 0 ? values.sort().join(",") : "SUN",
+                  "week"
+                );
               else setSelectWeekList(values);
             }}
           />
@@ -313,7 +339,7 @@ const DayCron: React.FC<{
             value={lastWeek}
             options={Language.Week}
             onChange={(value) => {
-              if (selectRadio === 10) handlerCron(`${value}L`, 'week');
+              if (selectRadio === 10) handlerCron(`${value}L`, "week");
               else setLastWeek(value);
             }}
           />
@@ -331,7 +357,8 @@ const DayCron: React.FC<{
             value={conunt}
             onChange={(value) => {
               if (!value) return;
-              if (selectRadio === 11) handlerCron(`${conWeek}#${value}`, 'week');
+              if (selectRadio === 11)
+                handlerCron(`${conWeek}#${value}`, "week");
               else setConunt(value || 1);
             }}
           />
@@ -342,7 +369,7 @@ const DayCron: React.FC<{
             value={conWeek}
             options={Language.Week}
             onChange={(value) => {
-              if (selectRadio === 11) handlerCron(`${value}#${conunt}`, 'week');
+              if (selectRadio === 11) handlerCron(`${value}#${conunt}`, "week");
               else setConWeek(value);
             }}
           />

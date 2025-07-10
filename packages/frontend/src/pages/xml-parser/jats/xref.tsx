@@ -1,4 +1,4 @@
-import xpath from 'xpath';
+import xpath from "xpath";
 
 export interface Props {
   node: Node;
@@ -6,9 +6,13 @@ export interface Props {
 
 export const XRef = (props: Props) => {
   const { node } = props;
-  const id = xpath.select1('string(@rid)', node);
+  const id = xpath.select1("string(@rid)", node);
   return (
-    <a id={`cite_${id}`} href={`#${id}`} data-type={xpath.select1('string(@ref-type)', node)}>
+    <a
+      id={`cite_${id}`}
+      href={`#${id}`}
+      data-type={xpath.select1("string(@ref-type)", node)}
+    >
       {node.textContent}
     </a>
   );

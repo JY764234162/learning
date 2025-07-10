@@ -18,7 +18,8 @@ export const parseXmlMeta = (xmlData: string): LiteratureMetaType => {
   const bodyNode = xpath.select1("/article/body", xmlDoc) || "";
   const frontNode = xpath.select1("/article/front", xmlDoc) || "";
   const backNode = xpath.select1("/article/back", xmlDoc) || "";
-  const responses = (xpath.select("/article//response", xmlDoc) || []) as xpath.SelectedValue[];
+  const responses = (xpath.select("/article//response", xmlDoc) ||
+    []) as xpath.SelectedValue[];
   const rootNode = xpath.select1("/article", xmlDoc);
   const isFrontNode = isNode(frontNode);
   const articleTitle = isFrontNode
