@@ -1,22 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Typography, Card, Alert, Space, Button } from "antd";
-import './index.css'
+import "./index.css";
 const { Title, Paragraph, Text } = Typography;
 
 const DrawSvgDemo = () => {
   const ref = useRef<SVGPathElement>(null);
-  const [pathClass, setPassClass] = useState<string>("");
   const onAnimate = async () => {
     if (!ref.current) return;
-
-    setPassClass((pre) => {
-      if (pre) return "";
-      return "move";
-    });
+    ref.current.animate(
+      {
+        strokeDashoffset: [1000, 0],
+      },
+      {
+        duration: 1000,
+        easing: "ease-in-out",
+      }
+    );
   };
-  useEffect(() => {
-    onAnimate();
-  }, []);
 
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
@@ -54,13 +54,13 @@ const DrawSvgDemo = () => {
                   </linearGradient>
                 </defs>
                 <path
-                  className={pathClass}
                   ref={ref}
                   d="M 100 200 A 100 100 0 1 1 200 200"
                   stroke="url(#grad1)"
                   strokeWidth="10"
                   fill="none"
                   strokeLinecap="round"
+                  strokeDasharray={1000}
                 />
               </svg>
 
@@ -465,56 +465,6 @@ const DrawSvgDemo = () => {
           </Space>
         </Card>
 
-        <Card title="动态SVG曲线">
-          <Space direction="vertical" size="large" style={{ width: "100%" }}>
-            {/* 步骤 1: 起点和第一段曲线 */}
-            <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-              <svg width="300" height="250" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="red" />
-                    <stop offset="100%" stopColor="blue" />
-                  </linearGradient>
-                </defs>
-
-                <path
-                  ref={ref}
-                  d="M 100 200 A 100 100 0 1 1 200 200"
-                  stroke="url(#grad1)"
-                  strokeWidth="10"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeDasharray="1000"
-                  strokeDashoffset="0"
-                />
-              </svg>
-
-              {/* <div
-                style={{
-                  padding: "12px",
-                  background: "#f6f8fa",
-                  borderRadius: "6px",
-                  border: "1px solid #e1e4e8",
-                  flex: 1,
-                }}
-              >
-                <div style={{ marginBottom: "8px" }}>
-                  <Text strong>步骤 1: 左上曲线</Text>
-                </div>
-                <div>
-                  <Text code>M140 20</Text>
-                  <Text style={{ margin: "0 8px" }}>→</Text>
-                  <Text type="secondary">移动到起点</Text>
-                </div>
-                <div>
-                  <Text code>C73 20 20 74 20 140</Text>
-                  <Text style={{ margin: "0 8px" }}>→</Text>
-                  <Text type="secondary">绘制左上贝塞尔曲线</Text>
-                </div>
-              </div> */}
-            </div>
-          </Space>
-        </Card>
         <Card title="实现说明">
           <Paragraph>
             <Text strong>SVG Path 命令特点：</Text>

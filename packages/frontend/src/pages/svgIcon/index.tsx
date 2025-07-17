@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, Space, Alert, Card } from "antd";
 import Basic from "./demos/Basic";
 import Size from "./demos/Size";
@@ -10,6 +10,10 @@ import "./assets/iconfont";
 const { Title, Paragraph } = Typography;
 
 const IconFontPage: React.FC = () => {
+
+  useEffect(()=>{
+    
+  })
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
       <Title level={2}>SvgIcon 图标</Title>
