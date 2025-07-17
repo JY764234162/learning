@@ -1,0 +1,1 @@
+.move{stroke-dasharray:1000;stroke-dashoffset:0;animation:dash 3s ease-in-out}@keyframes dash{0%{stroke-dashoffset:1000}to{stroke-dashoffset:0}}
