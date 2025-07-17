@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>'Hello, world!' example</title>
+  </head>
+  <body>
+    <canvas id="the-canvas" style="border: 1px solid black; direction: ltr"></canvas>
+
+    <script src="../../../../../node_modules/pdfjs-dist/build/pdf.mjs" type="module"></script>
+
+    <script id="script" type="module">
+      //
+      // If absolute URL from the remote server is provided, configure the CORS
+      // header on that server.
+      //
+      const url = "./1.pdf";
+
+      //
+      // The workerSrc property shall be specified.
+      //
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "../../../../../node_modules/pdfjs-dist/build/pdf.worker.mjs";
+
+      //
+      // Asynchronous download PDF
+      //
+      const loadingTask = pdfjsLib.getDocument(url);
+      const pdf = await loadingTask.promise;
+      //
+      // Fetch the first page
+      //
+      const page = await pdf.getPage(1);
+      const scale = 1.5;
+      const viewport = page.getViewport({ scale });
+      // Support HiDPI-screens.
+      const outputScale = window.devicePixelRatio || 1;
+
+      //
+      // Prepare canvas using PDF page dimensions
+      //
+      const canvas = document.getElementById("the-canvas");
+      const context = canvas.getContext("2d");
+
+      canvas.width = Math.floor(viewport.width * outputScale);
+      canvas.height = Math.floor(viewport.height * outputScale);
+      canvas.style.width = Math.floor(viewport.width) + "px";
+      canvas.style.height = Math.floor(viewport.height) + "px";
+
+      const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null;
+
+      // Render PDF page into canvas context
+
+      const renderContext = {
+        canvasContext: context,
+        transform,
+        viewport,
+      };
+      page.render(renderContext);
+
+      function highlightText(item, searchTerm) {
+        var startIndex = item.str.indexOf("北京");
+        if (startIndex !== -1) {
+          console.log(item);
+          const span = document.createElement("span");
+          span.style.position = "absolute";
+          span.style.backgroundColor = "red";
+          span.style.left = item.transform[4] + "px";
+          span.style.top = item.transform[5] + "px";
+          span.style.width = item.width + "px";
+          span.style.height = item.height + "px";
+          document.body.appendChild(span);
+        }
+      }
+      function highlightTextItem(item, viewport, keyword) {
+        const { transform, width, height } = item;
+
+        // item.transform 是变换矩阵，表示位置
+        const [a, b, c, d, e, f] = transform;
+
+        // 计算整个文本块的边界（左上角原点）
+        const x = e;
+        const y = f;
+
+        // 字符宽度（宽度已知），高度（根据字体大小或估算）
+        const rectWidth = width;
+        const rectHeight = height;
+
+        // 获取页面视口的变换矩阵
+        const viewportTransform = viewport.transform;
+
+        // 计算文本块在页面坐标系中的位置
+        const rect = pdfjsLib.Util.normalizeRect([x, y - rectHeight, x + rectWidth, y]);
+        const rectInCanvas = pdfjsLib.Util.applyTransform(rect, viewportTransform);
+
+        context.fillStyle = "red";
+
+        context.fillRect(100, 100, 100, 100);
+        context.globalAlpha = 1;
+      }
+
+      function searchPDF(pdf, searchTerm) {
+        var totalPages = pdf.numPages;
+
+        for (var pageNum = 1; pageNum <= totalPages; pageNum++) {
+          pdf.getPage(pageNum).then(function (page) {
+            var textContent = page.getTextContent();
+
+            textContent.then((res) => {
+              var items = res.items;
+              var found = false;
+              console.log(items);
+              items.forEach((item) => {
+                if (item.str.includes(searchTerm)) {
+                  // 找到包含关键词的文本块
+                  highlightTextItem(item, viewport, searchTerm);
+                }
+              });
+
+              if (found) {
+                page.render({}); // 重新渲染页面以显示高亮
+              }
+            });
+          });
+        }
+      }
+      searchPDF(pdf, "北京");
+    </script>
+  </body>
+</html>

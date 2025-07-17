@@ -72,3 +72,10 @@ declare module "latex.js" {
     options: { generator: HtmlGenerator }
   ) => { htmlDocument(): HTMLDocument };
 }
+
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    'micro-app': any;
+  }
+}
