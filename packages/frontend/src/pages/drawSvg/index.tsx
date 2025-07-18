@@ -5,17 +5,33 @@ const { Title, Paragraph, Text } = Typography;
 
 const DrawSvgDemo = () => {
   const ref = useRef<SVGPathElement>(null);
-  const onAnimate = async () => {
+  const animRef = useRef<Animation>();
+  const [pathLength, setPathLength] = useState(0);
+
+  useEffect(() => {
+    if (ref.current) {
+      const length = ref.current.getTotalLength();
+      setPathLength(length);
+    }
+  }, []);
+
+  const onAnimate = async (revrese = false) => {
     if (!ref.current) return;
-    ref.current.animate(
+    const anim = ref.current.animate(
       {
-        strokeDashoffset: [1000, 0],
+        strokeDashoffset: revrese ? [0, pathLength] : [pathLength, 0],
       },
       {
-        duration: 1000,
+        duration: 2000,
         easing: "ease-in-out",
       }
     );
+    animRef.current = anim;
+  };
+
+  const onPause = () => {
+    if (!animRef.current) return;
+    animRef.current.pause();
   };
 
   return (
@@ -34,13 +50,29 @@ const DrawSvgDemo = () => {
         <Card
           title="动态SVG曲线"
           extra={
-            <Button
-              onClick={() => {
-                onAnimate();
-              }}
-            >
-              重新执行动画
-            </Button>
+            <Space>
+              <Button
+                onClick={() => {
+                  onAnimate();
+                }}
+              >
+                执行动画
+              </Button>
+              <Button
+                onClick={() => {
+                  onAnimate(true);
+                }}
+              >
+                反向执行
+              </Button>
+              <Button
+                onClick={() => {
+                  onPause();
+                }}
+              >
+                暂停
+              </Button>
+            </Space>
           }
         >
           <Space direction="vertical" size="large" style={{ width: "100%" }}>
@@ -60,7 +92,7 @@ const DrawSvgDemo = () => {
                   strokeWidth="10"
                   fill="none"
                   strokeLinecap="round"
-                  strokeDasharray={1000}
+                  strokeDasharray={pathLength}
                 />
               </svg>
 
