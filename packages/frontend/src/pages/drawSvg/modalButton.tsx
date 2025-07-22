@@ -44,7 +44,6 @@ export default function ModalButton() {
         destroyOnClose
         onOk={handleOk}
         onCancel={handleCancel}
-        onClose={handleCancel}
       >
         <div style={{ display: "flex", overflow: "hidden" }}>
           <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
