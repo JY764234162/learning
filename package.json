@@ -14,5 +14,8 @@
     "format:web": "yarn workspace frontend format",
     "dev:express": "yarn workspace backend dev",
     "format": "prettier -c --write '**/*.{js,jsx,ts,tsx}' --cache"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.5"
   }
 }
