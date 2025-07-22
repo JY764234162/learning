@@ -1,6 +1,7 @@
 import { Button, Menu, Modal, MenuItemProps, Checkbox } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import type { CheckboxProps, MenuProps } from "antd";
+import styles from "./modalButton.module.scss";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -35,9 +36,17 @@ export default function ModalButton() {
       >
         弹窗
       </Button>
-      <Modal width={800} open={open} destroyOnClose onOk={handleOk} onCancel={handleCancel} onClose={handleCancel}>
-        <span>展示指标</span>
-        <div style={{ display: "flex" }}>
+      <Modal
+        title={<span>展示指标（自适应高度）</span>}
+        className={styles["modalButton"]}
+        width={800}
+        open={open}
+        destroyOnClose
+        onOk={handleOk}
+        onCancel={handleCancel}
+        onClose={handleCancel}
+      >
+        <div style={{ display: "flex", overflow: "hidden" }}>
           <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
             <div style={{ margin: 4, paddingLeft: 16 }}>一级标题</div>
             <Menu
@@ -63,7 +72,22 @@ export default function ModalButton() {
   );
 }
 
-const plainOptions = ["Apple", "Pear", "Orange"];
+const plainOptions = [
+  "Apple",
+  "Pear",
+  "Orange",
+  "Banana",
+  "Kiwi",
+  "Lemon",
+  "Pineapple",
+  "Mango",
+  "Watermelon",
+  "Grape",
+  "Cherry",
+  "Strawberry",
+  "Peach",
+  "Apricot",
+];
 
 const Two = () => {
   const [checkedList, setCheckedList] = useState<string[]>([]);
@@ -90,8 +114,8 @@ const Two = () => {
   }, [checkedList]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <Checkbox.Group style={{ width: "100%" }} value={checkedList} onChange={onChange}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%", overflowY: "auto" }}>
+      <Checkbox.Group style={{ width: "100%", overflowY: "auto" }} value={checkedList} onChange={onChange}>
         <Menu
           items={items}
           style={{ width: "100%" }}

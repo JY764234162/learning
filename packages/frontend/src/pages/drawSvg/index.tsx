@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Typography, Card, Alert, Space, Button } from "antd";
-import "./index.css";
 import ModalButton from "./modalButton";
 const { Title, Paragraph, Text } = Typography;
 
