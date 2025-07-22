@@ -1,1 +1,0 @@
-import{bv as o}from"../../main-OXPBM_qZ.js";function u(e,n,d,i){var v=o.unstable_batchedUpdates?function(s){o.unstable_batchedUpdates(d,s)}:d;return e!=null&&e.addEventListener&&e.addEventListener(n,v,i),{remove:function(){e!=null&&e.removeEventListener&&e.removeEventListener(n,v,i)}}}export{u as a};
