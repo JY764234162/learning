@@ -18,6 +18,7 @@
     "format": "prettier -c --write '**/*.{js,jsx,ts,tsx}' --cache"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.0.0",
     "@arco-design/web-react": "^2.38.1",
     "@aws-sdk/client-s3": "^3.820.0",
     "@aws-sdk/lib-storage": "^3.820.0",
@@ -36,6 +37,7 @@
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.3.1",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
     "diff": "^7.0.0",
     "dom-to-image": "^2.6.0",
     "fabric": "^6.6.6",

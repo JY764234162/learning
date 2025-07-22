@@ -1,4 +1,4 @@
-import { useRoutes, Navigate } from "react-router";
+import { useRoutes, Navigate } from "react-router-dom";
 import React, { lazy, Suspense } from "react";
 import Loading from "../components/Loading";
 import PageLayout from "../components/PageLayout";
