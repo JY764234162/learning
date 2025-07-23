@@ -16,6 +16,7 @@
     "format": "prettier -c --write '**/*.{js,jsx,ts,tsx}' --cache"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.5"
+    "@changesets/cli": "^2.29.5",
+    "lerna": "^8.2.3"
   }
 }
