@@ -4,6 +4,8 @@ import ArrowCard from "./components/ArrowCard";
 import DropdownMenu from "./components/DropdownMenu";
 import TooltipList from "./components/TooltipList";
 import ContextMenu from "./components/ContextMenu";
+import AccessibleDropdown from "./components/AccessibleDropdown";
+import AccessibleTooltip from "./components/AccessibleTooltip";
 
 const FloatingUIPage: React.FC = () => {
   return (
@@ -98,6 +100,38 @@ const FloatingUIPage: React.FC = () => {
           </p>
           <ContextMenu />
         </div>
+
+        {/* 无障碍下拉菜单示例 */}
+        <div
+          style={{
+            padding: "20px",
+            border: "1px solid #e0e0e0",
+            borderRadius: "8px",
+            backgroundColor: "#f9f9f9",
+          }}
+        >
+          <h3 style={{ marginBottom: "15px", color: "#555" }}>无障碍下拉菜单</h3>
+          <p style={{ marginBottom: "15px", fontSize: "14px", color: "#666" }}>
+            使用 useRole + useFocus 的无障碍下拉菜单
+          </p>
+          <AccessibleDropdown />
+        </div>
+
+        {/* 无障碍工具提示示例 */}
+        <div
+          style={{
+            padding: "20px",
+            border: "1px solid #e0e0e0",
+            borderRadius: "8px",
+            backgroundColor: "#f9f9f9",
+          }}
+        >
+          <h3 style={{ marginBottom: "15px", color: "#555" }}>无障碍工具提示</h3>
+          <p style={{ marginBottom: "15px", fontSize: "14px", color: "#666" }}>
+            使用 useRole + useFocus 的无障碍工具提示
+          </p>
+          <AccessibleTooltip />
+        </div>
       </div>
 
       <div
@@ -123,4 +157,4 @@ const FloatingUIPage: React.FC = () => {
 
 
 
-export default FloatingUIPage;  
+export default FloatingUIPage;

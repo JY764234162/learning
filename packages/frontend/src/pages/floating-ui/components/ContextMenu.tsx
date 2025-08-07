@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  useFloating,
-  useInteractions,
-  useDismiss,
-  FloatingPortal,
-  FloatingOverlay,
-  flip,
-  shift,
-} from "@floating-ui/react";
+import { useFloating, useInteractions, useDismiss, FloatingPortal, FloatingOverlay, flip, shift, autoUpdate } from "@floating-ui/react";
 
 interface MenuItem {
   label?: string;
@@ -18,13 +10,14 @@ interface MenuItem {
 
 const ContextMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  // const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
     placement: "right-start",
     middleware: [flip(), shift({ padding: 5 })],
+    whileElementsMounted: autoUpdate,
   });
 
   const dismiss = useDismiss(context);
@@ -32,7 +25,7 @@ const ContextMenu: React.FC = () => {
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    setPosition({ x: e.clientX, y: e.clientY });
+    // setPosition({ x: e.pageX, y: e.pageY });
     setIsOpen(true);
   };
 
@@ -78,15 +71,14 @@ const ContextMenu: React.FC = () => {
       </div>
 
       {isOpen && (
-        <FloatingPortal>
+        <FloatingPortal {...getFloatingProps()}>
           <FloatingOverlay lockScroll />
           <div
             ref={refs.setFloating}
-            {...getFloatingProps()}
             style={{
               ...floatingStyles,
-              left: position.x,
-              top: position.y,
+              // left: position.x,
+              // top: position.y,
               backgroundColor: "white",
               border: "1px solid #d9d9d9",
               borderRadius: "4px",

@@ -8,6 +8,8 @@ import {
   offset,
   flip,
   shift,
+  FloatingOverlay,
+  autoUpdate,
 } from "@floating-ui/react";
 
 interface MenuItem {
@@ -23,13 +25,15 @@ const DropdownMenu: React.FC = () => {
     onOpenChange: setIsOpen,
     placement: "bottom-start",
     middleware: [offset(5), flip(), shift({ padding: 5 })],
+    whileElementsMounted: autoUpdate,
   });
 
-  const click = useClick(context);
-  const dismiss = useDismiss(context);
+  // const click = useClick(context);
+  // const dismiss = useDismiss(context);
 
-  const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
+  // const { getReferenceProps, getFloatingProps } = useInteractions([click]);
 
+  // console.log(context,floatingStyles, getReferenceProps(), getFloatingProps());
   const menuItems: MenuItem[] = [
     { label: "编辑", action: () => console.log("编辑") },
     { label: "删除", action: () => console.log("删除") },
@@ -40,7 +44,10 @@ const DropdownMenu: React.FC = () => {
     <>
       <button
         ref={refs.setReference}
-        {...getReferenceProps()}
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+        // {...getReferenceProps()}
         style={{
           padding: "10px 20px",
           backgroundColor: "#faad14",
@@ -54,11 +61,17 @@ const DropdownMenu: React.FC = () => {
         下拉菜单 ▼
       </button>
 
-      <FloatingPortal>
-        {isOpen && (
+      {isOpen && (
+        <FloatingPortal>
+          <FloatingOverlay
+            lockScroll
+            onMouseDown={() => {
+              setIsOpen(false);
+            }}
+          />
           <div
             ref={refs.setFloating}
-            {...getFloatingProps()}
+            // {...getFloatingProps()}
             style={{
               ...floatingStyles,
               backgroundColor: "white",
@@ -94,8 +107,8 @@ const DropdownMenu: React.FC = () => {
               </div>
             ))}
           </div>
-        )}
-      </FloatingPortal>
+        </FloatingPortal>
+      )}
     </>
   );
 };
