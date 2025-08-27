@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Typography, Card, Alert, Space, Button } from "antd";
+import { Typography, Card, Alert, Space, Button, Slider } from "antd";
 import ModalButton from "./modalButton";
+import ChatBubbleSvg from "./ChatBubbleSvg";
 const { Title, Paragraph, Text } = Typography;
 
 const DrawSvgDemo = () => {
@@ -32,6 +33,35 @@ const DrawSvgDemo = () => {
   const onPause = () => {
     if (!animRef.current) return;
     animRef.current.pause();
+  };
+
+  // 自定义聊天框参数状态
+  const [chatBubbleParams, setChatBubbleParams] = useState({
+    width: 200,
+    height: 130,
+    borderRadius: 20,
+    strokeWidth: 4,
+    arrowWidth: 40,
+    arrowHeight: 30,
+    enableAnimation: false,
+    fillColor: "#ccc",
+    showContent: true,
+  });
+
+  // 更新聊天框参数
+  const updateChatBubbleParam = (param: string, value: number | string | boolean) => {
+    setChatBubbleParams((prev) => ({
+      ...prev,
+      [param]: value,
+    }));
+  };
+
+  // 切换动画
+  const toggleAnimation = () => {
+    setChatBubbleParams((prev) => ({
+      ...prev,
+      enableAnimation: !prev.enableAnimation,
+    }));
   };
 
   return (
@@ -123,6 +153,116 @@ const DrawSvgDemo = () => {
             </div>
           </Space>
         </Card>
+        <Card title="自定义聊天框组件">
+          <Space direction="vertical" size="large" style={{ width: "100%" }}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
+              <ChatBubbleSvg
+                width={chatBubbleParams.width}
+                height={chatBubbleParams.height}
+                borderRadius={chatBubbleParams.borderRadius}
+                strokeWidth={chatBubbleParams.strokeWidth}
+                arrowWidth={chatBubbleParams.arrowWidth}
+                arrowHeight={chatBubbleParams.arrowHeight}
+                enableAnimation={chatBubbleParams.enableAnimation}
+                fillColor={chatBubbleParams.fillColor || "#ccc"}
+              ></ChatBubbleSvg>
+            </div>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
+              <ChatBubbleSvg width={300} height={200} borderRadius={10} strokeWidth={2} arrowWidth={10} arrowHeight={5} fillColor={"#ccc"}>
+                <div style={{ textAlign: "center" }}>
+                  <Text strong>示例内容</Text>
+                  <p style={{ margin: "4px 0 0 0", whiteSpace: "nowrap" }}>这是一个聊天框内容示例</p>
+                </div>
+              </ChatBubbleSvg>
+            </div>
+
+            <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+              <div style={{ minWidth: "200px" }}>
+                <Text>宽度: {chatBubbleParams.width}</Text>
+                <Slider min={100} max={300} value={chatBubbleParams.width} onChange={(value) => updateChatBubbleParam("width", value)} />
+              </div>
+
+              <div style={{ minWidth: "200px" }}>
+                <Text>高度: {chatBubbleParams.height}</Text>
+                <Slider min={50} max={200} value={chatBubbleParams.height} onChange={(value) => updateChatBubbleParam("height", value)} />
+              </div>
+
+              <div style={{ minWidth: "200px" }}>
+                <Text>圆角: {chatBubbleParams.borderRadius}</Text>
+                <Slider
+                  min={5}
+                  max={40}
+                  value={chatBubbleParams.borderRadius}
+                  onChange={(value) => updateChatBubbleParam("borderRadius", value)}
+                />
+              </div>
+
+              <div style={{ minWidth: "200px" }}>
+                <Text>描边: {chatBubbleParams.strokeWidth}</Text>
+                <Slider
+                  min={1}
+                  max={10}
+                  value={chatBubbleParams.strokeWidth}
+                  onChange={(value) => updateChatBubbleParam("strokeWidth", value)}
+                />
+              </div>
+
+              <div style={{ minWidth: "200px" }}>
+                <Text>箭头宽度: {chatBubbleParams.arrowWidth}</Text>
+                <Slider
+                  min={20}
+                  max={80}
+                  value={chatBubbleParams.arrowWidth}
+                  onChange={(value) => updateChatBubbleParam("arrowWidth", value)}
+                />
+              </div>
+
+              <div style={{ minWidth: "200px" }}>
+                <Text>箭头高度: {chatBubbleParams.arrowHeight}</Text>
+                <Slider
+                  min={10}
+                  max={50}
+                  value={chatBubbleParams.arrowHeight}
+                  onChange={(value) => updateChatBubbleParam("arrowHeight", value)}
+                />
+              </div>
+
+              <div style={{ minWidth: "200px" }}>
+                <Text>填充颜色: {chatBubbleParams.fillColor}</Text>
+                <Space style={{ marginTop: "8px" }}>
+                  <Button style={{ backgroundColor: "#ccc", color: "#000" }} onClick={() => updateChatBubbleParam("fillColor", "#ccc")}>
+                    灰色
+                  </Button>
+                  <Button
+                    style={{ backgroundColor: "#f0f8ff", color: "#000" }}
+                    onClick={() => updateChatBubbleParam("fillColor", "#f0f8ff")}
+                  >
+                    蓝色
+                  </Button>
+                  <Button
+                    style={{ backgroundColor: "#fff8dc", color: "#000" }}
+                    onClick={() => updateChatBubbleParam("fillColor", "#fff8dc")}
+                  >
+                    米色
+                  </Button>
+                </Space>
+              </div>
+            </div>
+
+            <Space>
+              <Button type={chatBubbleParams.enableAnimation ? "primary" : "default"} onClick={toggleAnimation}>
+                {chatBubbleParams.enableAnimation ? "关闭动画" : "开启动画"}
+              </Button>
+              <Button
+                type={chatBubbleParams.showContent ? "primary" : "default"}
+                onClick={() => updateChatBubbleParam("showContent", !chatBubbleParams.showContent)}
+              >
+                {chatBubbleParams.showContent ? "隐藏内容" : "显示内容"}
+              </Button>
+            </Space>
+          </Space>
+        </Card>
+
         <Card title="直线命令演示">
           <Space direction="vertical" size="large" style={{ width: "100%" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
