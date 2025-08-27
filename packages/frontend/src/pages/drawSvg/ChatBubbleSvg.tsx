@@ -9,6 +9,8 @@ interface ChatBubbleSvgProps {
   borderRadius?: number;
   // 描边宽度
   strokeWidth?: number;
+  // 是否显示描边
+  showStroke?: boolean;
   // 底部箭头宽度
   arrowWidth?: number;
   // 底部箭头高度
@@ -37,6 +39,7 @@ const ChatBubbleSvg: React.FC<ChatBubbleSvgProps> = ({
   arrowWidth = 40,
   arrowHeight = 30,
   enableAnimation = false,
+  showStroke = true,
   gradientStartColor = "red",
   gradientEndColor = "blue",
   fillColor = "#ccc",
@@ -46,22 +49,27 @@ const ChatBubbleSvg: React.FC<ChatBubbleSvgProps> = ({
   const animRef = useRef<Animation>();
   const [pathLength, setPathLength] = useState(0);
 
-  // 如果有子内容，且没有指定宽度和高度，则使用内容容器的尺寸
+  // 用于测量内容尺寸的隐藏容器
   const contentContainerRef = useRef<HTMLDivElement>(null);
+  const [contentSize, setContentSize] = useState({ width: 0, height: 0 });
+
+  // 动态计算实际使用的宽高
+  const actualWidth = children ? contentSize.width + strokeWidth * 2 + 40 : width;
+  const actualHeight = children ? contentSize.height + strokeWidth * 2 + 40 : height;
 
   // 计算SVG视口尺寸，需要考虑描边宽度和箭头
-  const effectiveHeight = height + arrowHeight + strokeWidth * 2;
+  const effectiveHeight = actualHeight + arrowHeight + strokeWidth * 2;
 
   // 计算聊天框路径
   const generatePath = () => {
     // 调整内部边距，确保圆角效果正常显示
     const padding = strokeWidth / 2;
-    const innerWidth = svgWidth - padding * 2;
-    const innerHeight = height - padding * 2;
+    const innerWidth = actualWidth - padding * 2;
+    const innerHeight = actualHeight - padding * 2;
 
     // 箭头中心点
-    const arrowCenterX = svgWidth / 2;
-    const arrowTopY = height + padding;
+    const arrowCenterX = actualWidth / 2;
+    const arrowTopY = actualHeight + padding;
     const arrowBottomY = arrowTopY + arrowHeight;
 
     // 计算精确的起点坐标
@@ -108,7 +116,7 @@ const ChatBubbleSvg: React.FC<ChatBubbleSvgProps> = ({
       const length = ref.current.getTotalLength();
       setPathLength(length);
     }
-  }, [enableAnimation, svgWidth, height, borderRadius, arrowWidth, arrowHeight]);
+  }, [enableAnimation, actualWidth, actualHeight, borderRadius, arrowWidth, arrowHeight]);
 
   // 开始动画
   useEffect(() => {
@@ -132,6 +140,25 @@ const ChatBubbleSvg: React.FC<ChatBubbleSvgProps> = ({
     }
   }, [enableAnimation, pathLength]);
 
+  // 测量内容尺寸
+  useEffect(() => {
+    const measureContent = () => {
+      if (children && contentContainerRef.current) {
+        const { offsetWidth, offsetHeight } = contentContainerRef.current;
+        setContentSize({ width: offsetWidth, height: offsetHeight });
+      }
+    };
+
+    measureContent();
+
+    // 使用 ResizeObserver 监听内容变化
+    if (contentContainerRef.current && typeof ResizeObserver !== "undefined") {
+      const resizeObserver = new ResizeObserver(measureContent);
+      resizeObserver.observe(contentContainerRef.current);
+      return () => resizeObserver.disconnect();
+    }
+  }, [children]);
+
   return (
     <>
       {/* 用于测量内容尺寸的隐藏容器 */}
@@ -142,14 +169,16 @@ const ChatBubbleSvg: React.FC<ChatBubbleSvgProps> = ({
             position: "absolute",
             visibility: "hidden",
             pointerEvents: "none",
-            padding: "8px",
+            width: "auto",
+            height: "auto",
+            display: "inline-block",
           }}
         >
           {children}
         </div>
       )}
 
-      <svg width={svgWidth + strokeWidth * 2} height={effectiveHeight} xmlns="http://www.w3.org/2000/svg">
+      <svg width={actualWidth + strokeWidth * 2} height={effectiveHeight} xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="chatBubbleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor={gradientStartColor} />
@@ -160,7 +189,7 @@ const ChatBubbleSvg: React.FC<ChatBubbleSvgProps> = ({
         <path
           ref={ref}
           d={generatePath()}
-          stroke="url(#chatBubbleGradient)"
+          stroke={showStroke ? "url(#chatBubbleGradient)" : "none"}
           strokeWidth={strokeWidth}
           fill={fillColor}
           strokeLinecap="round"
@@ -170,7 +199,7 @@ const ChatBubbleSvg: React.FC<ChatBubbleSvgProps> = ({
 
         {/* 使用foreignObject来渲染React内容 */}
         {children && (
-          <foreignObject x={strokeWidth} y={strokeWidth} width={svgWidth - 2 * strokeWidth} height={height - 2 * strokeWidth}>
+          <foreignObject x={strokeWidth} y={strokeWidth} width={actualWidth - 2 * strokeWidth} height={actualHeight - 2 * strokeWidth}>
             <div
               style={{
                 width: "100%",

@@ -46,6 +46,7 @@ const DrawSvgDemo = () => {
     enableAnimation: false,
     fillColor: "#ccc",
     showContent: true,
+    showStroke: true,
   });
 
   // 更新聊天框参数
@@ -165,13 +166,25 @@ const DrawSvgDemo = () => {
                 arrowHeight={chatBubbleParams.arrowHeight}
                 enableAnimation={chatBubbleParams.enableAnimation}
                 fillColor={chatBubbleParams.fillColor || "#ccc"}
+                showStroke={chatBubbleParams.showStroke}
               ></ChatBubbleSvg>
             </div>
             <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-              <ChatBubbleSvg width={300} height={200} borderRadius={10} strokeWidth={2} arrowWidth={10} arrowHeight={5} fillColor={"#ccc"}>
-                <div style={{ textAlign: "center" }}>
+              <ChatBubbleSvg
+                width={300}
+                height={200}
+                borderRadius={10}
+                strokeWidth={2}
+                showStroke={false}
+                arrowWidth={10}
+                arrowHeight={5}
+                fillColor={"#ccc"}
+              >
+                <div style={{ textAlign: "center", width: 500, height: 300 }}>
                   <Text strong>示例内容</Text>
-                  <p style={{ margin: "4px 0 0 0", whiteSpace: "nowrap" }}>这是一个聊天框内容示例</p>
+                  <p style={{ margin: "4px 0 0 0", whiteSpace: "nowrap" }}>
+                    这是一个聊天框内容示例,这是一个聊天框内容示例,这是一个聊天框内容示例这是一个聊天框内容示例
+                  </p>
                 </div>
               </ChatBubbleSvg>
             </div>
@@ -262,6 +275,12 @@ const DrawSvgDemo = () => {
                 onClick={() => updateChatBubbleParam("showContent", !chatBubbleParams.showContent)}
               >
                 {chatBubbleParams.showContent ? "隐藏内容" : "显示内容"}
+              </Button>
+              <Button
+                type={chatBubbleParams.showStroke ? "primary" : "default"}
+                onClick={() => updateChatBubbleParam("showStroke", !chatBubbleParams.showStroke)}
+              >
+                {chatBubbleParams.showStroke ? "关闭描边" : "开启描边"}
               </Button>
             </Space>
           </Space>
