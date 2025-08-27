@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Typography, Card, Alert, Space, Button, Slider } from "antd";
+import { Typography, Card, Alert, Space, Button, Slider, Input } from "antd";
 import ModalButton from "./modalButton";
 import ChatBubbleSvg from "./ChatBubbleSvg";
 const { Title, Paragraph, Text } = Typography;
@@ -229,23 +229,27 @@ const DrawSvgDemo = () => {
 
               <div style={{ minWidth: "200px" }}>
                 <Text>填充颜色: {chatBubbleParams.fillColor}</Text>
-                <Space style={{ marginTop: "8px" }}>
-                  <Button style={{ backgroundColor: "#ccc", color: "#000" }} onClick={() => updateChatBubbleParam("fillColor", "#ccc")}>
-                    灰色
-                  </Button>
-                  <Button
-                    style={{ backgroundColor: "#f0f8ff", color: "#000" }}
-                    onClick={() => updateChatBubbleParam("fillColor", "#f0f8ff")}
-                  >
-                    蓝色
-                  </Button>
-                  <Button
-                    style={{ backgroundColor: "#fff8dc", color: "#000" }}
-                    onClick={() => updateChatBubbleParam("fillColor", "#fff8dc")}
-                  >
-                    米色
-                  </Button>
-                </Space>
+                <div style={{ marginTop: "8px" }}>
+                  <input
+                    type="color"
+                    value={chatBubbleParams.fillColor}
+                    onChange={(e) => updateChatBubbleParam("fillColor", e.target.value)}
+                    style={{
+                      width: "40px",
+                      height: "30px",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      backgroundColor: "transparent",
+                    }}
+                  />
+                  <Input
+                    value={chatBubbleParams.fillColor}
+                    onChange={(e) => updateChatBubbleParam("fillColor", e.target.value)}
+                    style={{ width: "100px", marginLeft: "8px" }}
+                    placeholder="#cccccc"
+                  />
+                </div>
               </div>
             </div>
 

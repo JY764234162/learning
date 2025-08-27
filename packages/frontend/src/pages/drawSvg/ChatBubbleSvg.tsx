@@ -48,12 +48,9 @@ const ChatBubbleSvg: React.FC<ChatBubbleSvgProps> = ({
 
   // 如果有子内容，且没有指定宽度和高度，则使用内容容器的尺寸
   const contentContainerRef = useRef<HTMLDivElement>(null);
-  const [contentSize, setContentSize] = useState({ width: 0, height: 0 });
 
   // 计算SVG视口尺寸，需要考虑描边宽度和箭头
-  const effectiveWidth = width + strokeWidth * 2;
   const effectiveHeight = height + arrowHeight + strokeWidth * 2;
-  const centerX = effectiveWidth / 2;
 
   // 计算聊天框路径
   const generatePath = () => {
@@ -95,9 +92,8 @@ const ChatBubbleSvg: React.FC<ChatBubbleSvgProps> = ({
   // 用于测量内容尺寸的效果
   useEffect(() => {
     if (children && contentContainerRef.current) {
-      const { offsetWidth, offsetHeight } = contentContainerRef.current;
-      setContentSize({ width: offsetWidth, height: offsetHeight });
-      
+      const { offsetWidth } = contentContainerRef.current;
+
       // 根据内容宽度重新计算SVG宽度
       const newSvgWidth = Math.max(width, offsetWidth + strokeWidth * 2 + 40);
       setSvgWidth(newSvgWidth);
