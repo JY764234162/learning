@@ -1,17 +1,15 @@
 import path from "path";
-import { defineConfig, PreviewOptions } from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import Inspect from "vite-plugin-inspect";
 import dynamicImport from "vite-plugin-dynamic-import";
+import tailwindcss from '@tailwindcss/vite'
+
+
 import vitePluginResourceClassification from "./custom-vite-plugins/vite-plugin-resource-classification";
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    Inspect(),
-    dynamicImport(),
-    vitePluginResourceClassification(),
-  ],
+  plugins: [react(), Inspect(), dynamicImport(), vitePluginResourceClassification(), tailwindcss()],
 
   resolve: {
     alias: {
@@ -42,6 +40,7 @@ export default defineConfig({
     //cssnano
     cssMinify: true,
     terserOptions: {
+      //@ts-ignore
       compress: {
         drop_console: true,
         drop_debugger: true,
