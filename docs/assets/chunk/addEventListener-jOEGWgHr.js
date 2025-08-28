@@ -1,1 +1,0 @@
-import{by as r}from"../../main-XQ0DTgpi.js";function u(e,n,d,i){var o=r.unstable_batchedUpdates?function(v){r.unstable_batchedUpdates(d,v)}:d;return e!=null&&e.addEventListener&&e.addEventListener(n,o,i),{remove:function(){e!=null&&e.removeEventListener&&e.removeEventListener(n,o,i)}}}export{u as a};
