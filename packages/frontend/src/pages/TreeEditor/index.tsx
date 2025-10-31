@@ -1,8 +1,16 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { Tree, Card, Button, Input, Form, Modal, Space, message, Spin } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined, FolderOutlined, FileOutlined } from "@ant-design/icons";
 import type { DataNode, TreeProps } from "antd/es/tree";
-import { addNodeToTree, findNodeByKey, getNodeChildren, removeNodeFromTree, updateNodeInTree, updateParentHasChildren, updateTreeData } from "./utils";
+import {
+  addNodeToTree,
+  findNodeByKey,
+  getNodeChildren,
+  removeNodeFromTree,
+  updateNodeInTree,
+  updateParentHasChildren,
+  updateTreeData,
+} from "./utils";
 
 interface TreeNodeData {
   id: string;
@@ -12,10 +20,6 @@ interface TreeNodeData {
   isLeaf: boolean;
   hasChildren: boolean;
   children?: TreeNodeData[];
-}
-
-interface NodeFormData {
-  title: string;
 }
 
 // 模拟异步API请求
@@ -84,11 +88,18 @@ const mockApi = {
 
 const TreeEditor: React.FC = () => {
   const [treeData, setTreeData] = useState<TreeNodeData[]>([]);
-  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState<"add" | "edit">("add");
   const [currentNode, setCurrentNode] = useState<TreeNodeData | null>(null);
   const [form] = Form.useForm();
+  console.log("渲染了");
+
+  const a = useMemo(() => {
+    console.log("在计算a");
+    return "a";
+  }, []);
+
+  
 
   // 加载根节点数据
   useEffect(() => {
@@ -113,20 +124,6 @@ const TreeEditor: React.FC = () => {
       }
     } catch (error) {
       message.error("加载数据失败");
-    }
-  };
-
-  // 展开节点时加载子节点数据
-  const onExpand: TreeProps["onExpand"] = (keys, { node, expanded }) => {
-    setExpandedKeys(keys);
-
-    // 只有当节点展开、有子节点且子节点数据未加载时才加载数据
-    if (expanded && !node.children) {
-      // 通过key查找原始节点数据来判断是否有子节点
-      const originalNode = findNodeByKey(treeData, node.key as string);
-      if (originalNode && originalNode.hasChildren) {
-        loadNodeData(node.key as string);
-      }
     }
   };
 
@@ -178,10 +175,10 @@ const TreeEditor: React.FC = () => {
         return updateParentHasChildren(updatedData, currentNode.key as string, true);
       });
 
-      // 展开父节点
-      if (!expandedKeys.includes(currentNode.key)) {
-        setExpandedKeys([...expandedKeys, currentNode.key]);
-      }
+      // // 展开父节点
+      // if (!expandedKeys.includes(currentNode.key)) {
+      //   setExpandedKeys([...expandedKeys, currentNode.key]);
+      // }
 
       message.success("新增节点成功");
     } catch (error) {
@@ -289,8 +286,6 @@ const TreeEditor: React.FC = () => {
       <Card title="树编辑器" style={{ maxWidth: 800, margin: "0 auto" }}>
         <Tree
           treeData={convertToTreeData(treeData)}
-          expandedKeys={expandedKeys}
-          onExpand={onExpand}
           loadData={async (node) => {
             // 只有当节点有子节点且子节点数据未加载时才加载数据
             // 注意：这里的node是Ant Design的DataNode类型，需要通过key查找原始数据
