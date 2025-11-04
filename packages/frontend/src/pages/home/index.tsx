@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { SwitchThemeButton } from "@/components/SwitchThemeButton";
 
 const Home: React.FC = () => {
   const [routes, setRoutes] = useState<string[]>([]);
@@ -22,9 +23,8 @@ const Home: React.FC = () => {
 
   return (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
-        项目路由导航
-      </h1>
+      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>项目路由导航</h1>
+      <SwitchThemeButton />
       <div
         style={{
           display: "grid",

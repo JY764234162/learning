@@ -7,17 +7,13 @@
     ]
   },
   "scripts": {
-    "dev:web": "yarn workspace frontend dev",
-    "dev:web:prod": "yarn workspace frontend dev:prod",
-    "dev:web:preview": "yarn workspace frontend preview",
-    "build:web": "yarn workspace frontend build",
-    "format:web": "yarn workspace frontend format",
-    "dev:express": "yarn workspace backend dev",
-    "format": "prettier -c --write '**/*.{js,jsx,ts,tsx}' --cache"
+    "dev": "yarn workspace frontend dev",
+    "dev:preview": "yarn workspace frontend preview",
+    "build": "yarn workspace frontend build",
+    "format": "yarn workspace frontend format"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.5",
     "lerna": "^8.2.3"
   }
-
 }

@@ -1,0 +1,31 @@
+/* View Transition 样式重置 */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* 确保过渡层正确堆叠 */
+::view-transition-old(root) {
+  z-index: 9999;
+  background: #ffffff;
+}
+::view-transition-new(root) {
+  z-index: 1;
+  background: #ffffff;
+}
+
+/* 确保过渡层正确堆叠 */
+.dark::view-transition-old(root) {
+  z-index: 1;
+  background: #242424;
+}
+.dark::view-transition-new(root) {
+  z-index: 9999;
+  background: #242424;
+}
