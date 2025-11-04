@@ -37,6 +37,7 @@ export function SwitchThemeButton() {
         {
           duration: 400,
           easing: "ease-in-out",
+          fill: "both",
           pseudoElement: newDarkMode ? "::view-transition-old(root)" : "::view-transition-new(root)",
         }
       );
