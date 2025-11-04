@@ -23,8 +23,10 @@ const Home: React.FC = () => {
 
   return (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>项目路由导航</h1>
-      <SwitchThemeButton />
+      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
+        项目路由导航
+        <SwitchThemeButton />
+      </h1>
       <div
         style={{
           display: "grid",

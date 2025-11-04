@@ -14,10 +14,10 @@ export function SwitchThemeButton() {
 
     // 先更新状态，然后在transition中应用
     const newDarkMode = !darkMode;
-    
+
     const transition = document.startViewTransition(() => {
       const htmlElementClassList = document.documentElement.classList;
-      
+
       if (newDarkMode) {
         htmlElementClassList.add("dark");
       } else {
@@ -29,15 +29,15 @@ export function SwitchThemeButton() {
     transition.ready.then(() => {
       // 创建圆形展开动画：从点击位置开始，向外扩散
       const clipPath = [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`];
-      
+
       document.documentElement.animate(
         {
-          clipPath: newDarkMode ? clipPath : [...clipPath].reverse(),
+          clipPath: newDarkMode ? [...clipPath].reverse() : clipPath,
         },
         {
           duration: 400,
-          easing: 'ease-in-out',
-          pseudoElement: newDarkMode ? "::view-transition-new(root)" : "::view-transition-old(root)",
+          easing: "ease-in-out",
+          pseudoElement: newDarkMode ? "::view-transition-old(root)" : "::view-transition-new(root)",
         }
       );
     });
