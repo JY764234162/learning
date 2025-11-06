@@ -3,8 +3,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import Inspect from "vite-plugin-inspect";
 import dynamicImport from "vite-plugin-dynamic-import";
-import tailwindcss from '@tailwindcss/vite'
-
+import tailwindcss from "@tailwindcss/vite";
 
 import vitePluginResourceClassification from "./custom-vite-plugins/vite-plugin-resource-classification";
 // https://vitejs.dev/config/
@@ -25,7 +24,7 @@ export default defineConfig({
       port: 3000,
     },
   },
-  base: "./",
+  base: "/learning/",
   assetsInclude: ["**/*.gltf"],
 
   build: {
