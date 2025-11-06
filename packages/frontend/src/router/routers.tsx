@@ -1,4 +1,12 @@
-import { useRoutes, Navigate } from "react-router-dom";
+import {
+  useRoutes,
+  Navigate,
+  createBrowserRouter,
+  RouteObject,
+  createHashRouter,
+  createMemoryRouter,
+  BlockerFunction,
+} from "react-router-dom";
 import React, { lazy, Suspense } from "react";
 import Loading from "../components/Loading";
 import PageLayout from "../components/PageLayout";
@@ -7,7 +15,7 @@ import PageLayout from "../components/PageLayout";
 const modules = import.meta.glob("../pages/*/index.tsx");
 
 // 2. 创建路由配置
-const routes = Object.entries(modules).map(([path, module]) => {
+const routes: RouteObject[] = Object.entries(modules).map(([path, module]) => {
   const pathList = path.split("/");
   const name = pathList[pathList.length - 2];
   const routePath = name === "home" ? "/" : name;
@@ -18,11 +26,7 @@ const routes = Object.entries(modules).map(([path, module]) => {
   if (name === "home") {
     return {
       path: routePath,
-      element: (
-        <Suspense fallback={<Loading />}>
-          <Component />
-        </Suspense>
-      ),
+      element: <Component />,
     };
   }
 
@@ -30,11 +34,9 @@ const routes = Object.entries(modules).map(([path, module]) => {
   return {
     path: routePath,
     element: (
-      <Suspense fallback={<Loading />}>
-        <PageLayout>
-          <Component />
-        </PageLayout>
-      </Suspense>
+      <PageLayout>
+        <Component />
+      </PageLayout>
     ),
   };
 });
@@ -43,7 +45,7 @@ const routes = Object.entries(modules).map(([path, module]) => {
 if (!Object.keys(modules).some((path) => path.includes("/home/index.tsx"))) {
   routes.push({
     path: "/",
-    element: <Navigate to={routes[0].path} />,
+    element: <Navigate to={routes[0]?.path || "/"} />,
   });
 }
 
@@ -52,9 +54,47 @@ routes.push({
   element: <Navigate to="/" replace />,
 });
 
-const Routes = () => {
-  const routers = useRoutes(routes);
-  return routers;
+const historyCreatorMap = {
+  hash: createHashRouter,
+  history: createBrowserRouter,
+  memory: createMemoryRouter,
 };
 
-export default Routes;
+type HistoryCreator = typeof historyCreatorMap;
+export type Options = Parameters<HistoryCreator[Mode]>[1];
+
+export type Mode = keyof HistoryCreator;
+export interface RouterOptions {
+  initRoutes: RouteObject[];
+  mode?: Mode;
+  opt?: Options;
+}
+const createRouter = ({ initRoutes, mode = "history", opt }: RouterOptions) => {
+  const onBeforeRouteChange: BlockerFunction = ({ currentLocation, nextLocation, historyAction }) => {
+    console.log("onBeforeRouteChange");
+    window.NProgress?.start?.();
+
+    return false;
+  };
+  const afterRouteChange = (state: any) => {
+    console.log("afterRouteChange");
+    if (state.navigation.state === "idle") {
+      document.title = "React-Soybean";
+      window.NProgress?.done?.();
+    }
+  };
+  const reactRouter = historyCreatorMap[mode](initRoutes, opt);
+
+  //清除之前的实例
+  reactRouter.dispose();
+  //前置守卫
+  reactRouter.getBlocker("beforeGuard", onBeforeRouteChange);
+  //绑定后置路由守卫事件
+  reactRouter.subscribe(afterRouteChange);
+
+  return reactRouter;
+};
+console.log(routes);
+export const router = createRouter({
+  initRoutes: routes,
+});

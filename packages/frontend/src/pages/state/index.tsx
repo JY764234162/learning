@@ -2,20 +2,10 @@ import React from "react";
 import { useAtom } from "jotai";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Card, Alert, Space, Button, Divider } from "antd";
-import {
-  countAtom,
-  fetchDataAtom,
-  asyncDataAtom,
-} from "@/pages/state/state/jotai";
-import {
-  incremented,
-  decremented,
-  fetchRandomData,
-  reset,
-  RootState,
-  AppDispatch,
-} from "@/pages/state/state/redux";
+import { countAtom, fetchDataAtom, asyncDataAtom } from "@/pages/state/state/jotai";
+import { incremented, decremented, fetchRandomData, reset, RootState, AppDispatch } from "@/pages/state/state/redux";
 import { useCountStore } from "@/pages/state/state/zustand";
+
 import "./style.css";
 import { RecoilRoot } from "recoil";
 import { Provider } from "react-redux";
@@ -40,7 +30,6 @@ const StateManagement = () => {
     reset: zustandReset,
     error: zustandError,
   } = useCountStore();
-
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
       <Title level={2}>状态管理演示</Title>
@@ -62,12 +51,8 @@ const StateManagement = () => {
                 <Text>{jotaiCount}</Text>
               </Paragraph>
               <Space>
-                <Button onClick={() => setJotaiCount((c) => c + 1)}>
-                  增加
-                </Button>
-                <Button onClick={() => setJotaiCount((c) => c - 1)}>
-                  减少
-                </Button>
+                <Button onClick={() => setJotaiCount((c) => c + 1)}>增加</Button>
+                <Button onClick={() => setJotaiCount((c) => c - 1)}>减少</Button>
                 <Button onClick={() => setJotaiCount(0)}>重置</Button>
               </Space>
             </div>
@@ -77,22 +62,10 @@ const StateManagement = () => {
             <div className="state-card">
               <Paragraph>
                 <Text strong>异步数据: </Text>
-                <Text>
-                  {jotaiAsyncState.loading
-                    ? "加载中..."
-                    : jotaiAsyncState.data || "无数据"}
-                </Text>
+                <Text>{jotaiAsyncState.loading ? "加载中..." : jotaiAsyncState.data || "无数据"}</Text>
               </Paragraph>
-              {jotaiAsyncState.error && (
-                <Paragraph className="error-message">
-                  {jotaiAsyncState.error}
-                </Paragraph>
-              )}
-              <Button
-                onClick={() => setJotaiAsyncState()}
-                disabled={jotaiAsyncState.loading}
-                type="primary"
-              >
+              {jotaiAsyncState.error && <Paragraph className="error-message">{jotaiAsyncState.error}</Paragraph>}
+              <Button onClick={() => setJotaiAsyncState()} disabled={jotaiAsyncState.loading} type="primary">
                 获取异步数据
               </Button>
             </div>
@@ -118,24 +91,10 @@ const StateManagement = () => {
             <div className="state-card">
               <Paragraph>
                 <Text strong>异步数据: </Text>
-                <Text>
-                  {reduxState.loading
-                    ? "加载中..."
-                    : reduxState.asyncData !== null
-                      ? `${reduxState.asyncData}`
-                      : "无数据"}
-                </Text>
+                <Text>{reduxState.loading ? "加载中..." : reduxState.asyncData !== null ? `${reduxState.asyncData}` : "无数据"}</Text>
               </Paragraph>
-              {reduxState.error && (
-                <Paragraph className="error-message">
-                  {reduxState.error}
-                </Paragraph>
-              )}
-              <Button
-                onClick={() => dispatch(fetchRandomData())}
-                disabled={reduxState.loading}
-                type="primary"
-              >
+              {reduxState.error && <Paragraph className="error-message">{reduxState.error}</Paragraph>}
+              <Button onClick={() => dispatch(fetchRandomData())} disabled={reduxState.loading} type="primary">
                 获取异步数据
               </Button>
             </div>
@@ -148,15 +107,9 @@ const StateManagement = () => {
               <Text strong>当前数值: </Text>
               <Text>{zustandCount.toFixed(2)}</Text>
             </Paragraph>
-            {zustandError && (
-              <Paragraph className="error-message">{zustandError}</Paragraph>
-            )}
+            {zustandError && <Paragraph className="error-message">{zustandError}</Paragraph>}
             <Space>
-              <Button
-                onClick={zustandIncrement}
-                disabled={zustandLoading}
-                type="primary"
-              >
+              <Button onClick={zustandIncrement} disabled={zustandLoading} type="primary">
                 {zustandLoading ? "加载中..." : "生成随机数"}
               </Button>
               <Button onClick={zustandReset}>重置</Button>
@@ -189,6 +142,7 @@ const StateManagement = () => {
 };
 
 const App = () => {
+  a();
   return (
     <Provider store={store}>
       <RecoilRoot>
@@ -199,3 +153,9 @@ const App = () => {
 };
 
 export default App;
+
+const a = () => {
+  // Zustand
+  const { error: zustandError } = useCountStore();
+  console.log(zustandError);
+};

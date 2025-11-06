@@ -1,14 +1,12 @@
-import { HashRouter } from "react-router-dom";
-import Routes from "./routers";
-import { Suspense } from "react";
+import { HashRouter, RouterProvider } from "react-router-dom";
+import { router } from "./routers";
 import Loading from "../components/Loading";
+import { Suspense } from "react";
 
 export default function Router() {
   return (
-    <HashRouter>
-      <Suspense fallback={<Loading />}>
-        <Routes />
-      </Suspense>
-    </HashRouter>
+    <Suspense fallback={<Loading></Loading>}>
+      <RouterProvider router={router} fallbackElement={<Loading />} />;
+    </Suspense>
   );
 }
