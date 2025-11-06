@@ -7,8 +7,7 @@ import {
   createMemoryRouter,
   BlockerFunction,
 } from "react-router-dom";
-import React, { lazy, Suspense } from "react";
-import Loading from "../components/Loading";
+import { lazy } from "react";
 import PageLayout from "../components/PageLayout";
 
 // 1. 预先导入所有页面模块

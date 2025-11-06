@@ -220,6 +220,9 @@ importers:
       '@types/node':
         specifier: ^22.7.5
         version: 22.16.5
+      '@types/nprogress':
+        specifier: 0.2.3
+        version: 0.2.3
       '@types/opencc-js':
         specifier: ^1.0.3
         version: 1.0.3
@@ -2802,6 +2805,9 @@ packages:
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
+
+  '@types/nprogress@0.2.3':
+    resolution: {integrity: sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==}
 
   '@types/offscreencanvas@2019.7.3':
     resolution: {integrity: sha512-ieXiYmgSRXUDeOntE1InxjWyvEelZGP63M+cGuquuRLuIKKT1osnkXjxev9B7d1nXSug5vpunx+gNlbVxMlC9A==}
@@ -11338,6 +11344,8 @@ snapshots:
       undici-types: 6.21.0
 
   '@types/normalize-package-data@2.4.4': {}
+
+  '@types/nprogress@0.2.3': {}
 
   '@types/offscreencanvas@2019.7.3': {}
 

@@ -61,7 +61,6 @@ button:focus-visible {
   background-color: #ffffff;
 }
 
-
 /* 手动切换主题的样式类 */
 .dark {
   color: rgba(255, 255, 255, 0.87);

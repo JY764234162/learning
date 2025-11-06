@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
-import "./index.css";
+import "@/styles/index.css";
 import { setupConsole } from "./plugins/setupConsole";
 import { setupHotModule } from "./plugins/setupHotModule";
 import { setupLoading } from "./plugins/setupLoading";
