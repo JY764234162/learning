@@ -6,6 +6,7 @@ import { setupHotModule } from "./plugins/setupHotModule";
 import { setupLoading } from "./plugins/setupLoading";
 import { setupNProgress } from "./plugins/setupNprogress";
 import { setupRouter } from "./plugins/setupRouter";
+import { setupDayjs } from "./plugins/setDayjs";
 
 function setupApp() {
   //初始状态loading
@@ -18,7 +19,10 @@ function setupApp() {
   setupHotModule();
   //打印
   setupConsole();
+  //设置国际化
+  setupDayjs();
 
+  
   const container = document.getElementById("root");
   if (!container) return;
   createRoot(container).render(<App />);
