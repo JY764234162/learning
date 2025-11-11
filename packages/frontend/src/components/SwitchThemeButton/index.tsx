@@ -14,7 +14,6 @@ export function SwitchThemeButton() {
 
     // 先更新状态，然后在transition中应用
     const newDarkMode = !isDarkMode;
-    toggleThemeMode();
 
     const transition = document.startViewTransition(() => {
       const htmlElementClassList = document.documentElement.classList;
@@ -23,6 +22,7 @@ export function SwitchThemeButton() {
       } else {
         htmlElementClassList.remove("dark");
       }
+      toggleThemeMode();
     });
 
     transition.ready.then(() => {
