@@ -7,11 +7,12 @@
     ]
   },
   "scripts": {
-    "dev": "yarn workspace frontend dev",
-    "preview": "yarn workspace frontend preview",
-    "build": "yarn workspace frontend build",
-    "format": "yarn workspace frontend format"
+    "dev": "pnpm -F frontend run dev",
+    "preview": "pnpm -F frontend run preview",
+    "build": "pnpm -F frontend run build",
+    "format": "pnpm -F frontend run format"
   },
+  "packageManager": "pnpm@9.15.3",
   "devDependencies": {
     "@changesets/cli": "^2.29.5",
     "lerna": "^8.2.3"
