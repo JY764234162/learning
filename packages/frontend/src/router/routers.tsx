@@ -6,10 +6,11 @@ import {
   createHashRouter,
   createMemoryRouter,
   BlockerFunction,
+  redirect,
 } from "react-router-dom";
 import { lazy } from "react";
 import PageLayout from "../components/PageLayout";
-
+import First from "@/pages/layout/first";
 // 1. 预先导入所有页面模块
 const modules = import.meta.glob("../pages/*/index.tsx");
 
@@ -26,6 +27,24 @@ const routes: RouteObject[] = Object.entries(modules).map(([path, module]) => {
     return {
       path: routePath,
       element: <Component />,
+    };
+  } else if (name === "layout") {
+    return {
+      path: routePath,
+      element: <Component />,
+      children: [
+        { index: true, loader: () => redirect("first") },
+        {
+          path: "first",
+          children: [
+            { index: true, loader: () => redirect("second") },
+            {
+              path: "second",
+              element: <First></First>,
+            },
+          ],
+        },
+      ],
     };
   }
 

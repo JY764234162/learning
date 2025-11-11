@@ -5,8 +5,8 @@ import { Suspense } from "react";
 
 export default function Router() {
   return (
-    <Suspense fallback={<Loading></Loading>}>
-      <RouterProvider router={router} fallbackElement={<Loading />} />;
+    <Suspense fallback={<Loading />}>
+      <RouterProvider router={router} fallbackElement={<Loading />} />
     </Suspense>
   );
 }

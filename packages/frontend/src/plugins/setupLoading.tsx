@@ -1,4 +1,3 @@
-
 export function setupLoading() {
   const loading = `
 <div class="fixed-center flex-col" >
