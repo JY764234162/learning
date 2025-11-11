@@ -24,7 +24,10 @@ const Home: React.FC = () => {
 
   return (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "30px", color: isDarkMode ? "#fff" : undefined }}>
+      <h1
+        className="flex justify-center items-center gap-4"
+        style={{ textAlign: "center", marginBottom: "30px", color: isDarkMode ? "#fff" : undefined }}
+      >
         项目路由导航
         <SwitchThemeButton />
       </h1>
