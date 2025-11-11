@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "yarn workspace frontend dev",
-    "dev:preview": "yarn workspace frontend preview",
+    "preview": "yarn workspace frontend preview",
     "build": "yarn workspace frontend build",
     "format": "yarn workspace frontend format"
   },
