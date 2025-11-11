@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { SwitchThemeButton } from "@/components/SwitchThemeButton";
+import { ThemeContext } from "@/context/ThemeContext";
 
 const Home: React.FC = () => {
   const [routes, setRoutes] = useState<string[]>([]);
-
+  const { isDarkMode } = useContext(ThemeContext);
   useEffect(() => {
     // 使用相同的模块加载方式
     const modules = import.meta.glob("../*/index.tsx");
@@ -23,7 +24,7 @@ const Home: React.FC = () => {
 
   return (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
+      <h1 style={{ textAlign: "center", marginBottom: "30px", color: isDarkMode ? "#fff" : undefined }}>
         项目路由导航
         <SwitchThemeButton />
       </h1>
