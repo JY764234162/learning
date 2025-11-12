@@ -49,7 +49,6 @@ export function setUpAppUpdateNotification() {
         duration: 10,
       });
     } catch {
-    } finally {
       isShow = false;
     }
   });
