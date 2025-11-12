@@ -4,7 +4,7 @@ import { createElement } from "react";
 export function setUpAppUpdateNotification() {
   let isShow = false;
 
-  document.addEventListener("visibilitychange", async () => {
+  const handleNotification = async () => {
     //未弹窗、切换到tab可视窗口、生产环境才触发
     const preConditions = [!isShow, document.visibilityState === "visible", !import.meta.env.DEV];
     if (!preConditions.every(Boolean)) return;
@@ -54,7 +54,11 @@ export function setUpAppUpdateNotification() {
     } catch {
       isShow = false;
     }
-  });
+  };
+  //绑定动态加载错误时弹窗提示版本更新
+  window.addEventListener("vite:preloadError", handleNotification);
+  //绑定窗口切换到当前页面时提示版本更新
+  document.addEventListener("visibilitychange", handleNotification);
 }
 
 async function getHtmlBuildTime() {
