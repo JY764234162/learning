@@ -11,7 +11,7 @@ export function setUpAppUpdateNotification() {
     if (!preConditions.every(Boolean)) return;
 
     const buildTime = await getHtmlBuildTime();
-
+    console.log(buildTime, BUILD_TIME);
     if (buildTime === BUILD_TIME) return;
 
     isShow = true;
