@@ -112,6 +112,7 @@ const createRouter = ({ initRoutes, mode = "history", opt }: RouterOptions) => {
 
   return reactRouter;
 };
+console.log(routes);
 export const router = createRouter({
   initRoutes: routes,
   opt: { basename: import.meta.env.VITE_BASENAME },
