@@ -2,15 +2,11 @@ import { Button } from "antd";
 import { createElement } from "react";
 
 export function setUpAppUpdateNotification() {
-  const canAutoUpdateApp = import.meta.env.VITE_AUTOMATICALLY_DETECT_UPDATE === "Y";
-
-  if (!canAutoUpdateApp) return;
-
   let isShow = false;
 
   document.addEventListener("visibilitychange", async () => {
     //看不见、可视窗口、不是dev环境
-    const preConditions = [!isShow, document.visibilityState === 'visible', !import.meta.env.DEV];
+    const preConditions = [!isShow, document.visibilityState === "visible", !import.meta.env.DEV];
 
     if (!preConditions.every(Boolean)) return;
 
@@ -55,8 +51,6 @@ export function setUpAppUpdateNotification() {
     });
   });
 }
-
-
 
 async function getHtmlBuildTime() {
   const res = await fetch(`/index.html?time=${Date.now()}`, {
