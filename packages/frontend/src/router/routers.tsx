@@ -3,7 +3,7 @@ import { lazy } from "react";
 import PageLayout from "../components/PageLayout";
 import First from "@/pages/layout/first";
 import NotFound from "@/components/NotFound";
-import ErrorElement from "@/components/ErrorElement";
+import ErrorElement from "./ErrorElement";
 // 1. 预先导入所有页面模块
 const modules = import.meta.glob("../pages/*/index.tsx");
 
