@@ -18,38 +18,15 @@ export function setUpAppUpdateNotification() {
         return;
       }
 
-      window.$notification?.open({
-        btn: (() => {
-          return createElement("div", { style: { display: "flex", gap: "12px", justifyContent: "end", width: "325px" } }, [
-            createElement(
-              Button,
-              {
-                key: "cancel",
-                onClick() {
-                  window.$notification?.destroy();
-                },
-              },
-              "取消"
-            ),
-            createElement(
-              Button,
-              {
-                key: "ok",
-                onClick() {
-                  location.reload();
-                },
-                type: "primary",
-              },
-              "确认"
-            ),
-          ]);
-        })(),
-        description: "版本更新，是否刷新页面?",
-        message: "系统版本更新通知",
-        onClose() {
+      window.$modal?.warning({
+        content: "版本已更新，请刷新页面",
+        title: "系统版本更新通知",
+        onOk() {
+          location.reload();
+        },
+        onCancel() {
           isShow = false;
         },
-        duration: 10,
       });
     } catch {
       isShow = false;
