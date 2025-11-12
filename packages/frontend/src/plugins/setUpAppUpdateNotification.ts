@@ -13,7 +13,10 @@ export function setUpAppUpdateNotification() {
     try {
       const buildTime = await getHtmlBuildTime();
       console.log(buildTime, BUILD_TIME);
-      if (buildTime === BUILD_TIME) return;
+      if (buildTime === BUILD_TIME) {
+        isShow = false;
+        return;
+      }
 
       window.$notification?.open({
         btn: (() => {
