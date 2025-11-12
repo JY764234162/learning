@@ -10,7 +10,6 @@ const NotFound = () => {
 
   return (
     <div
-      id="error-page"
       style={{
         width: "100%",
         height: "100%",
