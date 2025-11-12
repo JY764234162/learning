@@ -115,5 +115,5 @@ const createRouter = ({ initRoutes, mode = "history", opt }: RouterOptions) => {
 console.log(routes);
 export const router = createRouter({
   initRoutes: routes,
-  opt: { basename: "/learning/" },
+  opt: { basename: import.meta.env.VITE_BASENAME },
 });
