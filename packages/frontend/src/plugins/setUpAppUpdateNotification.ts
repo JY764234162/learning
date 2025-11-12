@@ -5,50 +5,53 @@ export function setUpAppUpdateNotification() {
   let isShow = false;
 
   document.addEventListener("visibilitychange", async () => {
-    //看不见、可视窗口、不是dev环境
+    //未弹窗、切换到tab可视窗口、不是dev环境时才触发
     const preConditions = [!isShow, document.visibilityState === "visible", !import.meta.env.DEV];
-
     if (!preConditions.every(Boolean)) return;
 
-    const buildTime = await getHtmlBuildTime();
-    console.log(buildTime, BUILD_TIME);
-    if (buildTime === BUILD_TIME) return;
-
     isShow = true;
+    try {
+      const buildTime = await getHtmlBuildTime();
+      console.log(buildTime, BUILD_TIME);
+      if (buildTime === BUILD_TIME) return;
 
-    window.$notification?.open({
-      btn: (() => {
-        return createElement("div", { style: { display: "flex", gap: "12px", justifyContent: "end", width: "325px" } }, [
-          createElement(
-            Button,
-
-            {
-              key: "cancel",
-              onClick() {
-                window.$notification?.destroy();
+      window.$notification?.open({
+        btn: (() => {
+          return createElement("div", { style: { display: "flex", gap: "12px", justifyContent: "end", width: "325px" } }, [
+            createElement(
+              Button,
+              {
+                key: "cancel",
+                onClick() {
+                  window.$notification?.destroy();
+                },
               },
-            },
-            "取消"
-          ),
-          createElement(
-            Button,
-            {
-              key: "ok",
-              onClick() {
-                location.reload();
+              "取消"
+            ),
+            createElement(
+              Button,
+              {
+                key: "ok",
+                onClick() {
+                  location.reload();
+                },
+                type: "primary",
               },
-              type: "primary",
-            },
-            "确认"
-          ),
-        ]);
-      })(),
-      description: "版本更新，是否刷新页面?",
-      message: "系统版本更新通知",
-      onClose() {
-        isShow = false;
-      },
-    });
+              "确认"
+            ),
+          ]);
+        })(),
+        description: "版本更新，是否刷新页面?",
+        message: "系统版本更新通知",
+        onClose() {
+          isShow = false;
+        },
+        duration: 10,
+      });
+    } catch {
+    } finally {
+      isShow = false;
+    }
   });
 }
 
