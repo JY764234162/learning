@@ -1,5 +1,5 @@
 import path from "path";
-import { defineConfig, UserConfig, loadEnv } from "vite";
+import { defineConfig, loadEnv, ConfigEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import Inspect from "vite-plugin-inspect";
 import dynamicImport from "vite-plugin-dynamic-import";
@@ -8,8 +8,9 @@ import tailwindcss from "@tailwindcss/vite";
 import vitePluginResourceClassification from "./custom-vite-plugins/vite-plugin-resource-classification";
 import { getBuildTime, setHtmlBuildTimePlugin } from "./custom-vite-plugins/buildTime";
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }: UserConfig) => {
-  const env = loadEnv(mode || "", process.cwd(), "");
+export default defineConfig(({ mode }: ConfigEnv) => {
+  //加载对应环境的环境变量
+  const env = loadEnv(mode, process.cwd(), "");
   const { VITE_BASENAME } = env;
   const buildTime = getBuildTime();
 
