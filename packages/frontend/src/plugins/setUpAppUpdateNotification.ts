@@ -5,7 +5,7 @@ export function setUpAppUpdateNotification() {
   let isShow = false;
 
   document.addEventListener("visibilitychange", async () => {
-    //未弹窗、切换到tab可视窗口、生产环境才触发11
+    //未弹窗、切换到tab可视窗口、生产环境才触发
     const preConditions = [!isShow, document.visibilityState === "visible", !import.meta.env.DEV];
     if (!preConditions.every(Boolean)) return;
 
