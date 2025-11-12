@@ -1,16 +1,8 @@
-import {
-  useRoutes,
-  Navigate,
-  createBrowserRouter,
-  RouteObject,
-  createHashRouter,
-  createMemoryRouter,
-  BlockerFunction,
-  redirect,
-} from "react-router-dom";
+import { createBrowserRouter, RouteObject, createHashRouter, createMemoryRouter, BlockerFunction, redirect } from "react-router-dom";
 import { lazy } from "react";
 import PageLayout from "../components/PageLayout";
 import First from "@/pages/layout/first";
+import NotFound from "@/components/NotFound";
 // 1. 预先导入所有页面模块
 const modules = import.meta.glob("../pages/*/index.tsx");
 
@@ -59,17 +51,9 @@ const routes: RouteObject[] = Object.entries(modules).map(([path, module]) => {
   };
 });
 
-// 3. 添加重定向和通配符路由
-if (!Object.keys(modules).some((path) => path.includes("/home/index.tsx"))) {
-  routes.push({
-    path: "/",
-    element: <Navigate to={routes[0]?.path || "/"} />,
-  });
-}
-
 routes.push({
   path: "*",
-  element: <Navigate to="/" replace />,
+  element: <NotFound />,
 });
 
 const historyCreatorMap = {
