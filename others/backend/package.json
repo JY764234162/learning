@@ -1,17 +1,17 @@
 {
-  "name": "node",
+  "name": "@others/backend",
   "private": true,
   "version": "0.0.0",
+  "type": "commonjs",
   "license": "MIT",
   "scripts": {
     "dev": "node index.js"
   },
   "devDependencies": {
-    "@types/node": "^22.7.5",
-    "babel": "^6.23.0"
+    "@types/node": "^22.7.5"
   },
   "dependencies": {
-    "fs-extra": "^11.3.0",
-    "minimist": "^1.2.8"
+    "express": "^5.1.0",
+    "ws": "^8.18.2"
   }
 }

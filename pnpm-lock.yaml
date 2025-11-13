@@ -11,11 +11,14 @@ importers:
       '@changesets/cli':
         specifier: ^2.29.5
         version: 2.29.5
+      '@types/node':
+        specifier: 22.10.5
+        version: 22.10.5
       lerna:
         specifier: ^8.2.3
         version: 8.2.3(encoding@0.1.13)
 
-  packages/backend:
+  others/backend:
     dependencies:
       express:
         specifier: ^5.1.0
@@ -26,9 +29,105 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ^22.7.5
-        version: 22.16.5
+        version: 22.10.5
 
-  packages/frontend:
+  others/node-test:
+    dependencies:
+      fs-extra:
+        specifier: ^11.3.0
+        version: 11.3.0
+      minimist:
+        specifier: ^1.2.8
+        version: 1.2.8
+    devDependencies:
+      '@types/node':
+        specifier: ^22.7.5
+        version: 22.10.5
+      babel:
+        specifier: ^6.23.0
+        version: 6.23.0
+
+  others/test-rollup:
+    dependencies:
+      '@babel/cli':
+        specifier: ^7.27.2
+        version: 7.28.0(@babel/core@7.28.0)
+      '@babel/core':
+        specifier: ^7.27.4
+        version: 7.28.0
+      '@babel/preset-env':
+        specifier: ^7.27.2
+        version: 7.28.0(@babel/core@7.28.0)
+      autoprefixer:
+        specifier: ^10.4.21
+        version: 10.4.21(postcss@8.5.6)
+      axios:
+        specifier: ^1.9.0
+        version: 1.10.0
+      postcss:
+        specifier: ^8.5.6
+        version: 8.5.6
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      rollup:
+        specifier: ^3.0.0
+        version: 3.29.5
+      rollup-plugin-postcss:
+        specifier: ^4.0.2
+        version: 4.0.2(postcss@8.5.6)
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+    devDependencies:
+      '@babel/preset-react':
+        specifier: ^7.27.1
+        version: 7.27.1(@babel/core@7.28.0)
+      '@babel/preset-typescript':
+        specifier: ^7.27.1
+        version: 7.27.1(@babel/core@7.28.0)
+      '@rollup/plugin-babel':
+        specifier: ^6.0.4
+        version: 6.0.4(@babel/core@7.28.0)(@types/babel__core@7.20.5)(rollup@3.29.5)
+      '@rollup/plugin-commonjs':
+        specifier: ^28.0.3
+        version: 28.0.6(rollup@3.29.5)
+      '@rollup/plugin-json':
+        specifier: ^6.1.0
+        version: 6.1.0(rollup@3.29.5)
+      '@rollup/plugin-node-resolve':
+        specifier: ^16.0.1
+        version: 16.0.1(rollup@3.29.5)
+      '@rollup/plugin-typescript':
+        specifier: ^12.1.2
+        version: 12.1.4(rollup@3.29.5)(tslib@2.8.1)(typescript@5.8.3)
+      rollup-plugin-typescript2:
+        specifier: ^0.36.0
+        version: 0.36.0(rollup@3.29.5)(typescript@5.8.3)
+
+  packages/utils:
+    dependencies:
+      colord:
+        specifier: 2.9.3
+        version: 2.9.3
+      crypto-js:
+        specifier: 4.2.0
+        version: 4.2.0
+      klona:
+        specifier: 2.0.6
+        version: 2.0.6
+      localforage:
+        specifier: 1.10.0
+        version: 1.10.0
+      nanoid:
+        specifier: 5.0.9
+        version: 5.0.9
+    devDependencies:
+      '@types/crypto-js':
+        specifier: 4.2.2
+        version: 4.2.2
+
+  packages/web:
     dependencies:
       '@ant-design/icons':
         specifier: ^6.0.0
@@ -51,6 +150,9 @@ importers:
       '@monaco-editor/react':
         specifier: ^4.7.0
         version: 4.7.0(monaco-editor@0.52.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@packages/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@radix-ui/react-icons':
         specifier: ^1.3.0
         version: 1.3.2(react@18.3.1)
@@ -198,7 +300,7 @@ importers:
         version: 4.2.0
       '@tailwindcss/vite':
         specifier: ^4.1.12
-        version: 4.1.12(vite@7.0.5(@types/node@22.16.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0))
+        version: 4.1.12(vite@7.0.5(@types/node@22.10.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0))
       '@types/diff':
         specifier: ^7.0.1
         version: 7.0.2
@@ -219,7 +321,7 @@ importers:
         version: 4.17.20
       '@types/node':
         specifier: ^22.7.5
-        version: 22.16.5
+        version: 22.10.5
       '@types/nprogress':
         specifier: 0.2.3
         version: 0.2.3
@@ -243,7 +345,7 @@ importers:
         version: 0.1.34
       '@vitejs/plugin-react':
         specifier: ^4.3.1
-        version: 4.7.0(vite@7.0.5(@types/node@22.16.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0))
+        version: 4.7.0(vite@7.0.5(@types/node@22.10.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0))
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.21(postcss@8.5.6)
@@ -279,7 +381,7 @@ importers:
         version: 8.38.0(eslint@9.31.0(jiti@2.5.1))(typescript@5.8.3)
       vite:
         specifier: ^7.0.2
-        version: 7.0.5(@types/node@22.16.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0)
+        version: 7.0.5(@types/node@22.10.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0)
       vite-plugin-dynamic-import:
         specifier: ^1.6.0
         version: 1.6.0
@@ -288,81 +390,7 @@ importers:
         version: 4.0.0(@gltf-transform/core@4.2.0)(@gltf-transform/extensions@4.2.0)(@gltf-transform/functions@4.2.0)(rollup@4.45.1)
       vite-plugin-inspect:
         specifier: ^0.8.1
-        version: 0.8.9(rollup@4.45.1)(vite@7.0.5(@types/node@22.16.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0))
-
-  packages/node-test:
-    dependencies:
-      fs-extra:
-        specifier: ^11.3.0
-        version: 11.3.0
-      minimist:
-        specifier: ^1.2.8
-        version: 1.2.8
-    devDependencies:
-      '@types/node':
-        specifier: ^22.7.5
-        version: 22.16.5
-      babel:
-        specifier: ^6.23.0
-        version: 6.23.0
-
-  packages/test-rollup:
-    dependencies:
-      '@babel/cli':
-        specifier: ^7.27.2
-        version: 7.28.0(@babel/core@7.28.0)
-      '@babel/core':
-        specifier: ^7.27.4
-        version: 7.28.0
-      '@babel/preset-env':
-        specifier: ^7.27.2
-        version: 7.28.0(@babel/core@7.28.0)
-      autoprefixer:
-        specifier: ^10.4.21
-        version: 10.4.21(postcss@8.5.6)
-      axios:
-        specifier: ^1.9.0
-        version: 1.10.0
-      postcss:
-        specifier: ^8.5.6
-        version: 8.5.6
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      rollup:
-        specifier: ^3.0.0
-        version: 3.29.5
-      rollup-plugin-postcss:
-        specifier: ^4.0.2
-        version: 4.0.2(postcss@8.5.6)
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
-    devDependencies:
-      '@babel/preset-react':
-        specifier: ^7.27.1
-        version: 7.27.1(@babel/core@7.28.0)
-      '@babel/preset-typescript':
-        specifier: ^7.27.1
-        version: 7.27.1(@babel/core@7.28.0)
-      '@rollup/plugin-babel':
-        specifier: ^6.0.4
-        version: 6.0.4(@babel/core@7.28.0)(@types/babel__core@7.20.5)(rollup@3.29.5)
-      '@rollup/plugin-commonjs':
-        specifier: ^28.0.3
-        version: 28.0.6(rollup@3.29.5)
-      '@rollup/plugin-json':
-        specifier: ^6.1.0
-        version: 6.1.0(rollup@3.29.5)
-      '@rollup/plugin-node-resolve':
-        specifier: ^16.0.1
-        version: 16.0.1(rollup@3.29.5)
-      '@rollup/plugin-typescript':
-        specifier: ^12.1.2
-        version: 12.1.4(rollup@3.29.5)(tslib@2.8.1)(typescript@5.8.3)
-      rollup-plugin-typescript2:
-        specifier: ^0.36.0
-        version: 0.36.0(rollup@3.29.5)(typescript@5.8.3)
+        version: 0.8.9(rollup@4.45.1)(vite@7.0.5(@types/node@22.10.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0))
 
 packages:
 
@@ -2700,6 +2728,9 @@ packages:
   '@types/babel__traverse@7.20.7':
     resolution: {integrity: sha512-dkO5fhS7+/oos4ciWxyEyjWe48zmG6wbCheo/G2ZnHx4fs3EU6YC6UM8rk56gAjNJ9P3MTH2jo5jb92/K6wbng==}
 
+  '@types/crypto-js@4.2.2':
+    resolution: {integrity: sha512-sDOLlVbHhXpAUAL0YHDUUwDZf3iN4Bwi4W6a0W0b+QcAezUbRtH4FVb+9J4h+XFPW7l/gQ9F8qC7P+Ec4k8QVQ==}
+
   '@types/d3-array@3.2.1':
     resolution: {integrity: sha512-Y2Jn2idRrLzUfAKV2LyRImR+y4oa2AntrgID95SHJxuMUrkNXmanDSed71sRNZysveJVt1hLLemQZIady0FpEg==}
 
@@ -2800,8 +2831,8 @@ packages:
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
 
-  '@types/node@22.16.5':
-    resolution: {integrity: sha512-bJFoMATwIGaxxx8VJPeM8TonI8t579oRvgAuT8zFugJsJZgzqv0Fu8Mhp68iecjzG7cnN3mO2dJQ5uUM2EFrgQ==}
+  '@types/node@22.10.5':
+    resolution: {integrity: sha512-F8Q+SeGimwOo86fiovQh8qiXfFEh2/ocYv7tU5pJ3EXMSSxk1Joj5wefpFK2fHTf/N6HKGSxIDBT9f3gCxXPkQ==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -3608,6 +3639,9 @@ packages:
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
+
+  crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
 
   css-declaration-sorter@6.4.1:
     resolution: {integrity: sha512-rtdthzxKuyq6IzqX6jEcIzQF/YqccluefyCYheovBOLhFT/drQA9zj/UbRAa9J7C0o6EG6u3E6g+vKkay7/k3g==}
@@ -4769,6 +4803,7 @@ packages:
 
   intersection-observer@0.12.2:
     resolution: {integrity: sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==}
+    deprecated: The Intersection Observer polyfill is no longer needed and can safely be removed. Intersection Observer has been Baseline since 2019.
 
   iota-array@1.0.0:
     resolution: {integrity: sha512-pZ2xT+LOHckCatGQ3DcG/a+QuEqvoxqkiL7tvE8nn3uuu+f6i1TtpB5/FtWFbxUuVr5PZCx8KskuGatbJDXOWA==}
@@ -5167,6 +5202,10 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
+  klona@2.0.6:
+    resolution: {integrity: sha512-dhG34DXATL5hSxJbIexCft8FChFXtmskoZYnoPWjXQuebWYCNkVeV3KkGegCK9CP1oswI/vQibS2GY7Em/sJJA==}
+    engines: {node: '>= 8'}
+
   ktx-parse@1.0.1:
     resolution: {integrity: sha512-djwUWv/82Xc8LOVinJU4EBrVqYkO8OsUDSPEtY/OOVY8BSe3DMU7D7PlIAZ0pI7ZZtErj7mqpJcgffUTABvgaA==}
 
@@ -5199,6 +5238,9 @@ packages:
   libnpmpublish@9.0.9:
     resolution: {integrity: sha512-26zzwoBNAvX9AWOPiqqF6FG4HrSCPsHFkQm7nT+xU1ggAujL/eae81RnCv4CJ2In9q9fh10B88sYSzKCUh/Ghg==}
     engines: {node: ^16.14.0 || >=18.0.0}
+
+  lie@3.1.1:
+    resolution: {integrity: sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==}
 
   lie@3.3.0:
     resolution: {integrity: sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==}
@@ -5289,6 +5331,9 @@ packages:
   loader-utils@3.3.1:
     resolution: {integrity: sha512-FMJTLMXfCLMLfJxcX9PFqX5qD88Z5MRGaZCVzfuqeZSPsyiBzs+pahDQjbIWz2QIzPZz0NX9Zy4FX3lmK6YHIg==}
     engines: {node: '>= 12.13.0'}
+
+  localforage@1.10.0:
+    resolution: {integrity: sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg==}
 
   locate-path@2.0.0:
     resolution: {integrity: sha512-NCI2kiDkyR7VeEKm27Kda/iQHyKJe1Bu0FlTbYp3CqJu+9IFe9bLyAjMxf5ZDDbEg+iMPzB5zYyUTSm8wVTKmA==}
@@ -5721,6 +5766,11 @@ packages:
   nanoid@3.3.11:
     resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
+  nanoid@5.0.9:
+    resolution: {integrity: sha512-Aooyr6MXU6HpvvWXKoVoXwKMs/KyVakWwg7xQfv5/S/RIgJMy0Ifa45H9qqYy7pTCszrHzP21Uk4PZq2HpEM8Q==}
+    engines: {node: ^18 || >=20}
     hasBin: true
 
   natural-compare@1.4.0:
@@ -7702,8 +7752,8 @@ packages:
   underscore@1.13.7:
     resolution: {integrity: sha512-GMXzWtsc57XAtguZgaQViUOzs0KTkk8ojr3/xAxXLITqf/3EMwxC0inyETfDFjH/Krbhuep0HNbbjI9i/q3F3g==}
 
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+  undici-types@6.20.0:
+    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
 
   unicode-canonical-property-names-ecmascript@2.0.1:
     resolution: {integrity: sha512-dA8WbNeb2a6oQzAQ55YlT5vQAWGV9WXOsi3SskE3bcCdM0P4SDd+24zS/OCacdRq5BkdsRj9q3Pg6YyQoxIGqg==}
@@ -11200,12 +11250,12 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.1.12
       '@tailwindcss/oxide-win32-x64-msvc': 4.1.12
 
-  '@tailwindcss/vite@4.1.12(vite@7.0.5(@types/node@22.16.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0))':
+  '@tailwindcss/vite@4.1.12(vite@7.0.5(@types/node@22.10.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0))':
     dependencies:
       '@tailwindcss/node': 4.1.12
       '@tailwindcss/oxide': 4.1.12
       tailwindcss: 4.1.12
-      vite: 7.0.5(@types/node@22.16.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0)
+      vite: 7.0.5(@types/node@22.10.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0)
 
   '@tootallnate/once@2.0.0':
     optional: true
@@ -11245,6 +11295,8 @@ snapshots:
   '@types/babel__traverse@7.20.7':
     dependencies:
       '@babel/types': 7.28.1
+
+  '@types/crypto-js@4.2.2': {}
 
   '@types/d3-array@3.2.1': {}
 
@@ -11339,9 +11391,9 @@ snapshots:
 
   '@types/node@12.20.55': {}
 
-  '@types/node@22.16.5':
+  '@types/node@22.10.5':
     dependencies:
-      undici-types: 6.21.0
+      undici-types: 6.20.0
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -11538,7 +11590,7 @@ snapshots:
       '@use-gesture/core': 10.3.1
       react: 18.3.1
 
-  '@vitejs/plugin-react@4.7.0(vite@7.0.5(@types/node@22.16.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0))':
+  '@vitejs/plugin-react@4.7.0(vite@7.0.5(@types/node@22.10.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0))':
     dependencies:
       '@babel/core': 7.28.0
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.0)
@@ -11546,7 +11598,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.27
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 7.0.5(@types/node@22.16.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0)
+      vite: 7.0.5(@types/node@22.10.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -12323,6 +12375,8 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  crypto-js@4.2.0: {}
 
   css-declaration-sorter@6.4.1(postcss@8.5.6):
     dependencies:
@@ -14159,6 +14213,8 @@ snapshots:
 
   kind-of@6.0.3: {}
 
+  klona@2.0.6: {}
+
   ktx-parse@1.0.1: {}
 
   latex.js@0.12.6:
@@ -14303,6 +14359,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  lie@3.1.1:
+    dependencies:
+      immediate: 3.0.6
+
   lie@3.3.0:
     dependencies:
       immediate: 3.0.6
@@ -14373,6 +14433,10 @@ snapshots:
       type-fest: 0.6.0
 
   loader-utils@3.3.1: {}
+
+  localforage@1.10.0:
+    dependencies:
+      lie: 3.1.1
 
   locate-path@2.0.0:
     dependencies:
@@ -15006,6 +15070,8 @@ snapshots:
     optional: true
 
   nanoid@3.3.11: {}
+
+  nanoid@5.0.9: {}
 
   natural-compare@1.4.0: {}
 
@@ -17358,7 +17424,7 @@ snapshots:
 
   underscore@1.13.7: {}
 
-  undici-types@6.21.0: {}
+  undici-types@6.20.0: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1: {}
 
@@ -17549,7 +17615,7 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
-  vite-plugin-inspect@0.8.9(rollup@4.45.1)(vite@7.0.5(@types/node@22.16.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0)):
+  vite-plugin-inspect@0.8.9(rollup@4.45.1)(vite@7.0.5(@types/node@22.10.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0)):
     dependencies:
       '@antfu/utils': 0.7.10
       '@rollup/pluginutils': 5.2.0(rollup@4.45.1)
@@ -17560,12 +17626,12 @@ snapshots:
       perfect-debounce: 1.0.0
       picocolors: 1.1.1
       sirv: 3.0.1
-      vite: 7.0.5(@types/node@22.16.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0)
+      vite: 7.0.5(@types/node@22.10.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0)
     transitivePeerDependencies:
       - rollup
       - supports-color
 
-  vite@7.0.5(@types/node@22.16.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0):
+  vite@7.0.5(@types/node@22.10.5)(jiti@2.5.1)(less@4.4.0)(lightningcss@1.30.1)(sass@1.89.2)(yaml@2.8.0):
     dependencies:
       esbuild: 0.25.8
       fdir: 6.4.6(picomatch@4.0.3)
@@ -17574,7 +17640,7 @@ snapshots:
       rollup: 4.45.1
       tinyglobby: 0.2.14
     optionalDependencies:
-      '@types/node': 22.16.5
+      '@types/node': 22.10.5
       fsevents: 2.3.3
       jiti: 2.5.1
       less: 4.4.0

@@ -1,7 +1,22 @@
 import { Button } from "antd";
 import { createElement } from "react";
 
-export function setUpAppUpdateNotification() {
+async function getHtmlBuildTime() {
+  const res = await fetch(`${import.meta.env.VITE_BASENAME}index.html?time=${Date.now()}`, {
+    headers: {
+      "Cache-Control": "no-cache",
+    },
+  });
+
+  const html = await res.text();
+
+  const match = html.match(/<meta name="buildTime" content="(.*)">/);
+
+  const buildTime = match?.[1] || "";
+
+  return buildTime;
+}
+export function setupAppUpdateNotification() {
   let isShow = false;
 
   const handleNotification = async () => {
@@ -61,18 +76,3 @@ export function setUpAppUpdateNotification() {
   document.addEventListener("visibilitychange", handleNotification);
 }
 
-async function getHtmlBuildTime() {
-  const res = await fetch(`${import.meta.env.VITE_BASENAME}index.html?time=${Date.now()}`, {
-    headers: {
-      "Cache-Control": "no-cache",
-    },
-  });
-
-  const html = await res.text();
-
-  const match = html.match(/<meta name="buildTime" content="(.*)">/);
-
-  const buildTime = match?.[1] || "";
-
-  return buildTime;
-}

@@ -1,12 +1,9 @@
 import { createRoot } from "react-dom/client";
+import { setupConsole, setupDayjs, setupHotModule, setupLoading, setupNProgress, setupRouter, setupAppUpdateNotification } from "./plugins";
 import App from "./App";
-import { setupConsole } from "./plugins/setupConsole";
-import { setupHotModule } from "./plugins/setupHotModule";
-import { setupLoading } from "./plugins/setupLoading";
-import { setupNProgress } from "./plugins/setupNprogress";
-import { setupRouter } from "./plugins/setupRouter";
-import { setupDayjs } from "./plugins/setDayjs";
-import { setUpAppUpdateNotification } from "./plugins/setUpAppUpdateNotification";
+import { nanoid } from "@yi/utils";
+console.log(nanoid)
+
 
 async function setupApp() {
   //初始状态loading
@@ -22,7 +19,7 @@ async function setupApp() {
   //设置国际化
   setupDayjs();
   //版本更新提示
-  setUpAppUpdateNotification();
+  setupAppUpdateNotification();
 
   const container = document.getElementById("root");
   if (!container) return;
