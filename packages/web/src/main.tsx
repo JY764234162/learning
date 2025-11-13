@@ -1,9 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { setupConsole, setupDayjs, setupHotModule, setupLoading, setupNProgress, setupRouter, setupAppUpdateNotification } from "./plugins";
 import App from "./App";
-import { nanoid } from "@yi/utils";
-console.log(nanoid)
-
 
 async function setupApp() {
   //初始状态loading
