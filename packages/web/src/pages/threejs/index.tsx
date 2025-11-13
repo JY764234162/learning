@@ -1,14 +1,9 @@
 import React, { useRef } from "react";
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import {
-  Environment,
-  useGLTF,
-  OrbitControls,
-  useEnvironment,
-} from "@react-three/drei";
+import { Environment, useGLTF, OrbitControls, useEnvironment } from "@react-three/drei";
 
-const originPath = location.origin + location.pathname;
+const originPath = location.origin + import.meta.env.VITE_BASENAME;
 
 const gltfPath = originPath + "/threejs/xiaomi_su7/scene.gltf";
 
