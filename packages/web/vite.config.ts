@@ -7,6 +7,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 import vitePluginResourceClassification from "./custom-vite-plugins/vite-plugin-resource-classification";
 import { getBuildTime, setHtmlBuildTimePlugin } from "./custom-vite-plugins/buildTime";
+import { setupProjectInfo } from "./custom-vite-plugins/info";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv) => {
   //加载对应环境的环境变量
@@ -15,7 +16,15 @@ export default defineConfig(({ mode }: ConfigEnv) => {
   const buildTime = getBuildTime();
 
   return {
-    plugins: [react(), Inspect(), dynamicImport(), vitePluginResourceClassification(), tailwindcss(), setHtmlBuildTimePlugin(buildTime)],
+    plugins: [
+      react(),
+      Inspect(),
+      dynamicImport(),
+      vitePluginResourceClassification(),
+      tailwindcss(),
+      setHtmlBuildTimePlugin(buildTime),
+      setupProjectInfo(),
+    ],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
