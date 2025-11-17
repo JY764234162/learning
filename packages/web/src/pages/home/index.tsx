@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { SwitchThemeButton } from "@/components/SwitchThemeButton";
 import { ThemeContext } from "@/context/ThemeContext";
+import { SettingDrawerButton } from "@/components/SettingDrawerButton";
 
 const Home: React.FC = () => {
   const [routes, setRoutes] = useState<string[]>([]);
@@ -30,6 +31,7 @@ const Home: React.FC = () => {
       >
         项目路由导航
         <SwitchThemeButton />
+        <SettingDrawerButton />
       </h1>
       <div
         style={{

@@ -1,18 +1,17 @@
-import { ConfigProvider } from "antd";
 import Router from "./router";
-import zhCN from "antd/locale/zh_CN";
-import { ThemeContextProvider } from "./context/ThemeContext";
 import AppProvider from "./context/AppProvider";
+import { ThemeContextProvider } from "./context/ThemeContext/provider";
 import "@/styles/index.css";
+import AntdProvider from "./context/AntdProvider";
 
 export default function App() {
   return (
     <ThemeContextProvider>
-      <ConfigProvider locale={zhCN}>
+      <AntdProvider>
         <AppProvider>
           <Router />
         </AppProvider>
-      </ConfigProvider>
+      </AntdProvider>
     </ThemeContextProvider>
   );
 }
