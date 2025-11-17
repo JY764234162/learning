@@ -1,7 +1,6 @@
 import { createBrowserRouter, RouteObject, createHashRouter, createMemoryRouter, BlockerFunction, redirect } from "react-router-dom";
 import { lazy } from "react";
 import PageLayout from "../components/PageLayout";
-import First from "@/pages/layout/first";
 import NotFound from "@/components/NotFound";
 import ErrorElement from "./ErrorElement";
 // 1. 预先导入所有页面模块
@@ -21,26 +20,7 @@ const routes: RouteObject[] = Object.entries(modules).map(([path, module]) => {
       path: routePath,
       element: <Component />,
     };
-  } else if (name === "layout") {
-    return {
-      path: routePath,
-      element: <Component />,
-      children: [
-        { index: true, loader: () => redirect("first") },
-        {
-          path: "first",
-          children: [
-            { index: true, loader: () => redirect("second") },
-            {
-              path: "second",
-              element: <First></First>,
-            },
-          ],
-        },
-      ],
-    };
   }
-
   // 为其他路由添加通用布局
   return {
     path: routePath,
