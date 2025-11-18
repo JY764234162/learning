@@ -4,7 +4,7 @@ import react from "@vitejs/plugin-react";
 import Inspect from "vite-plugin-inspect";
 import dynamicImport from "vite-plugin-dynamic-import";
 import tailwindcss from "@tailwindcss/vite";
-
+import svgSprite from "vite-plugin-svg-sprite";
 import vitePluginResourceClassification from "./custom-vite-plugins/vite-plugin-resource-classification";
 import { getBuildTime, setHtmlBuildTimePlugin } from "./custom-vite-plugins/buildTime";
 import { setupProjectInfo } from "./custom-vite-plugins/info";
@@ -21,6 +21,8 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       Inspect(),
       dynamicImport(),
       vitePluginResourceClassification(),
+      svgSprite({ symbolId: "icon-[name]-[hash]" }),
+
       tailwindcss(),
       setHtmlBuildTimePlugin(buildTime),
       setupProjectInfo(),

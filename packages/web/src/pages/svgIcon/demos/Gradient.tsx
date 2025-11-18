@@ -1,6 +1,6 @@
 import React from "react";
 import { Space } from "antd";
-import { SvgIcon } from "../components/SvgIcon";
+import { SvgIcon } from "@/components/SvgIcon";
 
 const Gradient: React.FC = () => {
   return (

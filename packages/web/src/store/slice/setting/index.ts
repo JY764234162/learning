@@ -12,7 +12,7 @@ const initialState: App.Setting = {
   isOnlyExpandCurrentParentMenu: true,
   //布局
   layout: {
-    mode: "vertical",
+    mode: "horizontal",
     reverseHorizontalMix: false,
     scrollMode: "content",
   },

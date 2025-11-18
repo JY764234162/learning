@@ -24,7 +24,7 @@ export default function CssFilter() {
       <div
         style={{
           background: "linear-gradient(to right, #333, #333 50%, #eee 50%, #eee 100%)",
-          width: 1200,
+          width: '100%',
           height: 800,
           display: "flex",
           justifyContent: "center",
@@ -39,7 +39,7 @@ export default function CssFilter() {
         style={{
           backgroundImage: `url(${bg})`,
           backgroundSize: "100% 100%",
-          width: 1200,
+          width: '100%',
           height: 800,
           display: "flex",
           justifyContent: "center",

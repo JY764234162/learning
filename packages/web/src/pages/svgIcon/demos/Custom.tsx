@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Space, Button } from "antd";
-import { SvgIcon } from "../components/SvgIcon";
+import { SvgIcon } from "@/components/SvgIcon";
 
 const Custom: React.FC = () => {
   return (

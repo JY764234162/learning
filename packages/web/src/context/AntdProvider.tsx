@@ -8,11 +8,27 @@ import zhCN from "antd/locale/zh_CN";
 const useTheme: () => ThemeConfig = () => {
   const color = useSelector(settingSlice.selectors.getColors);
   const { isDarkMode } = useContext(ThemeContext);
+  //颜色算法
   const algorithm = [isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm];
-
+  //容器背景色
+  const colorBgContainer = isDarkMode ? "rgb(28, 28, 28)" : "rgb(255, 255, 255)";
   return {
     algorithm,
+    cssVar: true,
+    components: {
+      Layout: {
+        bodyBg: colorBgContainer,
+        headerBg: colorBgContainer,
+        siderBg: colorBgContainer,
+      },
+      Menu: {
+        itemBg: "transparent",
+        colorBgBase: colorBgContainer,
+      },
+    },
     token: {
+      colorBgContainer,
+
       colorPrimary: color.primary,
       colorError: color.error,
       colorSuccess: color.success,
@@ -31,3 +47,7 @@ const AntdProvider = memo(({ children }: { children: React.ReactNode }) => {
 });
 
 export default AntdProvider;
+
+
+
+

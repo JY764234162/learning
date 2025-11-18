@@ -43,5 +43,5 @@ export function SwitchThemeButton() {
     });
   };
 
-  return <Button onClick={toggleDark} icon={isDarkMode ? <SunOutlined /> : <MoonOutlined />}></Button>;
+  return <Button type="link" onClick={toggleDark} icon={isDarkMode ? <SunOutlined /> : <MoonOutlined />}></Button>;
 }

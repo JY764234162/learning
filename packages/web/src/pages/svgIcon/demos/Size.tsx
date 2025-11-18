@@ -1,6 +1,6 @@
 import React from "react";
 import { Flex } from "antd";
-import { SvgIcon } from "../components/SvgIcon";
+import { SvgIcon } from "@/components/SvgIcon";
 
 const Size: React.FC = () => {
   return (

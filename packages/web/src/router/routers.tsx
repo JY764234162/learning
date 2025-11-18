@@ -3,9 +3,21 @@ import { lazy } from "react";
 import PageLayout from "../components/PageLayout";
 import NotFound from "@/components/NotFound";
 import ErrorElement from "./ErrorElement";
+import { Layout } from "@/Layout";
 // 1. 预先导入所有页面模块
 const modules = import.meta.glob("../pages/*/index.tsx");
 
+const initRoutes: RouteObject[] = [
+  {
+    path: "/",
+    element: <Layout />,
+    children: [],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
+];
 // 2. 创建路由配置
 const routes: RouteObject[] = Object.entries(modules).map(([path, module]) => {
   const pathList = path.split("/");
@@ -32,11 +44,7 @@ const routes: RouteObject[] = Object.entries(modules).map(([path, module]) => {
     errorElement: <ErrorElement />,
   };
 });
-
-routes.push({
-  path: "*",
-  element: <NotFound />,
-});
+initRoutes.find((item) => item.path === "/")?.children?.push(...routes);
 
 const historyCreatorMap = {
   hash: createHashRouter,
@@ -78,9 +86,8 @@ const createRouter = ({ initRoutes, mode = "history", opt }: RouterOptions) => {
 
   return reactRouter;
 };
-console.log(routes);
 export const router = createRouter({
-  initRoutes: routes,
+  initRoutes,
   mode: import.meta.env.VITE_ROUTE_MODE,
   opt: { basename: import.meta.env.VITE_BASENAME },
 });

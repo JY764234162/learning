@@ -1,0 +1,49 @@
+import React, { useContext, useState } from "react";
+import { Breadcrumb, Layout as AntdLayout, Menu, theme, Button } from "antd";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { ThemeContext } from "@/context/ThemeContext";
+import { GlobalMenu } from "./global-menu";
+import { SwitchThemeButton } from "@/components/SwitchThemeButton";
+import { SettingDrawerButton } from "@/components/SettingDrawerButton";
+import { useSelector } from "react-redux";
+import { settingSlice } from "@/store/slice/setting";
+import { Outlet } from "react-router-dom";
+import GlobalLogo from "./global-logo";
+
+const { Header, Sider, Content, Footer } = AntdLayout;
+
+const siderWitch = 220;
+
+export const VerticalLayout: React.FC = () => {
+  const setting = useSelector(settingSlice.selectors.getSettings);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+  const [collapsed, setCollapsed] = useState(false);
+
+  return (
+    <AntdLayout className="h-screen w-screen">
+      <Sider collapsed={collapsed} className="flex flex-col justify-center items-center" style={{ width: siderWitch }}>
+        <GlobalLogo showTitle={!collapsed} className="w-full" />
+        <GlobalMenu />
+      </Sider>
+      <AntdLayout>
+        <Header style={{ padding: 0, background: colorBgContainer }}>
+          <Button type="text" icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={() => setCollapsed(!collapsed)} />
+
+          <SwitchThemeButton />
+          <SettingDrawerButton />
+        </Header>
+        <Content
+          style={{
+            minHeight: 280,
+            background: colorBgContainer,
+            overflow: "auto",
+          }}
+        >
+          <Outlet />
+        </Content>
+      </AntdLayout>
+    </AntdLayout>
+  );
+};
