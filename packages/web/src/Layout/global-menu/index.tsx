@@ -1,7 +1,8 @@
 import { ThemeContext } from "@/context/ThemeContext";
 import { settingSlice } from "@/store/slice/setting";
 import { Menu } from "antd";
-import { useContext } from "react";
+import { MenuProps } from "antd/lib";
+import { FC, useContext } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +17,7 @@ const items = Object.keys(modules)
   })
   .filter((item) => item.key !== "home"); // 排除当前home路由
 
-export const GlobalMenu = () => {
+export const GlobalMenu: FC<MenuProps> = (props) => {
   const navigate = useNavigate();
   const { isDarkMode } = useContext(ThemeContext);
   const settings = useSelector(settingSlice.selectors.getSettings);
@@ -30,6 +31,7 @@ export const GlobalMenu = () => {
       onClick={({ key }) => {
         navigate(key);
       }}
+      {...props}
     />
   );
 };

@@ -14,7 +14,7 @@ interface Props extends Omit<LinkProps, "to"> {
 const GlobalLogo: FC<Props> = memo(({ className, showTitle = true, ...props }) => {
   const colors = useSelector(settingSlice.selectors.getColors);
   return (
-    <Link className={ClassNames("w-40 h-16 flex items-center", className)} to="/" {...props}>
+    <Link className={ClassNames("w-40 h-16 flex justify-center items-center", className)} to="/" {...props}>
       <SvgIcon icon={logo} size={32} style={{ fill: colors.primary }} />
       <h2 className="pl-2 font-bold text-base transition duration-300 ease-in-out" style={{ display: showTitle ? "block" : "none" }}>
         后台管理系统
