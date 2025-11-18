@@ -10,6 +10,8 @@ const initialState: App.Setting = {
   isInfoFollowPrimary: true,
   //是否只展开当前菜单父级
   isOnlyExpandCurrentParentMenu: true,
+  //是否展示设置抽屉
+  showSettingDrawer: false,
   //布局
   layout: {
     mode: "horizontal",
@@ -77,6 +79,10 @@ export const settingSlice = createSlice({
     setInfoFollowPrimary(state, { payload }: PayloadAction<boolean>) {
       state.isInfoFollowPrimary = payload;
     },
+    //设置抽屉
+    setSettingDrawerShow(state, { payload }: PayloadAction<boolean>) {
+      state.showSettingDrawer = payload;
+    },
     //设置布局模式
     changeLayoutMode(state, { payload }: PayloadAction<App.LayoutMode>) {
       state.layout.mode = payload;
@@ -96,6 +102,7 @@ export const settingSlice = createSlice({
   },
   selectors: {
     getColors: (state) => state.color,
+    getPrimaryColor: (state) => state.color.primary,
     getSettings: (state) => state,
   },
 });

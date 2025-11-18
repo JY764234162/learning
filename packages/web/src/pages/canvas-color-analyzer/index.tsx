@@ -1,14 +1,5 @@
 import React, { useRef, useState } from "react";
-import {
-  Typography,
-  Card,
-  Alert,
-  Space,
-  Upload,
-  Table,
-  Tag,
-  Progress,
-} from "antd";
+import { Typography, Card, Alert, Space, Upload, Table, Tag, Progress } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
 import styles from "./styles.module.css";
@@ -110,12 +101,7 @@ const CanvasColorAnalyzer = () => {
       title: "颜色预览",
       dataIndex: "color",
       key: "preview",
-      render: (color: string) => (
-        <div
-          className={styles.colorPreview}
-          style={{ backgroundColor: color }}
-        />
-      ),
+      render: (color: string) => <div className={styles.colorPreview} style={{ backgroundColor: color }} />,
     },
     {
       title: "颜色值",
@@ -127,13 +113,7 @@ const CanvasColorAnalyzer = () => {
       title: "出现频率",
       dataIndex: "percentage",
       key: "percentage",
-      render: (percentage: number) => (
-        <Progress
-          percent={Number(percentage.toFixed(2))}
-          size="small"
-          status="active"
-        />
-      ),
+      render: (percentage: number) => <Progress percent={Number(percentage.toFixed(2))} size="small" status="active" />,
     },
   ];
 
@@ -193,12 +173,7 @@ const CanvasColorAnalyzer = () => {
         )}
 
         <Card title="颜色统计" loading={analyzing}>
-          <Table
-            dataSource={colorStats}
-            columns={columns}
-            pagination={false}
-            rowKey="color"
-          />
+          <Table dataSource={colorStats} columns={columns} pagination={false} rowKey="color" />
         </Card>
 
         <Card title="功能说明">
@@ -227,4 +202,4 @@ const CanvasColorAnalyzer = () => {
   );
 };
 
-export default CanvasColorAnalyzer;
+export const Component = CanvasColorAnalyzer;

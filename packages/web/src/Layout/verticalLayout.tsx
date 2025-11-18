@@ -4,11 +4,11 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { ThemeContext } from "@/context/ThemeContext";
 import { GlobalMenu } from "./global-menu";
 import { SwitchThemeButton } from "@/components/SwitchThemeButton";
-import { SettingDrawerButton } from "@/components/SettingDrawerButton";
 import { useSelector } from "react-redux";
 import { settingSlice } from "@/store/slice/setting";
 import { Outlet } from "react-router-dom";
 import GlobalLogo from "./global-logo";
+import { SettingButton } from "@/components/SettingDrawerButton";
 
 const { Header, Sider, Content, Footer } = AntdLayout;
 
@@ -33,7 +33,7 @@ export const VerticalLayout: React.FC = () => {
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <Button type="text" icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={() => setCollapsed(!collapsed)} />
           <SwitchThemeButton />
-          <SettingDrawerButton />
+          <SettingButton />
         </Header>
         <Content
           style={{

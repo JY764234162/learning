@@ -5,7 +5,7 @@ import NotFound from "@/components/NotFound";
 import ErrorElement from "./ErrorElement";
 import { Layout } from "@/Layout";
 // 1. 预先导入所有页面模块
-const modules = import.meta.glob("../pages/*/index.tsx");
+const modules = import.meta.glob("../pages/**/index.tsx");
 
 const initRoutes: RouteObject[] = [
   {
@@ -18,34 +18,36 @@ const initRoutes: RouteObject[] = [
     element: <NotFound />,
   },
 ];
-// 2. 创建路由配置
-const routes: RouteObject[] = Object.entries(modules).map(([path, module]) => {
-  const pathList = path.split("/");
-  const name = pathList[pathList.length - 2];
-  const routePath = name === "home" ? "/" : name;
-  // 使用 TypeScript 类型断言来处理模块类型
-  const Component = lazy(module as any);
-
-  // 为首页路由使用不同的布局
-  if (name === "home") {
-    return {
+const getChildRoutes = (modules: Record<string, () => Promise<unknown>>) => {
+  // 2. 创建路由配置
+  Object.entries(modules).forEach(([path, module], index) => {
+    const pathList = path.split("/");
+    const routePath = pathList[pathList.length - 2];
+    console.log(path, pathList, routePath);
+    // 使用 TypeScript 类型断言来处理模块类型
+    const Component = lazy(module as any);
+    if (index === 0) {
+      initRoutes[0].children?.push({
+        index: true,
+        loader: async () => {
+          return redirect(routePath);
+        },
+      });
+    }
+    initRoutes[0].children?.push({
       path: routePath,
-      element: <Component />,
-    };
-  }
-  // 为其他路由添加通用布局
-  return {
-    path: routePath,
-    element: (
-      <PageLayout>
-        <Component />
-      </PageLayout>
-    ),
-    errorElement: <ErrorElement />,
-  };
-});
-initRoutes.find((item) => item.path === "/")?.children?.push(...routes);
+      element: (
+        <PageLayout>
+          <Component />
+        </PageLayout>
+      ),
+      errorElement: <ErrorElement />,
+    });
+  });
+};
 
+getChildRoutes(modules);
+console.log(initRoutes);
 const historyCreatorMap = {
   hash: createHashRouter,
   history: createBrowserRouter,

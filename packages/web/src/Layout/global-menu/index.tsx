@@ -6,7 +6,7 @@ import { FC, useContext } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const modules = import.meta.glob("../../pages/*/index.tsx");
+const modules = import.meta.glob("../../pages/**/index.tsx");
 
 // 提取路由名称
 const items = Object.keys(modules)
