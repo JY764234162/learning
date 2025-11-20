@@ -20,11 +20,13 @@ export interface RouterOptions {
 }
 const createRouter = ({ initRoutes, mode = "history", opt }: RouterOptions) => {
   const onBeforeRouteChange: BlockerFunction = ({ currentLocation, nextLocation, historyAction }) => {
+    console.log("onBeforeRouteChange", currentLocation, nextLocation, historyAction);
     window.NProgress?.start?.();
     return false;
   };
   const afterRouteChange = (state: any) => {
     if (state.navigation.state === "idle") {
+      console.log("afterRouteChange", state, router.routes);
       window.NProgress?.done?.();
     }
   };

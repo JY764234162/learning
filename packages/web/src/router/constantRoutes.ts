@@ -1,12 +1,12 @@
 import { RouteObject } from "react-router-dom";
 import { dynamicLazyMap } from "./imports";
-
+import { Layout } from "@/Layout";
 //默认路由
 export const constantRoutes: RouteObject[] = [
   {
     id: "layout",
     path: "/",
-    lazy: dynamicLazyMap["layout"],
+    Component: Layout,
     children: [],
   },
   {

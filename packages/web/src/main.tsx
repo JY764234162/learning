@@ -3,6 +3,7 @@ import { setupConsole, setupDayjs, setupHotModule, setupLoading, setupNProgress,
 import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { router } from "./router/routers";
 
 async function setupApp() {
   //初始状态loading
@@ -20,6 +21,7 @@ async function setupApp() {
   //版本更新提示
   setupAppUpdateNotification();
 
+  console.log(router.routes)
   const container = document.getElementById("root");
   if (!container) return;
   createRoot(container).render(

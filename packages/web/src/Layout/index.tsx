@@ -9,6 +9,10 @@ import { router } from "@/router/routers";
 export const Layout: React.FC = () => {
   const setting = useSelector(settingSlice.selectors.getSettings);
 
+  useEffect(() => {
+    router.navigate(router.state.matches[0].pathname);
+  }, []);
+
   return (
     <>
       {setting.layout.mode === "vertical" ? <VerticalLayout /> : <HorizontalLayout />}
