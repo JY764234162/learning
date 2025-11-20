@@ -1,5 +1,5 @@
 import { MoonOutlined, SunOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import { ButtonProps } from "antd/lib";
 import React, { useContext, useState } from "react";
 import "./index.css";
@@ -43,5 +43,9 @@ export function SwitchThemeButton() {
     });
   };
 
-  return <Button type="link" onClick={toggleDark} icon={isDarkMode ? <SunOutlined /> : <MoonOutlined />}></Button>;
+  return (
+    <Tooltip title={"主题模式"}>
+      <Button type="text" onClick={toggleDark} icon={isDarkMode ? <SunOutlined /> : <MoonOutlined />}></Button>
+    </Tooltip>
+  );
 }

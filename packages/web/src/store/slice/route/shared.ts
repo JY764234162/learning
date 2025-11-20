@@ -23,7 +23,7 @@ export const transformToMenuItems: (route: ElegantConstRoute[]) => ItemType<Menu
   return routes.map((item) => {
     return {
       key: item.path,
-      label: item.name,
+      label: item.handle.menuTitle,
       children: item?.children ? transformToMenuItems(item.children) : undefined,
     };
   });

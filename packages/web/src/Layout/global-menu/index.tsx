@@ -22,7 +22,6 @@ export const GlobalMenu: FC<MenuProps> = (props) => {
     return transformToMenuItems(allRoutes);
   }, [allRoutes]);
 
-  console.log(items);
   return (
     <Menu
       theme={isDarkMode ? "dark" : "light"}

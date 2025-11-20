@@ -16,10 +16,11 @@ export const constantRoutes: RouteObject[] = [
   },
 ];
 
-const createLeafRoute = (path: string) => {
+const createLeafRoute = (path: string, handle: Record<string, any>) => {
   return {
     name: path,
     path: path,
+    handle,
   };
 };
 
@@ -28,70 +29,196 @@ export const authRoutes: ElegantConstRoute[] = [
   {
     name: "canvas",
     path: "canvas",
-    children: [createLeafRoute("canvas-color-analyzer"), createLeafRoute("canvas-pixelation"), createLeafRoute("canvas-watermark")],
+    handle: {
+      menuTitle: "canvas画布",
+    },
+    children: [
+      createLeafRoute("canvas-color-analyzer", {
+        menuTitle: "canvas颜色分析",
+        keyWords: ["canvas", "颜色"],
+      }),
+      createLeafRoute("canvas-pixelation", {
+        menuTitle: "canvas像素分析",
+        keyWords: ["canvas", "像素", "颜色"],
+      }),
+      createLeafRoute("canvas-watermark", {
+        menuTitle: "canvas生成水印",
+        keyWords: ["canvas", "水印", "自定义"],
+      }),
+    ],
   },
   {
     name: "component",
     path: "component",
+    handle: {
+      menuTitle: "组件封装",
+    },
     children: [
-      createLeafRoute("bezierTabs"),
-      createLeafRoute("color-thief"),
-      createLeafRoute("cron"),
-      createLeafRoute("darg-upload"),
-      createLeafRoute("drag-list"),
-      createLeafRoute("drag-sort"),
-      createLeafRoute("export-html"),
-      createLeafRoute("html-to-image"),
-      createLeafRoute("keyword-high-light"),
-      createLeafRoute("lazyImage"),
-      createLeafRoute("preLoad"),
-      createLeafRoute("progressiveImg"),
-      createLeafRoute("resume"),
-      createLeafRoute("scroll-horizontal"),
-      createLeafRoute("scrollAndHighlight"),
-      createLeafRoute("string-diff"),
-      createLeafRoute("treeEditor"),
-      createLeafRoute("xml-parser"),
+      createLeafRoute("bezierTabs", {
+        menuTitle: "贝塞尔曲线Tabs",
+        keyWords: ["贝塞尔曲线", "组件"],
+      }),
+      createLeafRoute("color-thief", {
+        menuTitle: "图片主题色提取",
+        keyWords: ["图片", "颜色", "主题色"],
+      }),
+      createLeafRoute("cron", {
+        menuTitle: "Cron计时器组件",
+        keyWords: ["cron", "组件", "任务"],
+      }),
+      createLeafRoute("darg-upload", {
+        menuTitle: "拖拽上传",
+        keyWords: ["拖拽", "api", "上传"],
+      }),
+      createLeafRoute("drag-list", {
+        menuTitle: "拖拽列表",
+        keyWords: ["拖拽", "api"],
+      }),
+      createLeafRoute("drag-sort", {
+        menuTitle: "拖拽排序",
+        keyWords: ["拖拽", "api", "排序"],
+      }),
+      createLeafRoute("export-html", {
+        menuTitle: "导出html",
+        keyWords: ["导出", "html"],
+      }),
+      createLeafRoute("html-to-image", {
+        menuTitle: "html导出为图片",
+        keyWords: ["导出", "图片", "html"],
+      }),
+      createLeafRoute("keyword-high-light", {
+        menuTitle: "关键词高亮算法",
+        keyWords: ["高亮", "算法", "关键词"],
+      }),
+      createLeafRoute("lazyImage", {
+        menuTitle: "图片懒加载",
+      }),
+      createLeafRoute("preLoad", {
+        menuTitle: "预加载",
+      }),
+      createLeafRoute("progressiveImg", {
+        menuTitle: "渐进式图片加载",
+      }),
+      createLeafRoute("resume", {
+        menuTitle: "简历",
+      }),
+      createLeafRoute("scroll-horizontal", {
+        menuTitle: "水平滚动",
+      }),
+      createLeafRoute("scrollAndHighlight", {
+        menuTitle: "滚动指定位置高亮",
+      }),
+      createLeafRoute("string-diff", {
+        menuTitle: "字符串diff比对",
+      }),
+      createLeafRoute("treeEditor", {
+        menuTitle: "Tree组件编辑器",
+      }),
+      createLeafRoute("xml-parser", {
+        menuTitle: "xml解析渲染",
+      }),
     ],
   },
   {
     name: "css",
     path: "css",
-    children: [createLeafRoute("css-filter"), createLeafRoute("oracle-font")],
+    handle: {
+      menuTitle: "CSS相关",
+    },
+    children: [
+      createLeafRoute("css-filter", {
+        menuTitle: "cssFilter属性",
+      }),
+      createLeafRoute("oracle-font", {
+        menuTitle: "甲骨文字体",
+      }),
+    ],
   },
   {
     name: "lib",
     path: "lib",
+    handle: {
+      menuTitle: "库相关",
+    },
     children: [
-      createLeafRoute("floating-ui"),
-      createLeafRoute("leaflet-map"),
-      createLeafRoute("microapp"),
-      createLeafRoute("monaco-react"),
-      createLeafRoute("pdf-preview"),
-      createLeafRoute("previewWord"),
-      createLeafRoute("state"),
-      createLeafRoute("threejs"),
+      createLeafRoute("floating-ui", {
+        menuTitle: "悬浮",
+      }),
+      createLeafRoute("leaflet-map", {
+        menuTitle: "地图",
+      }),
+      createLeafRoute("microapp", {
+        menuTitle: "微应用",
+      }),
+      createLeafRoute("monaco-react", {
+        menuTitle: "monaco编辑器",
+      }),
+      createLeafRoute("pdf-preview", {
+        menuTitle: "pdf预览",
+      }),
+      createLeafRoute("previewWord", {
+        menuTitle: "word预览",
+      }),
+      createLeafRoute("state", {
+        menuTitle: "状态管理",
+      }),
+      createLeafRoute("threejs", {
+        menuTitle: "3D渲染",
+      }),
     ],
   },
   {
     name: "origin",
     path: "origin",
+    handle: {
+      menuTitle: "原生相关",
+    },
     children: [
-      createLeafRoute("error-boundary"),
-      createLeafRoute("notification"),
-      createLeafRoute("strictMode"),
-      createLeafRoute("suspense"),
-      createLeafRoute("useSyncExternalStore"),
+      createLeafRoute("error-boundary", {
+        menuTitle: "错误边界",
+      }),
+      createLeafRoute("notification", {
+        menuTitle: "浏览器级通知",
+      }),
+      createLeafRoute("strictMode", {
+        menuTitle: "严格模式",
+      }),
+      createLeafRoute("suspense", {
+        menuTitle: "异步组件",
+      }),
+      createLeafRoute("useSyncExternalStore", {
+        menuTitle: "外部状态监控",
+      }),
     ],
   },
   {
     name: "svg",
     path: "svg",
-    children: [createLeafRoute("drawSvg"), createLeafRoute("svgIcon")],
+    handle: {
+      menuTitle: "svg",
+    },
+    children: [
+      createLeafRoute("drawSvg", {
+        menuTitle: "Svg绘画",
+      }),
+      createLeafRoute("svgIcon", {
+        menuTitle: "封装svgIcon",
+      }),
+    ],
   },
   {
     name: "other",
     path: "other",
-    children: [createLeafRoute("vite-hmr"), createLeafRoute("websocket")],
+    handle: {
+      menuTitle: "其他",
+    },
+    children: [
+      createLeafRoute("vite-hmr", {
+        menuTitle: "Vite热模块（本地）",
+      }),
+      createLeafRoute("websocket", {
+        menuTitle: "实时通信（后端）",
+      }),
+    ],
   },
 ];

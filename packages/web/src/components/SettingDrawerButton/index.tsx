@@ -1,7 +1,6 @@
 import { settingSlice } from "@/store/slice/setting";
 import { SettingOutlined } from "@ant-design/icons";
-import { Button, Drawer, Form, Radio, Switch } from "antd";
-import React, { useState } from "react";
+import { Button, ColorPicker, Drawer, Form, Radio, Switch, Tooltip } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 
 export function SettingButton() {
@@ -12,9 +11,9 @@ export function SettingButton() {
   };
 
   return (
-    <>
-      <Button type="link" onClick={showDrawer} icon={<SettingOutlined />}></Button>
-    </>
+    <Tooltip title={"主题配置"}>
+      <Button type="text" onClick={showDrawer} icon={<SettingOutlined />}></Button>
+    </Tooltip>
   );
 }
 
@@ -33,6 +32,7 @@ export const SettingDrawer = () => {
           colourWeakness: settings.colourWeakness,
           grayscale: settings.grayscale,
           layoutMode: settings.layout.mode,
+          primary: settings.color.primary,
         }}
       >
         <Form.Item label="是否灰度" name={"colourWeakness"}>
@@ -56,8 +56,19 @@ export const SettingDrawer = () => {
               { label: "垂直布局", value: "vertical" },
             ]}
             onChange={(e) => {
-              console.log(e);
               dispatch(settingSlice.actions.changeLayoutMode(e.target.value));
+            }}
+          />
+        </Form.Item>
+        <Form.Item label="主题色" name={"primary"}>
+          <ColorPicker
+            onChange={(value) => {
+              dispatch(
+                settingSlice.actions.updateColor({
+                  key: "primary",
+                  color: value.toHexString(),
+                })
+              );
             }}
           />
         </Form.Item>
