@@ -23,12 +23,14 @@ const useTheme: () => ThemeConfig = () => {
       },
       Menu: {
         itemBg: "transparent",
+        darkItemBg: "transparent",
+        subMenuItemBg: "transparent",
+        darkSubMenuItemBg: "transparent",
         colorBgBase: colorBgContainer,
       },
     },
     token: {
       colorBgContainer,
-
       colorPrimary: color.primary,
       colorError: color.error,
       colorSuccess: color.success,
@@ -48,6 +50,25 @@ const AntdProvider = memo(({ children }: { children: React.ReactNode }) => {
 
 export default AntdProvider;
 
-
-
-
+// tokens: {
+//   dark: {
+//     colors: {
+//       "base-text": "rgb(224, 224, 224)",
+//       container: "rgb(28, 28, 28)",
+//       layout: "rgb(18, 18, 18)",
+//     },
+//   },
+//   light: {
+//     boxShadow: {
+//       header: "0 1px 2px rgb(0, 21, 41, 0.08)",
+//       sider: "2px 0 8px 0 rgb(29, 35, 41, 0.05)",
+//       tab: "0 1px 2px rgb(0, 21, 41, 0.08)",
+//     },
+//     colors: {
+//       "base-text": "rgb(31, 31, 31)",
+//       container: "rgb(255, 255, 255)",
+//       inverted: "rgb(0, 20, 40)",
+//       layout: "rgb(247, 250, 252)",
+//     },
+//   },
+// },

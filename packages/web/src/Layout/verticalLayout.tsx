@@ -26,12 +26,13 @@ export const VerticalLayout: React.FC = () => {
       <Sider collapsed={collapsed} style={{ width: siderWitch }}>
         <div className="h-full flex flex-col justify-center items-center">
           <GlobalLogo showTitle={!collapsed} className="w-full" />
-          <GlobalMenu inlineCollapsed={collapsed} style={{ overflow: "auto", flex: 1 }} />
+          <GlobalMenu inlineCollapsed={collapsed} style={{ overflow: "auto", flex: 1, width: "100%" }} />
         </div>
       </Sider>
       <AntdLayout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
+        <Header style={{ padding: 0, background: colorBgContainer, display: "flex", gap: 16, alignItems: "center", paddingRight: 32 }}>
           <Button type="text" icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={() => setCollapsed(!collapsed)} />
+          <div style={{ flex: 1 }}></div>
           <SwitchThemeButton />
           <SettingButton />
         </Header>

@@ -2,13 +2,13 @@ import React, { useRef, useState } from "react";
 
 import "./index.css";
 
-export default function App() {
+export const Component = () => {
   return (
     <div className="tabs-container">
       <Tabs></Tabs>
     </div>
   );
-}
+};
 
 const Tabs = () => {
   const tabs = [

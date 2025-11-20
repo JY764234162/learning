@@ -1,12 +1,8 @@
 import { router } from "@/router/routers";
+import { store } from "@/store";
+import { initConstantRoute } from "@/store/slice/route";
 
 export const setupRouter = async () => {
-  await new Promise((resolve, reject) => {
-    try {
-      router.initialize();
-      resolve(true);
-    } catch (error) {
-      reject(error);
-    }
-  });
+  await router.initialize();
+  await store.dispatch(initConstantRoute());
 };

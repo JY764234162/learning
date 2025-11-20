@@ -20,13 +20,14 @@ export const HorizontalLayout: React.FC = () => {
 
   return (
     <AntdLayout className="h-screen w-screen">
-      <Header style={{ display: "flex", alignItems: "center", gap: 8, background: colorBgContainer }}>
+      <Header style={{ display: "flex", alignItems: "center", gap: 8 }}>
         <GlobalLogo />
-        <GlobalMenu />
+        <GlobalMenu style={{ flex: 1, overflow: "hidden", border: "none" }} />
+
         <SwitchThemeButton />
         <SettingButton />
       </Header>
-      <Content style={{ overflow: "auto", background: colorBgContainer, minHeight: 280 }}>
+      <Content style={{ overflow: "auto", minHeight: 280 }}>
         <Outlet />
       </Content>
       <Footer style={{ textAlign: "center" }}>Ant Design ©{new Date().getFullYear()} Created by Ant UED</Footer>

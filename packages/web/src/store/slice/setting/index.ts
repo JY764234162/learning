@@ -27,28 +27,7 @@ const initialState: App.Setting = {
     success: "#52c41a",
     warning: "#faad14",
   },
-  // tokens: {
-  //   dark: {
-  //     colors: {
-  //       "base-text": "rgb(224, 224, 224)",
-  //       container: "rgb(28, 28, 28)",
-  //       layout: "rgb(18, 18, 18)",
-  //     },
-  //   },
-  //   light: {
-  //     boxShadow: {
-  //       header: "0 1px 2px rgb(0, 21, 41, 0.08)",
-  //       sider: "2px 0 8px 0 rgb(29, 35, 41, 0.05)",
-  //       tab: "0 1px 2px rgb(0, 21, 41, 0.08)",
-  //     },
-  //     colors: {
-  //       "base-text": "rgb(31, 31, 31)",
-  //       container: "rgb(255, 255, 255)",
-  //       inverted: "rgb(0, 20, 40)",
-  //       layout: "rgb(247, 250, 252)",
-  //     },
-  //   },
-  // },
+
   //页面切换是否有动画以及动画类型
   page: {
     animate: true,
