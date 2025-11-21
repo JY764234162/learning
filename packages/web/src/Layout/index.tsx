@@ -5,17 +5,22 @@ import { HorizontalLayout } from "./horizontalLayout";
 import { VerticalLayout } from "./verticalLayout";
 import { SettingDrawer } from "@/components/SettingDrawerButton";
 import { router } from "@/router/routers";
+import { localStg } from "@/utils/storage";
 
 export const Layout: React.FC = () => {
-  const setting = useSelector(settingSlice.selectors.getSettings);
+  const settings = useSelector(settingSlice.selectors.getSettings);
 
   useEffect(() => {
     router.navigate(router.state.matches[0].pathname);
   }, []);
 
+  useEffect(() => {
+    localStg.set("settings", settings);
+  }, [settings]);
+
   return (
     <>
-      {setting.layout.mode === "vertical" ? <VerticalLayout /> : <HorizontalLayout />}
+      {settings.layout.mode === "vertical" ? <VerticalLayout /> : <HorizontalLayout />}
       <SettingDrawer />
     </>
   );

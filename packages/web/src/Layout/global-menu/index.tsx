@@ -1,4 +1,5 @@
 import { ThemeContext } from "@/context/ThemeContext";
+import { router } from "@/router/routers";
 import { routesSlice } from "@/store/slice/route";
 import { transformToMenuItems } from "@/store/slice/route/shared";
 import { settingSlice } from "@/store/slice/setting";
@@ -27,6 +28,7 @@ export const GlobalMenu: FC<MenuProps> = (props) => {
       theme={isDarkMode ? "dark" : "light"}
       mode={mode}
       items={items}
+      selectedKeys={router.state.matches[0].pathname.split("/")}
       onClick={({ keyPath }) => {
         const path = "/" + keyPath.reverse().join("/");
         navigate(path);

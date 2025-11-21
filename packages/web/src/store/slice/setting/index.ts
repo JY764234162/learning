@@ -1,5 +1,6 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toggleAuxiliaryColorModes, toggleGrayscaleMode } from "./shared";
+import { localStg } from "@/utils/storage";
 
 const initialState: App.Setting = {
   //是否弱视
@@ -42,7 +43,7 @@ const initialState: App.Setting = {
 
 export const settingSlice = createSlice({
   name: "setting",
-  initialState,
+  initialState: localStg.get("settings") || initialState,
   reducers: {
     //设置弱视
     setColourWeakness(state, { payload }: PayloadAction<boolean>) {
@@ -74,7 +75,6 @@ export const settingSlice = createSlice({
     updateColor(state, { payload: { key, color } }: PayloadAction<{ key: keyof App.Setting["color"]; color: string }>) {
       state.color[key] = color;
     },
-
     resetSetting: () => {
       return initialState;
     },
