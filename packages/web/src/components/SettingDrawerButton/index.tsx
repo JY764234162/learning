@@ -24,9 +24,22 @@ export const SettingDrawer = () => {
   const onClose = () => {
     dispatch(settingSlice.actions.setSettingDrawerShow(false));
   };
+  const resetSettings = () => {
+    dispatch(settingSlice.actions.resetSetting());
+    return false;
+  };
 
   return (
-    <Drawer title="设置" open={settings.showSettingDrawer} onClose={onClose}>
+    <Drawer
+      title="设置"
+      open={settings.showSettingDrawer}
+      onClose={onClose}
+      extra={
+        <Button type="primary" onClick={resetSettings}>
+          重置样式
+        </Button>
+      }
+    >
       <Form
         initialValues={{
           colourWeakness: settings.colourWeakness,
