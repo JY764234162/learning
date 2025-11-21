@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>%VITE_APP_TITLE%</title>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+  </head>
+  <body>
+    <!-- 全局定义svg渐变 -->
+    <svg style="position: absolute; width: 0px; height: 0px; overflow: hidden">
+      <defs>
+        <linearGradient id="globalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color: rgb(255, 255, 0); stop-opacity: 1" />
+          <stop offset="100%" style="stop-color: rgb(255, 0, 0); stop-opacity: 1" />
+        </linearGradient>
+      </defs>
+    </svg>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

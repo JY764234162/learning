@@ -53,6 +53,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       rollupOptions: {
         input: {
           main: path.resolve(__dirname, "./index.html"),
+          404: path.resolve(__dirname, "./404.html")
         },
       },
       //cssnano

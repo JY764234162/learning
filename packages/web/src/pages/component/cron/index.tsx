@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Card, Alert, Space, Form } from "antd";
+import { Typography, Card, Alert, Space, Form, Button } from "antd";
 import Cron from "./Cron";
 
 const { Title, Paragraph, Text } = Typography;
@@ -21,14 +21,16 @@ export const Component = () => {
 
       <Space direction="vertical" style={{ width: "100%" }}>
         <Card title="演示效果">
-          <Form form={form}>
-            <Form.Item
-              label="Cron 表达式"
-              name="cron"
-              initialValue="0 0 0 * * ? *"
-            >
+          <Form
+            form={form}
+            onFinish={(values) => {
+              console.log(values);
+            }}
+          >
+            <Form.Item label="Cron 表达式" name="cron" initialValue="0 0 0 * * ? *">
               <Cron />
             </Form.Item>
+            <Button htmlType="submit">结果打印控制台</Button>
           </Form>
         </Card>
 
@@ -74,4 +76,3 @@ export const Component = () => {
     </div>
   );
 };
-
