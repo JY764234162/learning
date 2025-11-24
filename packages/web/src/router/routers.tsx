@@ -26,7 +26,6 @@ const createRouter = ({ initRoutes, mode = "history", opt }: RouterOptions) => {
   const afterRouteChange = (state: any) => {
     console.log("afterRouteChange");
     if (state.navigation.state === "idle") {
-      document.title = "React-Soybean";
       window.NProgress?.done?.();
     }
   };

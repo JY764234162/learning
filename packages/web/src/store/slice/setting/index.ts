@@ -36,7 +36,7 @@ const initialState: App.Setting = {
   },
   //水印设置
   watermark: {
-    text: "SoybeanAdmin",
+    text: "JY-Admin",
     visible: false,
   },
 };
