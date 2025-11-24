@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import { dynamicLazyMap } from "@/router/imports";
 import { ItemType, MenuItemType } from "antd/es/menu/interface";
 import { redirect, RouteObject } from "react-router-dom";
@@ -44,9 +45,11 @@ export const transformToReactRoutes: (route: ElegantConstRoute[]) => RouteObject
 
 export const transformToMenuItems: (route: ElegantConstRoute[]) => ItemType<MenuItemType>[] = (routes) => {
   return routes.map((item) => {
+    const icon = item?.handle?.icon ? createElement(item.handle?.icon) : null;
     return {
       key: item.path,
       label: item.handle.menuTitle,
+      icon,
       children: item?.children ? transformToMenuItems(item.children) : undefined,
     };
   });

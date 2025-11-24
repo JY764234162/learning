@@ -1,6 +1,16 @@
 import { RouteObject } from "react-router-dom";
 import { dynamicLazyMap } from "./imports";
 import { Layout } from "@/Layout";
+import {
+  AndroidOutlined,
+  AppleOutlined,
+  ChromeOutlined,
+  EditOutlined,
+  EnvironmentOutlined,
+  JavaScriptOutlined,
+  SearchOutlined,
+  TransactionOutlined,
+} from "@ant-design/icons";
 //默认路由
 export const constantRoutes: RouteObject[] = [
   {
@@ -31,6 +41,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "canvas",
     handle: {
       menuTitle: "canvas画布",
+      icon: AndroidOutlined,
     },
     children: [
       createLeafRoute("canvas-color-analyzer", {
@@ -52,6 +63,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "component",
     handle: {
       menuTitle: "组件封装",
+      icon: JavaScriptOutlined,
     },
     children: [
       createLeafRoute("bezierTabs", {
@@ -124,6 +136,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "css",
     handle: {
       menuTitle: "CSS相关",
+      icon: ChromeOutlined,
     },
     children: [
       createLeafRoute("css-filter", {
@@ -139,6 +152,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "lib",
     handle: {
       menuTitle: "库相关",
+      icon: EditOutlined,
     },
     children: [
       createLeafRoute("floating-ui", {
@@ -172,6 +186,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "origin",
     handle: {
       menuTitle: "原生相关",
+      icon: AppleOutlined,
     },
     children: [
       createLeafRoute("error-boundary", {
@@ -196,10 +211,12 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "svg",
     handle: {
       menuTitle: "svg",
+      icon: TransactionOutlined,
     },
     children: [
       createLeafRoute("drawSvg", {
         menuTitle: "Svg绘画",
+        icon: EnvironmentOutlined,
       }),
       createLeafRoute("svgIcon", {
         menuTitle: "封装svgIcon",
@@ -211,6 +228,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "other",
     handle: {
       menuTitle: "其他",
+      icon: SearchOutlined,
     },
     children: [
       createLeafRoute("vite-hmr", {
