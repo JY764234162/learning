@@ -24,9 +24,7 @@ export const Component = () => {
 
   // 发送通知
   const sendNotification = (values: any) => {
-    console.log(permissionStatus);
     if ("Notification" in window && permissionStatus === "granted") {
-      console.log("发送了");
       const notificationOptions: NotificationOptions = {
         body: values.body,
         icon: values.icon || "https://jy764234162.github.io/learning/favicon.svg",
@@ -93,7 +91,7 @@ export const Component = () => {
                   initialValues={{
                     title: "通知标题",
                     body: "这是通知的内容，可以包含详细信息",
-                    icon: "https://vitejs.dev/logo.svg",
+                    icon: "https://jy764234162.github.io/learning/favicon.svg",
                     dir: "auto",
                     silent: false,
                   }}
