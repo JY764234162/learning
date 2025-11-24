@@ -23,12 +23,13 @@ export const GlobalMenu: FC<MenuProps> = (props) => {
     return transformToMenuItems(allRoutes);
   }, [allRoutes]);
 
+  console.log(router);
   return (
     <Menu
       theme={isDarkMode ? "dark" : "light"}
       mode={mode}
       items={items}
-      selectedKeys={router.state.matches[0].pathname.split("/")}
+      selectedKeys={router.state.matches[router.state.matches.length - 1].pathname.split("/")}
       onClick={({ keyPath }) => {
         const path = "/" + keyPath.reverse().join("/");
         navigate(path);
