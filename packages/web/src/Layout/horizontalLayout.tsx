@@ -20,7 +20,7 @@ export const HorizontalLayout: React.FC = () => {
 
   return (
     <AntdLayout className="h-screen w-screen">
-      <Header style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <Header style={{ display: "flex", alignItems: "center", gap: 8, boxShadow: "0 1px 2px rgb(0, 21, 41, 0.08)" }}>
         <GlobalLogo />
         <GlobalMenu style={{ flex: 1, overflow: "hidden", border: "none" }} />
 
