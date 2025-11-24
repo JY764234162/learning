@@ -1,23 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Input,
-  Form,
-  Select,
-  Space,
-  Card,
-  Typography,
-  Alert,
-  Divider,
-} from "antd";
-
+import { Button, Input, Form, Select, Space, Card, Typography, Alert, Divider } from "antd";
 const { Title, Paragraph, Text } = Typography;
 const { Option } = Select;
 
 export const Component = () => {
-  const [permissionStatus, setPermissionStatus] = useState<
-    NotificationPermission | "default"
-  >("default");
+  const [permissionStatus, setPermissionStatus] = useState<NotificationPermission | "default">("default");
   const [form] = Form.useForm();
 
   // 检查当前的通知权限状态
@@ -37,10 +24,12 @@ export const Component = () => {
 
   // 发送通知
   const sendNotification = (values: any) => {
+    console.log(permissionStatus);
     if ("Notification" in window && permissionStatus === "granted") {
+      console.log("发送了");
       const notificationOptions: NotificationOptions = {
         body: values.body,
-        icon: values.icon || "https://vitejs.dev/logo.svg",
+        icon: values.icon || "https://jy764234162.github.io/learning/favicon.svg",
         dir: values.dir || "auto",
         silent: values.silent,
       };
@@ -67,31 +56,11 @@ export const Component = () => {
   const renderPermissionAlert = () => {
     switch (permissionStatus) {
       case "granted":
-        return (
-          <Alert
-            type="success"
-            message="已获得通知权限，可以发送通知"
-            showIcon
-          />
-        );
+        return <Alert type="success" message="已获得通知权限，可以发送通知" showIcon />;
       case "denied":
-        return (
-          <Alert
-            type="error"
-            message="通知权限已被拒绝"
-            description="请在浏览器设置中修改通知权限设置"
-            showIcon
-          />
-        );
+        return <Alert type="error" message="通知权限已被拒绝" description="请在浏览器设置中修改通知权限设置" showIcon />;
       default:
-        return (
-          <Alert
-            type="info"
-            message="尚未请求通知权限"
-            description="点击下方按钮请求权限"
-            showIcon
-          />
-        );
+        return <Alert type="info" message="尚未请求通知权限" description="点击下方按钮请求权限" showIcon />;
     }
   };
 
@@ -103,12 +72,7 @@ export const Component = () => {
       <Title level={2}>浏览器通知功能演示</Title>
 
       {!isNotificationSupported ? (
-        <Alert
-          type="warning"
-          message="您的浏览器不支持通知功能"
-          description="请尝试使用Chrome、Firefox、Safari等现代浏览器"
-          showIcon
-        />
+        <Alert type="warning" message="您的浏览器不支持通知功能" description="请尝试使用Chrome、Firefox、Safari等现代浏览器" showIcon />
       ) : (
         <>
           {renderPermissionAlert()}
@@ -116,11 +80,7 @@ export const Component = () => {
 
           <Space direction="vertical" style={{ width: "100%" }}>
             {permissionStatus !== "granted" && (
-              <Button
-                type="primary"
-                onClick={requestPermission}
-                disabled={permissionStatus === "denied"}
-              >
+              <Button type="primary" onClick={requestPermission} disabled={permissionStatus === "denied"}>
                 请求通知权限
               </Button>
             )}
@@ -139,19 +99,11 @@ export const Component = () => {
                   }}
                   layout="vertical"
                 >
-                  <Form.Item
-                    name="title"
-                    label="标题"
-                    rules={[{ required: true }]}
-                  >
+                  <Form.Item name="title" label="标题" rules={[{ required: true }]}>
                     <Input placeholder="请输入通知标题" />
                   </Form.Item>
 
-                  <Form.Item
-                    name="body"
-                    label="内容"
-                    rules={[{ required: true }]}
-                  >
+                  <Form.Item name="body" label="内容" rules={[{ required: true }]}>
                     <Input.TextArea rows={3} placeholder="请输入通知内容" />
                   </Form.Item>
 
@@ -188,8 +140,7 @@ export const Component = () => {
 
           <Card title="通知API使用说明">
             <Paragraph>
-              <Text strong>Notification API</Text>{" "}
-              允许网页应用程序在用户不与网页交互时发送通知。
+              <Text strong>Notification API</Text> 允许网页应用程序在用户不与网页交互时发送通知。
             </Paragraph>
 
             <Title level={4}>基本使用方法：</Title>
@@ -201,9 +152,7 @@ export const Component = () => {
                 </li>
                 <li>
                   请求权限：
-                  <Text
-                    code
-                  >{`Notification.requestPermission().then(permission => {...})`}</Text>
+                  <Text code>{`Notification.requestPermission().then(permission => {...})`}</Text>
                 </li>
                 <li>
                   发送通知：
@@ -226,4 +175,4 @@ export const Component = () => {
       )}
     </div>
   );
-}
+};

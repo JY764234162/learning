@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
+    "@ant-design/x": "^2.0.0",
     "@arco-design/web-react": "^2.38.1",
     "@aws-sdk/client-s3": "^3.820.0",
     "@aws-sdk/lib-storage": "^3.820.0",
