@@ -1,5 +1,4 @@
 import { RouteObject } from "react-router-dom";
-import { dynamicLazyMap } from "./imports";
 import { Layout } from "@/Layout";
 import {
   AndroidOutlined,
@@ -8,9 +7,11 @@ import {
   EditOutlined,
   EnvironmentOutlined,
   JavaScriptOutlined,
+  OpenAIOutlined,
   SearchOutlined,
   TransactionOutlined,
 } from "@ant-design/icons";
+import { NotFound } from "@/components/NotFound";
 //默认路由
 export const constantRoutes: RouteObject[] = [
   {
@@ -22,7 +23,7 @@ export const constantRoutes: RouteObject[] = [
   {
     id: "not-found",
     path: "*",
-    lazy: dynamicLazyMap["not-found"],
+    Component: NotFound,
   },
 ];
 
@@ -238,5 +239,13 @@ export const authRoutes: ElegantConstRoute[] = [
         menuTitle: "实时通信（后端）",
       }),
     ],
+  },
+  {
+    name: "ai",
+    path: "ai",
+    handle: {
+      menuTitle: "AI对话",
+      icon: OpenAIOutlined,
+    },
   },
 ];

@@ -1,7 +1,5 @@
 import { createBrowserRouter, RouteObject, createHashRouter, createMemoryRouter, BlockerFunction, redirect } from "react-router-dom";
-
 import { constantRoutes } from "./constantRoutes";
-import { transformToReactRoutes } from "@/store/slice/route/shared";
 
 const historyCreatorMap = {
   hash: createHashRouter,
@@ -20,13 +18,15 @@ export interface RouterOptions {
 }
 const createRouter = ({ initRoutes, mode = "history", opt }: RouterOptions) => {
   const onBeforeRouteChange: BlockerFunction = ({ currentLocation, nextLocation, historyAction }) => {
-    console.log("onBeforeRouteChange", currentLocation, nextLocation, historyAction);
+    console.log("onBeforeRouteChange");
     window.NProgress?.start?.();
+
     return false;
   };
   const afterRouteChange = (state: any) => {
+    console.log("afterRouteChange");
     if (state.navigation.state === "idle") {
-      console.log("afterRouteChange", state, router.routes);
+      document.title = "React-Soybean";
       window.NProgress?.done?.();
     }
   };
@@ -41,7 +41,6 @@ const createRouter = ({ initRoutes, mode = "history", opt }: RouterOptions) => {
 
   return reactRouter;
 };
-
 export const router = createRouter({
   initRoutes: constantRoutes,
   mode: import.meta.env.VITE_ROUTE_MODE,

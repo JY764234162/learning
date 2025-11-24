@@ -1,4 +1,3 @@
-
 //动态导入映射关系
 export const dynamicLazyMap: Record<string, () => Promise<any>> = {
   //canvas
@@ -49,7 +48,8 @@ export const dynamicLazyMap: Record<string, () => Promise<any>> = {
   drawSvg: () => import("@/pages/svg/drawSvg"),
   svgIcon: () => import("@/pages/svg/svgIcon"),
 
-  //default
-  "not-found": () => import("@/components/NotFound"),
-  layout: () => import("@/Layout"),
+  //
+  ai: () => import("@/pages/ai"),
+
+  
 };

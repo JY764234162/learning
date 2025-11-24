@@ -25,4 +25,3 @@ export const Layout: React.FC = () => {
     </>
   );
 };
-export const Component = Layout;

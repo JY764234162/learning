@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Empty, Space } from "antd";
 
-const NotFound = () => {
+export const NotFound = () => {
   const navigate = useNavigate();
 
   const goIndex = () => {
@@ -41,4 +41,3 @@ const NotFound = () => {
     </div>
   );
 };
-export const Component = NotFound;
