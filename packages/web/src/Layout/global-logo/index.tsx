@@ -17,8 +17,9 @@ const GlobalLogo: FC<Props> = memo(({ className, showTitle = true, ...props }) =
     <Link className={ClassNames("w-40 h-16 flex justify-center items-center", className)} to="/" {...props}>
       <SvgIcon icon={logo} size={32} style={{ fill: primaryColor }} />
       <h2
-        className=" font-bold text-base "
         style={{
+          fontSize: 16,
+          fontWeight: "bold",
           display: "block",
           color: primaryColor,
           overflow: "hidden",
