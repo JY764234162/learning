@@ -46,6 +46,8 @@ export const SettingDrawer = () => {
           grayscale: settings.grayscale,
           layoutMode: settings.layout.mode,
           primary: settings.color.primary,
+          watermarkIsVisible: settings.watermark.visible,
+          watermarkText: settings.watermark.text,
         }}
       >
         <Form.Item label="是否灰度" name={"colourWeakness"}>
