@@ -9,7 +9,7 @@ import { settingSlice } from "./store/slice/setting";
 import { Watermark, WatermarkProps } from "antd";
 
 const watermarkProps: WatermarkProps = {
-  zIndex:100
+  zIndex: 9999,
 };
 
 export default function App() {
@@ -19,11 +19,7 @@ export default function App() {
     <ThemeContextProvider>
       <AntdProvider>
         <AppProvider>
-          <Watermark
-            className="h-full"
-            content={settings.watermark.visible ? settings.watermark?.text || "JY-Admin" : ""}
-            {...watermarkProps}
-          >
+          <Watermark className="h-full" content={settings.watermark.visible ? settings.watermark?.text : ""} {...watermarkProps}>
             <Router />
           </Watermark>
         </AppProvider>
