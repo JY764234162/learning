@@ -130,6 +130,9 @@ export const authRoutes: ElegantConstRoute[] = [
       createLeafRoute("xml-parser", {
         menuTitle: "xml解析渲染",
       }),
+      createLeafRoute("auto-height-modal", {
+        menuTitle: "自适应高度弹窗",
+      }),
     ],
   },
   {
