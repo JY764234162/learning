@@ -1,6 +1,6 @@
 import { settingSlice } from "@/store/slice/setting";
 import { SettingOutlined } from "@ant-design/icons";
-import { Button, ColorPicker, Drawer, Form, Radio, Switch, Tooltip } from "antd";
+import { Button, ColorPicker, Drawer, Form, Input, Radio, Switch, Tooltip } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 
 export function SettingButton() {
@@ -61,6 +61,30 @@ export const SettingDrawer = () => {
               dispatch(settingSlice.actions.setGrayscale(value));
             }}
           />
+        </Form.Item>
+
+        <Form.Item label="是否开启水印" name={"watermarkIsVisible"}>
+          <Switch
+            onChange={(value) => {
+              dispatch(settingSlice.actions.setWaterMarkIsVisible(value));
+            }}
+          />
+        </Form.Item>
+        <Form.Item noStyle shouldUpdate={(prevValues, curValues) => prevValues.watermarkIsVisible !== curValues.watermarkIsVisible}>
+          {({ getFieldValue }) => {
+            const watermarkIsVisible = getFieldValue("watermarkIsVisible");
+            if (!watermarkIsVisible) return null;
+            return (
+              <Form.Item name="watermarkText" label={"水印文案"}>
+                <Input
+                  placeholder="请输入水印文案"
+                  onChange={(e) => {
+                    dispatch(settingSlice.actions.setWaterMarkText(e.target.value));
+                  }}
+                />
+              </Form.Item>
+            );
+          }}
         </Form.Item>
         <Form.Item label="是否水平布局" name={"layoutMode"}>
           <Radio.Group

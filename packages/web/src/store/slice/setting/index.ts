@@ -37,7 +37,7 @@ const initialState: App.Setting = {
   //水印设置
   watermark: {
     text: "JY-Admin",
-    visible: false,
+    visible: true,
   },
 };
 
@@ -55,10 +55,19 @@ export const settingSlice = createSlice({
       toggleGrayscaleMode(payload);
       state.grayscale = payload;
     },
+    //设置水印是否开启
+    setWaterMarkIsVisible(state, { payload }: PayloadAction<boolean>) {
+      state.watermark.visible = payload;
+    },
+    //设置水印文案
+    setWaterMarkText(state, { payload }: PayloadAction<string>) {
+      state.watermark.text = payload;
+    },
     //设置跟随主题色
     setInfoFollowPrimary(state, { payload }: PayloadAction<boolean>) {
       state.isInfoFollowPrimary = payload;
     },
+
     //设置抽屉
     setSettingDrawerShow(state, { payload }: PayloadAction<boolean>) {
       state.showSettingDrawer = payload;

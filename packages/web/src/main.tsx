@@ -21,7 +21,6 @@ async function setupApp() {
   //版本更新提示
   setupAppUpdateNotification();
 
-  console.log(router.routes)
   const container = document.getElementById("root");
   if (!container) return;
   createRoot(container).render(
