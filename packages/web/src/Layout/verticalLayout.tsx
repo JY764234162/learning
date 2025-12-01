@@ -9,6 +9,7 @@ import { settingSlice } from "@/store/slice/setting";
 import { Outlet } from "react-router-dom";
 import GlobalLogo from "./global-logo";
 import { SettingButton } from "@/components/SettingDrawerButton";
+import { FullScreenButton } from "@/components/FullScreenButton";
 
 const { Header, Sider, Content, Footer } = AntdLayout;
 
@@ -43,6 +44,7 @@ export const VerticalLayout: React.FC = () => {
         >
           <Button type="text" icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={() => setCollapsed(!collapsed)} />
           <div style={{ flex: 1 }}></div>
+          <FullScreenButton />
           <SwitchThemeButton />
           <SettingButton />
         </Header>

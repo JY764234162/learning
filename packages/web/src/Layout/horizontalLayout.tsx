@@ -9,6 +9,7 @@ import { settingSlice } from "@/store/slice/setting";
 import { Outlet } from "react-router-dom";
 import GlobalLogo from "./global-logo";
 import { SettingButton } from "@/components/SettingDrawerButton";
+import { FullScreenButton } from "@/components/FullScreenButton";
 
 const { Header, Sider, Content, Footer } = AntdLayout;
 
@@ -23,7 +24,7 @@ export const HorizontalLayout: React.FC = () => {
       <Header style={{ display: "flex", alignItems: "center", gap: 8, boxShadow: "0 1px 2px rgb(0, 21, 41, 0.08)" }}>
         <GlobalLogo />
         <GlobalMenu style={{ flex: 1, overflow: "hidden", border: "none" }} />
-
+        <FullScreenButton />
         <SwitchThemeButton />
         <SettingButton />
       </Header>
