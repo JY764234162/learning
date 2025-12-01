@@ -10,6 +10,8 @@ import { Outlet } from "react-router-dom";
 import GlobalLogo from "./global-logo";
 import { SettingButton } from "@/components/SettingDrawerButton";
 import { FullScreenButton } from "@/components/FullScreenButton";
+import { SearchButton } from "@/components/SearchButton";
+import { GlobalHeader } from "./global-header";
 
 const { Header, Sider, Content, Footer } = AntdLayout;
 
@@ -21,17 +23,11 @@ export const HorizontalLayout: React.FC = () => {
 
   return (
     <AntdLayout className="h-screen w-screen">
-      <Header style={{ display: "flex", alignItems: "center", gap: 8, boxShadow: "0 1px 2px rgb(0, 21, 41, 0.08)" }}>
-        <GlobalLogo />
-        <GlobalMenu style={{ flex: 1, overflow: "hidden", border: "none" }} />
-        <FullScreenButton />
-        <SwitchThemeButton />
-        <SettingButton />
-      </Header>
+      <GlobalHeader />
       <Content style={{ overflow: "auto", minHeight: 280 }}>
         <Outlet />
       </Content>
-      <Footer style={{ textAlign: "center" }}>Ant Design ©{new Date().getFullYear()} Created by Ant UED</Footer>
+      <Footer style={{ textAlign: "center" }}>前端技术学习实验室 ©{new Date().getFullYear()} Created by JiangYi</Footer>
     </AntdLayout>
   );
 };

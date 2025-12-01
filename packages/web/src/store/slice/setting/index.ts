@@ -19,7 +19,8 @@ const initialState: App.Setting = {
     reverseHorizontalMix: false,
     scrollMode: "content",
   },
-
+  //是否折叠
+  collapsed: false,
   //颜色
   color: {
     primary: "#646cff",
@@ -72,10 +73,15 @@ export const settingSlice = createSlice({
     setSettingDrawerShow(state, { payload }: PayloadAction<boolean>) {
       state.showSettingDrawer = payload;
     },
+     //设置侧边菜单折叠状态
+    setCollapsed(state, { payload }: PayloadAction<boolean>) {
+      state.collapsed = payload;
+    },
     //设置布局模式
     changeLayoutMode(state, { payload }: PayloadAction<App.LayoutMode>) {
       state.layout.mode = payload;
     },
+   
     //设置只展开当前父级
     changeOnlyExpandCurrentParentMenu(state, { payload }: PayloadAction<boolean>) {
       state.isOnlyExpandCurrentParentMenu = payload;

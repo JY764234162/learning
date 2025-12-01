@@ -42,6 +42,7 @@ export const transformToReactRoutes: (route: ElegantConstRoute[]) => RouteObject
   // });
 };
 
+//转化为菜单结构
 export const transformToMenuItems: (route: ElegantConstRoute[]) => ItemType<MenuItemType>[] = (routes) => {
   return routes.map((item) => {
     const icon = item?.handle?.icon ? createElement(item.handle?.icon) : null;
@@ -52,4 +53,18 @@ export const transformToMenuItems: (route: ElegantConstRoute[]) => ItemType<Menu
       children: item?.children ? transformToMenuItems(item.children) : undefined,
     };
   });
+};
+
+//转化为可搜索的菜单结构（所有叶子结点）
+export const transformMenuToSearchMenus = (route: ElegantConstRoute[], treeMap = []) => {
+  if (route && route.length === 0) return [];
+  return route.reduce((acc, cur) => {
+    if (!cur?.children) {
+      acc.push(cur);
+    }
+    if (cur.children && cur.children.length > 0) {
+      transformMenuToSearchMenus(cur.children, treeMap);
+    }
+    return acc;
+  }, treeMap);
 };

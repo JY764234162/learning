@@ -7,6 +7,7 @@ declare namespace App {
       reverseHorizontalMix: boolean;
       scrollMode: "content" | "wrapper";
     };
+    collapsed:boolean
     showSettingDrawer: boolean;
     colourWeakness: boolean;
     grayscale: boolean;
