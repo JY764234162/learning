@@ -29,7 +29,6 @@ export const constantRoutes: RouteObject[] = [
 
 const createLeafRoute = (path: string, handle: Record<string, any>) => {
   return {
-    name: path,
     path: path,
     handle,
   };
@@ -38,7 +37,6 @@ const createLeafRoute = (path: string, handle: Record<string, any>) => {
 //没有lazy的路由，用于存储在store里，lazy不能序列化
 export const authRoutes: ElegantConstRoute[] = [
   {
-    name: "canvas",
     path: "canvas",
     handle: {
       menuTitle: "canvas画布",
@@ -60,7 +58,6 @@ export const authRoutes: ElegantConstRoute[] = [
     ],
   },
   {
-    name: "component",
     path: "component",
     handle: {
       menuTitle: "组件封装",
@@ -136,7 +133,6 @@ export const authRoutes: ElegantConstRoute[] = [
     ],
   },
   {
-    name: "css",
     path: "css",
     handle: {
       menuTitle: "CSS相关",
@@ -152,7 +148,6 @@ export const authRoutes: ElegantConstRoute[] = [
     ],
   },
   {
-    name: "lib",
     path: "lib",
     handle: {
       menuTitle: "库相关",
@@ -186,7 +181,6 @@ export const authRoutes: ElegantConstRoute[] = [
     ],
   },
   {
-    name: "origin",
     path: "origin",
     handle: {
       menuTitle: "原生相关",
@@ -211,7 +205,6 @@ export const authRoutes: ElegantConstRoute[] = [
     ],
   },
   {
-    name: "svg",
     path: "svg",
     handle: {
       menuTitle: "svg",
@@ -228,7 +221,6 @@ export const authRoutes: ElegantConstRoute[] = [
     ],
   },
   {
-    name: "other",
     path: "other",
     handle: {
       menuTitle: "其他",
@@ -244,7 +236,6 @@ export const authRoutes: ElegantConstRoute[] = [
     ],
   },
   {
-    name: "ai",
     path: "ai",
     handle: {
       menuTitle: "AI对话",

@@ -26,6 +26,9 @@ const createRouter = ({ initRoutes, mode = "history", opt }: RouterOptions) => {
   const afterRouteChange = (state: any) => {
     // console.log("afterRouteChange");
     if (state.navigation.state === "idle") {
+      const menuTitle = state.matches[state.matches.length - 1].route.handle?.menuTitle;
+      if (menuTitle) document.title = menuTitle;
+
       window.NProgress?.done?.();
     }
   };

@@ -9,8 +9,6 @@ import { FC, useContext, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-//
-
 export const GlobalMenu: FC<MenuProps> = (props) => {
   const navigate = useNavigate();
   const { isDarkMode } = useContext(ThemeContext);
@@ -23,7 +21,6 @@ export const GlobalMenu: FC<MenuProps> = (props) => {
     return transformToMenuItems(allRoutes);
   }, [allRoutes]);
 
-  console.log(router);
   return (
     <Menu
       theme={isDarkMode ? "dark" : "light"}

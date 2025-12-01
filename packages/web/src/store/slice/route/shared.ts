@@ -13,13 +13,12 @@ export const transformToReactRoutes: (route: ElegantConstRoute[]) => RouteObject
         loader: () => redirect(item.path),
       });
     }
-    if (item.name) {
+    if (item.path) {
       result.push({
         path: item.path,
-        id: item.name,
-        lazy: dynamicLazyMap?.[item.name],
+        lazy: dynamicLazyMap?.[item.path],
         children: item?.children ? transformToReactRoutes(item.children) : [],
-        handle: item.meta,
+        handle: item.handle,
       });
     } else {
       result.push({ ...item });
