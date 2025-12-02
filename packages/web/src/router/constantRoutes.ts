@@ -6,6 +6,7 @@ import {
   ChromeOutlined,
   EditOutlined,
   EnvironmentOutlined,
+  FileMarkdownOutlined,
   JavaScriptOutlined,
   OpenAIOutlined,
   SearchOutlined,
@@ -240,6 +241,13 @@ export const authRoutes: ElegantConstRoute[] = [
     handle: {
       menuTitle: "AI对话",
       icon: OpenAIOutlined,
+    },
+  },
+  {
+    path: "about",
+    handle: {
+      menuTitle: "关于",
+      icon: FileMarkdownOutlined,
     },
   },
 ];

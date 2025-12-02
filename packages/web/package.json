@@ -1,7 +1,7 @@
 {
   "name": "@packages/web",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "license": "MIT",
   "homepage": "https://jy764234162.github.io/learning",
