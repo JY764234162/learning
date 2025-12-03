@@ -179,6 +179,9 @@ export const authRoutes: ElegantConstRoute[] = [
       createLeafRoute("threejs", {
         menuTitle: "3D渲染",
       }),
+      createLeafRoute("react-flow", {
+        menuTitle: "react-flow流程图",
+      }),
     ],
   },
   {

@@ -36,6 +36,7 @@ export const dynamicLazyMap: Record<string, () => Promise<any>> = {
   previewWord: () => import("@/pages/lib/previewWord"),
   state: () => import("@/pages/lib/state"),
   threejs: () => import("@/pages/lib/threejs"),
+  "react-flow": () => import("@/pages/lib/react-flow"),
   //origin
   "error-boundary": () => import("@/pages/origin/error-boundary"),
   notification: () => import("@/pages/origin/notification"),
