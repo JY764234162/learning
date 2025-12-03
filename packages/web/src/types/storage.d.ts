@@ -15,5 +15,9 @@ declare namespace StorageType {
     token: string;
     /** The user info */
     userInfo: Api.Auth.UserInfo;
+    /** React Flow nodes */
+    reactFlowNodes: any[];
+    /** React Flow edges */
+    reactFlowEdges: any[];
   }
 }
