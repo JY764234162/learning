@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Bubble, Conversations, Sender, type ConversationsProps } from "@ant-design/x";
 import { UserOutlined, PlusOutlined, MessageOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Button, Layout, theme, Empty, Flex, Avatar } from "antd";
-import { fetchEventSource } from "@microsoft/fetch-event-source";
 const { Sider, Content } = Layout;
 
 // 模拟类型定义
