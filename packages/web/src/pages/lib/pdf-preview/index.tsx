@@ -78,21 +78,38 @@ export const Component = () => {
 
   // 渲染页面
   useEffect(() => {
-    if (!pdfDoc || !containerRef.current) return;
+    if (!pdfDoc) return;
+
+    let isMounted = true;
 
     const renderPage = async () => {
       try {
+        // 等待 DOM 更新，确保 containerRef 已经挂载
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        
+        // 检查组件是否已卸载
+        if (!isMounted) return;
+        
+        const container = containerRef.current;
+        // 确保 container 是有效的 DOM 节点
+        if (!container || !(container instanceof Node) || !container.isConnected) {
+          return;
+        }
+
         const page = await pdfDoc.getPage(pageNum);
         const viewport = page.getViewport({ scale });
 
-        // 清除之前的 canvas
-        const container = containerRef.current;
-        if (!container) return;
+        // 再次检查组件是否已卸载
+        if (!isMounted) return;
 
         // 移除旧的 canvas
         const oldCanvas = container.querySelector("canvas");
-        if (oldCanvas) {
-          oldCanvas.remove();
+        if (oldCanvas && oldCanvas instanceof Node) {
+          try {
+            oldCanvas.remove();
+          } catch (err) {
+            console.warn("Failed to remove old canvas:", err);
+          }
         }
 
         // 创建新的 canvas
@@ -106,7 +123,17 @@ export const Component = () => {
         canvas.style.margin = "0 auto";
         canvas.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
 
-        container.appendChild(canvas);
+        // 确保 container 仍然有效后再添加 canvas
+        if (!isMounted || !container.isConnected || !(container instanceof Node)) {
+          return;
+        }
+
+        try {
+          container.appendChild(canvas);
+        } catch (err) {
+          console.error("Failed to append canvas:", err);
+          return;
+        }
 
         // 渲染页面
         const renderContext = {
@@ -116,12 +143,18 @@ export const Component = () => {
 
         await page.render(renderContext).promise;
       } catch (err) {
-        console.error("Error rendering page:", err);
-        setError("渲染页面失败");
+        if (isMounted) {
+          console.error("Error rendering page:", err);
+          setError("渲染页面失败");
+        }
       }
     };
 
     renderPage();
+
+    return () => {
+      isMounted = false;
+    };
   }, [pdfDoc, pageNum, scale]);
 
   // 上一页
