@@ -11,6 +11,12 @@ import {
   OpenAIOutlined,
   SearchOutlined,
   TransactionOutlined,
+  AppstoreOutlined,
+  InteractionOutlined,
+  FileTextOutlined,
+  CodeOutlined,
+  ToolOutlined,
+  ApiOutlined,
 } from "@ant-design/icons";
 import { NotFound } from "@/components/NotFound";
 //默认路由
@@ -37,11 +43,115 @@ const createLeafRoute = (path: string, handle: Record<string, any>) => {
 
 //没有lazy的路由，用于存储在store里，lazy不能序列化
 export const authRoutes: ElegantConstRoute[] = [
+  // ========== UI组件 ==========
   {
-    path: "canvas",
+    path: "ui",
     handle: {
-      menuTitle: "canvas画布",
-      icon: AndroidOutlined,
+      menuTitle: "UI组件",
+      icon: AppstoreOutlined,
+    },
+    children: [
+      createLeafRoute("bezierTabs", {
+        menuTitle: "贝塞尔曲线Tabs",
+        keyWords: ["贝塞尔曲线", "组件"],
+      }),
+      createLeafRoute("auto-height-modal", {
+        menuTitle: "自适应高度弹窗",
+      }),
+      createLeafRoute("treeEditor", {
+        menuTitle: "Tree组件编辑器",
+      }),
+      createLeafRoute("cron", {
+        menuTitle: "Cron计时器组件",
+        keyWords: ["cron", "组件", "任务"],
+      }),
+    ],
+  },
+  // ========== 交互功能 ==========
+  {
+    path: "interaction",
+    handle: {
+      menuTitle: "交互功能",
+      icon: InteractionOutlined,
+    },
+    children: [
+      createLeafRoute("darg-upload", {
+        menuTitle: "拖拽上传",
+        keyWords: ["拖拽", "api", "上传"],
+      }),
+      createLeafRoute("drag-list", {
+        menuTitle: "拖拽列表",
+        keyWords: ["拖拽", "api"],
+      }),
+      createLeafRoute("drag-sort", {
+        menuTitle: "拖拽排序",
+        keyWords: ["拖拽", "api", "排序"],
+      }),
+      createLeafRoute("scroll-horizontal", {
+        menuTitle: "水平滚动",
+      }),
+      createLeafRoute("scrollAndHighlight", {
+        menuTitle: "滚动指定位置高亮",
+      }),
+    ],
+  },
+  // ========== 图片处理 ==========
+  {
+    path: "image",
+    handle: {
+      menuTitle: "图片处理",
+      icon: FileTextOutlined,
+    },
+    children: [
+      createLeafRoute("color-thief", {
+        menuTitle: "图片主题色提取",
+        keyWords: ["图片", "颜色", "主题色"],
+      }),
+      createLeafRoute("lazyImage", {
+        menuTitle: "图片懒加载",
+      }),
+      createLeafRoute("preLoad", {
+        menuTitle: "预加载",
+      }),
+      createLeafRoute("progressiveImg", {
+        menuTitle: "渐进式图片加载",
+      }),
+    ],
+  },
+  // ========== 数据处理 ==========
+  {
+    path: "data",
+    handle: {
+      menuTitle: "数据处理",
+      icon: CodeOutlined,
+    },
+    children: [
+      createLeafRoute("keyword-high-light", {
+        menuTitle: "关键词高亮算法",
+        keyWords: ["高亮", "算法", "关键词"],
+      }),
+      createLeafRoute("string-diff", {
+        menuTitle: "字符串diff比对",
+      }),
+      createLeafRoute("export-html", {
+        menuTitle: "导出html",
+        keyWords: ["导出", "html"],
+      }),
+      createLeafRoute("html-to-image", {
+        menuTitle: "html导出为图片",
+        keyWords: ["导出", "图片", "html"],
+      }),
+      createLeafRoute("xml-parser", {
+        menuTitle: "xml解析渲染",
+      }),
+    ],
+  },
+  // ========== 可视化 ==========
+  {
+    path: "visualization",
+    handle: {
+      menuTitle: "可视化",
+      icon: TransactionOutlined,
     },
     children: [
       createLeafRoute("canvas-color-analyzer", {
@@ -56,125 +166,12 @@ export const authRoutes: ElegantConstRoute[] = [
         menuTitle: "canvas生成水印",
         keyWords: ["canvas", "水印", "自定义"],
       }),
-    ],
-  },
-  {
-    path: "component",
-    handle: {
-      menuTitle: "组件封装",
-      icon: JavaScriptOutlined,
-    },
-    children: [
-      createLeafRoute("bezierTabs", {
-        menuTitle: "贝塞尔曲线Tabs",
-        keyWords: ["贝塞尔曲线", "组件"],
+      createLeafRoute("drawSvg", {
+        menuTitle: "Svg绘画",
+        icon: EnvironmentOutlined,
       }),
-      createLeafRoute("color-thief", {
-        menuTitle: "图片主题色提取",
-        keyWords: ["图片", "颜色", "主题色"],
-      }),
-      createLeafRoute("cron", {
-        menuTitle: "Cron计时器组件",
-        keyWords: ["cron", "组件", "任务"],
-      }),
-      createLeafRoute("darg-upload", {
-        menuTitle: "拖拽上传",
-        keyWords: ["拖拽", "api", "上传"],
-      }),
-      createLeafRoute("drag-list", {
-        menuTitle: "拖拽列表",
-        keyWords: ["拖拽", "api"],
-      }),
-      createLeafRoute("drag-sort", {
-        menuTitle: "拖拽排序",
-        keyWords: ["拖拽", "api", "排序"],
-      }),
-      createLeafRoute("export-html", {
-        menuTitle: "导出html",
-        keyWords: ["导出", "html"],
-      }),
-      createLeafRoute("html-to-image", {
-        menuTitle: "html导出为图片",
-        keyWords: ["导出", "图片", "html"],
-      }),
-      createLeafRoute("keyword-high-light", {
-        menuTitle: "关键词高亮算法",
-        keyWords: ["高亮", "算法", "关键词"],
-      }),
-      createLeafRoute("lazyImage", {
-        menuTitle: "图片懒加载",
-      }),
-      createLeafRoute("preLoad", {
-        menuTitle: "预加载",
-      }),
-      createLeafRoute("progressiveImg", {
-        menuTitle: "渐进式图片加载",
-      }),
-      createLeafRoute("resume", {
-        menuTitle: "简历",
-      }),
-      createLeafRoute("scroll-horizontal", {
-        menuTitle: "水平滚动",
-      }),
-      createLeafRoute("scrollAndHighlight", {
-        menuTitle: "滚动指定位置高亮",
-      }),
-      createLeafRoute("string-diff", {
-        menuTitle: "字符串diff比对",
-      }),
-      createLeafRoute("treeEditor", {
-        menuTitle: "Tree组件编辑器",
-      }),
-      createLeafRoute("xml-parser", {
-        menuTitle: "xml解析渲染",
-      }),
-      createLeafRoute("auto-height-modal", {
-        menuTitle: "自适应高度弹窗",
-      }),
-    ],
-  },
-  {
-    path: "css",
-    handle: {
-      menuTitle: "CSS相关",
-      icon: ChromeOutlined,
-    },
-    children: [
-      createLeafRoute("css-filter", {
-        menuTitle: "cssFilter属性",
-      }),
-      createLeafRoute("oracle-font", {
-        menuTitle: "甲骨文字体",
-      }),
-    ],
-  },
-  {
-    path: "lib",
-    handle: {
-      menuTitle: "库相关",
-      icon: EditOutlined,
-    },
-    children: [
-      createLeafRoute("floating-ui", {
-        menuTitle: "悬浮",
-      }),
-      createLeafRoute("leaflet-map", {
-        menuTitle: "地图",
-      }),
-      createLeafRoute("microapp", {
-        menuTitle: "微应用",
-      }),
-      createLeafRoute("monaco-react", {
-        menuTitle: "monaco编辑器",
-      }),
-      createLeafRoute("pdf-preview", {
-        menuTitle: "pdf预览",
-      }),
-      createLeafRoute("previewWord", {
-        menuTitle: "word预览",
-      }),
-      createLeafRoute("state", {
-        menuTitle: "状态管理",
+      createLeafRoute("svgIcon", {
+        menuTitle: "封装svgIcon",
       }),
       createLeafRoute("threejs", {
         menuTitle: "3D渲染",
@@ -184,10 +181,62 @@ export const authRoutes: ElegantConstRoute[] = [
       }),
     ],
   },
+  // ========== 编辑器 ==========
   {
-    path: "origin",
+    path: "editor",
     handle: {
-      menuTitle: "原生相关",
+      menuTitle: "编辑器",
+      icon: EditOutlined,
+    },
+    children: [
+      createLeafRoute("monaco-react", {
+        menuTitle: "monaco编辑器",
+      }),
+    ],
+  },
+  // ========== 文档预览 ==========
+  {
+    path: "document",
+    handle: {
+      menuTitle: "文档预览",
+      icon: FileTextOutlined,
+    },
+    children: [
+      createLeafRoute("pdf-preview", {
+        menuTitle: "pdf预览",
+      }),
+      createLeafRoute("previewWord", {
+        menuTitle: "word预览",
+      }),
+    ],
+  },
+  // ========== 工具库 ==========
+  {
+    path: "library",
+    handle: {
+      menuTitle: "工具库",
+      icon: ToolOutlined,
+    },
+    children: [
+      createLeafRoute("floating-ui", {
+        menuTitle: "悬浮",
+      }),
+      createLeafRoute("leaflet-map", {
+        menuTitle: "地图",
+      }),
+      createLeafRoute("state", {
+        menuTitle: "状态管理",
+      }),
+      createLeafRoute("microapp", {
+        menuTitle: "微应用",
+      }),
+    ],
+  },
+  // ========== React特性 ==========
+  {
+    path: "react",
+    handle: {
+      menuTitle: "React特性",
       icon: AppleOutlined,
     },
     children: [
@@ -208,27 +257,28 @@ export const authRoutes: ElegantConstRoute[] = [
       }),
     ],
   },
+  // ========== 样式 ==========
   {
-    path: "svg",
+    path: "style",
     handle: {
-      menuTitle: "svg",
-      icon: TransactionOutlined,
+      menuTitle: "样式",
+      icon: ChromeOutlined,
     },
     children: [
-      createLeafRoute("drawSvg", {
-        menuTitle: "Svg绘画",
-        icon: EnvironmentOutlined,
+      createLeafRoute("css-filter", {
+        menuTitle: "cssFilter属性",
       }),
-      createLeafRoute("svgIcon", {
-        menuTitle: "封装svgIcon",
+      createLeafRoute("oracle-font", {
+        menuTitle: "甲骨文字体",
       }),
     ],
   },
+  // ========== 开发工具 ==========
   {
-    path: "other",
+    path: "devtools",
     handle: {
-      menuTitle: "其他",
-      icon: SearchOutlined,
+      menuTitle: "开发工具",
+      icon: ApiOutlined,
     },
     children: [
       createLeafRoute("vite-hmr", {
@@ -236,6 +286,19 @@ export const authRoutes: ElegantConstRoute[] = [
       }),
       createLeafRoute("websocket", {
         menuTitle: "实时通信（后端）",
+      }),
+    ],
+  },
+  // ========== 其他 ==========
+  {
+    path: "other",
+    handle: {
+      menuTitle: "其他",
+      icon: SearchOutlined,
+    },
+    children: [
+      createLeafRoute("resume", {
+        menuTitle: "简历",
       }),
     ],
   },
