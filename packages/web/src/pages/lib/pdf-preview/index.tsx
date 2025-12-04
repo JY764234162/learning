@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as pdfjsLib from "pdfjs-dist";
-import { Button, Spin, Space, Upload, Progress, message } from "antd";
-import { LeftOutlined, RightOutlined, ZoomInOutlined, ZoomOutOutlined, UploadOutlined } from "@ant-design/icons";
+import { Button, Spin, Space, Upload, Progress, Card, Alert } from "antd";
+import { LeftOutlined, RightOutlined, ZoomInOutlined, ZoomOutOutlined, UploadOutlined, InboxOutlined } from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd";
+import styles from "./index.module.less";
+
+const { Dragger } = Upload;
 
 // 导入本地 worker 文件 - 使用 Vite 的 ?url 导入
 // 使用 .js 文件（更通用）
@@ -15,7 +18,6 @@ if (typeof window !== "undefined") {
 
 export const Component = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [loading, setLoading] = useState(false); // 改为 false，初始不加载
   const [parsing, setParsing] = useState(false); // 解析 PDF 时的 loading
   const [uploading, setUploading] = useState(false); // 上传状态
   const [uploadProgress, setUploadProgress] = useState(0); // 上传进度
@@ -53,29 +55,6 @@ export const Component = () => {
     }
   };
 
-  // 初始加载默认 PDF
-  useEffect(() => {
-    const loadDefaultPdf = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        // 加载同文件夹下的 1.pdf 文件
-        const pdfPath = new URL("./1.pdf", import.meta.url).href;
-        await loadPdfFromSource(pdfPath);
-        setLoading(false);
-      } catch (err: any) {
-        console.error("Error loading default PDF:", err);
-        setError(err.message || "加载默认 PDF 失败");
-        setLoading(false);
-      }
-    };
-
-    // 初始加载默认 PDF
-    loadDefaultPdf();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // 渲染页面
   useEffect(() => {
     if (!pdfDoc) return;
@@ -86,10 +65,10 @@ export const Component = () => {
       try {
         // 等待 DOM 更新，确保 containerRef 已经挂载
         await new Promise((resolve) => setTimeout(resolve, 0));
-        
+
         // 检查组件是否已卸载
         if (!isMounted) return;
-        
+
         const container = containerRef.current;
         // 确保 container 是有效的 DOM 节点
         if (!container || !(container instanceof Node) || !container.isConnected) {
@@ -179,16 +158,13 @@ export const Component = () => {
     setScale((prev) => Math.max(prev - 0.25, 0.5));
   };
 
-  // 处理文件上传
-  const handleUpload: UploadProps["customRequest"] = async (options) => {
-    const { file, onProgress, onSuccess, onError } = options;
-    const fileObj = file as File;
+  // 处理文件上传（用于 Dragger）
+  const handleFileUpload = async (file: File) => {
+    setUploading(true);
+    setUploadProgress(0);
+    setError(null);
 
     try {
-      setUploading(true);
-      setUploadProgress(0);
-      setError(null);
-
       // 模拟上传进度（实际项目中应该从真实的上传 API 获取）
       const progressInterval = setInterval(() => {
         setUploadProgress((prev) => {
@@ -211,7 +187,7 @@ export const Component = () => {
           }
         };
         reader.onerror = () => reject(new Error("文件读取错误"));
-        reader.readAsArrayBuffer(fileObj);
+        reader.readAsArrayBuffer(file);
       });
 
       clearInterval(progressInterval);
@@ -221,16 +197,23 @@ export const Component = () => {
       await loadPdfFromSource(arrayBuffer);
 
       setUploading(false);
-      onSuccess?.(fileObj);
+      setFileList([{ uid: file.name, name: file.name, status: "done" }]);
       window.$message?.success("文件上传成功");
     } catch (err: any) {
       console.error("Upload error:", err);
       setUploading(false);
       setUploadProgress(0);
       setError(err.message || "文件上传失败");
-      onError?.(err);
       window.$message?.error("文件上传失败");
     }
+  };
+
+  // 处理文件上传（用于 Upload 组件）
+  const handleUpload: UploadProps["customRequest"] = async (options) => {
+    const { file, onProgress, onSuccess, onError } = options;
+    const fileObj = file as File;
+    await handleFileUpload(fileObj);
+    onSuccess?.(fileObj);
   };
 
   // 处理文件列表变化
@@ -260,169 +243,154 @@ export const Component = () => {
     setError(null);
   };
 
-  if (loading) {
-    return (
-      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "80vh" }}>
-        <Spin size="large" />
-        <div style={{ marginTop: "16px", color: "#666" }}>加载默认 PDF 中...</div>
-      </div>
-    );
-  }
+  // 拖拽上传配置
+  const draggerProps = {
+    name: "file",
+    multiple: false,
+    accept: ".pdf",
+    beforeUpload: (file: File) => {
+      handleFileUpload(file);
+      return false; // 阻止自动上传
+    },
+    showUploadList: false,
+    disabled: uploading || parsing,
+  };
 
   return (
-    <div style={{ padding: "20px", height: "100vh", display: "flex", flexDirection: "column" }}>
-      {/* 工具栏 */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-          padding: "12px",
-          background: "#f5f5f5",
-          borderRadius: "8px",
-        }}
-      >
-        <Space>
-          <Button icon={<LeftOutlined />} onClick={goToPrevPage} disabled={pageNum <= 1}>
-            上一页
-          </Button>
-          <span style={{ minWidth: "120px", textAlign: "center" }}>
-            第 {pageNum} 页 / 共 {numPages} 页
-          </span>
-          <Button icon={<RightOutlined />} onClick={goToNextPage} disabled={pageNum >= numPages}>
-            下一页
-          </Button>
-        </Space>
+    <div className={styles.container}>
+      <Card title="PDF 文档预览" className={styles.card}>
+        <Dragger {...draggerProps}>
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-text">点击或拖拽 PDF 文件到此区域</p>
+          <p className="ant-upload-hint">支持 .pdf 格式的 PDF 文档</p>
+        </Dragger>
 
-        <Space>
-          <Button icon={<ZoomOutOutlined />} onClick={zoomOut} disabled={scale <= 0.5}>
-            缩小
-          </Button>
-          <span style={{ minWidth: "80px", textAlign: "center" }}>{Math.round(scale * 100)}%</span>
-          <Button icon={<ZoomInOutlined />} onClick={zoomIn} disabled={scale >= 3}>
-            放大
-          </Button>
-        </Space>
+        {/* 上传进度条 */}
+        {uploading && uploadProgress > 0 && (
+          <div style={{ marginTop: "16px" }}>
+            <Progress
+              percent={uploadProgress}
+              status={uploadProgress === 100 ? "success" : "active"}
+              strokeColor={{
+                "0%": "#108ee9",
+                "100%": "#87d068",
+              }}
+            />
+          </div>
+        )}
 
-        <Space>
-          <Upload
-            customRequest={handleUpload}
-            onChange={handleChange}
-            onRemove={handleRemove}
-            fileList={fileList}
-            accept=".pdf"
-            maxCount={1}
-            showUploadList={false}
-            disabled={uploading || parsing}
-          >
-            <Button
-              type="primary"
-              icon={<UploadOutlined />}
-              loading={uploading || parsing}
-              disabled={uploading || parsing}
-            >
-              {uploading ? "上传中..." : parsing ? "解析中..." : "上传 PDF"}
-            </Button>
-          </Upload>
-        </Space>
-      </div>
-
-      {/* 上传进度条 */}
-      {uploading && uploadProgress > 0 && (
-        <div style={{ marginBottom: "16px" }}>
-          <Progress
-            percent={uploadProgress}
-            status={uploadProgress === 100 ? "success" : "active"}
-            strokeColor={{
-              "0%": "#108ee9",
-              "100%": "#87d068",
-            }}
+        {/* 错误提示 */}
+        {error && (
+          <Alert
+            message="错误"
+            description={error}
+            type="error"
+            showIcon
+            className={styles.alert}
+            action={
+              <Button
+                size="small"
+                onClick={() => {
+                  setError(null);
+                  setFileList([]);
+                }}
+              >
+                清除错误
+              </Button>
+            }
           />
-        </div>
-      )}
+        )}
 
-      {/* 错误提示 */}
-      {error && (
-        <div
-          style={{
-            marginBottom: "16px",
-            padding: "12px",
-            background: "#fff2f0",
-            border: "1px solid #ffccc7",
-            borderRadius: "4px",
-            color: "#ff4d4f",
-          }}
-        >
-          <p style={{ margin: 0 }}>错误: {error}</p>
-          <Button
-            size="small"
-            style={{ marginTop: "8px" }}
-            onClick={() => {
-              setError(null);
-              if (fileList.length > 0) {
-                handleRemove();
-              }
-            }}
-          >
-            清除错误
-          </Button>
-        </div>
-      )}
-
-      {/* PDF 内容区域 */}
-      <div
-        ref={containerRef}
-        style={{
-          flex: 1,
-          overflow: "auto",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          padding: "20px",
-          background: "#e8e8e8",
-          position: "relative",
-        }}
-      >
-        {/* 解析中的 loading 遮罩 */}
+        {/* 解析中的 loading */}
         {parsing && (
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              background: "rgba(255, 255, 255, 0.8)",
-              zIndex: 10,
-            }}
-          >
+          <div style={{ marginTop: "24px", textAlign: "center" }}>
             <Spin size="large" />
             <div style={{ marginTop: "16px", color: "#666" }}>解析 PDF 中...</div>
           </div>
         )}
 
-        {/* 没有 PDF 时的提示 */}
-        {!pdfDoc && !loading && !parsing && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
-              color: "#999",
-            }}
-          >
-            <UploadOutlined style={{ fontSize: "48px", marginBottom: "16px" }} />
-            <p>请上传 PDF 文件进行预览</p>
+        {/* PDF 预览区域 */}
+        {pdfDoc && (
+          <div style={{ marginTop: "24px" }}>
+            {/* 工具栏 */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "16px",
+                padding: "12px",
+                background: "#f5f5f5",
+                borderRadius: "8px",
+              }}
+            >
+              <Space>
+                <Button icon={<LeftOutlined />} onClick={goToPrevPage} disabled={pageNum <= 1}>
+                  上一页
+                </Button>
+                <span style={{ minWidth: "120px", textAlign: "center" }}>
+                  第 {pageNum} 页 / 共 {numPages} 页
+                </span>
+                <Button icon={<RightOutlined />} onClick={goToNextPage} disabled={pageNum >= numPages}>
+                  下一页
+                </Button>
+              </Space>
+
+              <Space>
+                <Button icon={<ZoomOutOutlined />} onClick={zoomOut} disabled={scale <= 0.5}>
+                  缩小
+                </Button>
+                <span style={{ minWidth: "80px", textAlign: "center" }}>{Math.round(scale * 100)}%</span>
+                <Button icon={<ZoomInOutlined />} onClick={zoomIn} disabled={scale >= 3}>
+                  放大
+                </Button>
+              </Space>
+            </div>
+
+            {/* PDF 内容区域 */}
+            <div
+              ref={containerRef}
+              className={styles.previewContainer}
+              style={{
+                minHeight: "600px",
+                overflow: "auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "flex-start",
+                padding: "20px",
+                background: "#e8e8e8",
+                position: "relative",
+                border: "1px solid #f0f0f0",
+                borderRadius: "2px",
+              }}
+            >
+              {/* 解析中的 loading 遮罩 */}
+              {parsing && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    background: "rgba(255, 255, 255, 0.8)",
+                    zIndex: 10,
+                  }}
+                >
+                  <Spin size="large" />
+                  <div style={{ marginTop: "16px", color: "#666" }}>解析 PDF 中...</div>
+                </div>
+              )}
+            </div>
           </div>
         )}
-      </div>
+      </Card>
     </div>
   );
 };

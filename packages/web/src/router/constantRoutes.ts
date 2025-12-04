@@ -205,7 +205,7 @@ export const authRoutes: ElegantConstRoute[] = [
       createLeafRoute("pdf-preview", {
         menuTitle: "pdf预览",
       }),
-      createLeafRoute("previewWord", {
+      createLeafRoute("word-preview", {
         menuTitle: "word预览",
       }),
     ],

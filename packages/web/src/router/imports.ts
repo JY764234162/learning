@@ -33,7 +33,7 @@ export const dynamicLazyMap: Record<string, () => Promise<any>> = {
   microapp: () => import("@/pages/lib/microapp"),
   "monaco-react": () => import("@/pages/lib/monaco-react"),
   "pdf-preview": () => import("@/pages/lib/pdf-preview"),
-  previewWord: () => import("@/pages/lib/previewWord"),
+  "word-preview": () => import("@/pages/lib/word-preview"),
   state: () => import("@/pages/lib/state"),
   threejs: () => import("@/pages/lib/threejs"),
   "react-flow": () => import("@/pages/lib/react-flow"),
