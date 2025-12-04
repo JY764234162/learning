@@ -229,8 +229,9 @@ export const Component = () => {
 
   if (loading) {
     return (
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
-        <Spin size="large" tip="加载默认 PDF 中..." />
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "80vh" }}>
+        <Spin size="large" />
+        <div style={{ marginTop: "16px", color: "#666" }}>加载默认 PDF 中...</div>
       </div>
     );
   }
@@ -360,13 +361,15 @@ export const Component = () => {
               right: 0,
               bottom: 0,
               display: "flex",
+              flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
               background: "rgba(255, 255, 255, 0.8)",
               zIndex: 10,
             }}
           >
-            <Spin size="large" tip="解析 PDF 中..." />
+            <Spin size="large" />
+            <div style={{ marginTop: "16px", color: "#666" }}>解析 PDF 中...</div>
           </div>
         )}
 

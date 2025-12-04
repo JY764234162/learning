@@ -116,7 +116,8 @@ export const Component: React.FC = () => {
 
       {loading && (
         <div className="text-center py-12">
-          <Spin size="large" tip="正在提取颜色..." />
+          <Spin size="large" />
+          <div style={{ marginTop: "16px", color: "#666" }}>正在提取颜色...</div>
         </div>
       )}
 
