@@ -18,7 +18,7 @@ useGLTF.preload(gltfPath);
 
 export const Component = () => {
   return (
-    <div style={{ height: 800, width: 800 }}>
+    <div style={{ width: '100%', height: '100%', minHeight: '600px' }}>
       <Canvas camera={{ position: [10000, 20000, 10000], fov: 70 }}>
         <Suspense fallback={null}>
           <Model />

@@ -87,7 +87,7 @@ export const NodeEditorDrawer: React.FC<NodeEditorDrawerProps> = ({
           </Form.Item>
 
           <Form.Item label="节点类型">
-            <Input value={node.data.nodeType} disabled />
+            <Input value={String(node.data.nodeType ?? '')} disabled />
           </Form.Item>
 
           <Form.Item label="节点 ID">
