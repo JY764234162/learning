@@ -25,12 +25,12 @@ export const Component: React.FC = () => {
     beforeUpload: (file) => {
       const isImage = file.type.startsWith('image/');
       if (!isImage) {
-        message.error('只能上传图片文件！');
+        window.$message?.error('只能上传图片文件！');
         return false;
       }
       const isLt10M = file.size / 1024 / 1024 < 10;
       if (!isLt10M) {
-        message.error('图片大小不能超过10MB！');
+        window.$message?.error('图片大小不能超过10MB！');
         return false;
       }
       return true;
@@ -52,7 +52,7 @@ export const Component: React.FC = () => {
             setColors({ dominant, palette });
             onSuccess?.(imageFile);
           } catch (error) {
-            message.error('颜色提取失败，请重试');
+            window.$message?.error('颜色提取失败，请重试');
             onError?.(error as Error);
           } finally {
             setLoading(false);
@@ -60,14 +60,14 @@ export const Component: React.FC = () => {
         };
 
         img.onerror = () => {
-          message.error('图片加载失败');
+          window.$message?.error('图片加载失败');
           setLoading(false);
           onError?.(new Error('图片加载失败'));
         };
 
         img.src = imageUrl;
       } catch (error) {
-        message.error('上传失败，请重试');
+        window.$message?.error('上传失败，请重试');
         setLoading(false);
         onError?.(error as Error);
       }
@@ -78,9 +78,9 @@ export const Component: React.FC = () => {
     const hex = `#${color.map(c => c.toString(16).padStart(2, '0')).join('')}`;
     try {
       await navigator.clipboard.writeText(hex);
-      message.success(`颜色 ${hex} 已复制到剪贴板`);
+      window.$message?.success(`颜色 ${hex} 已复制到剪贴板`);
     } catch (error) {
-      message.error('复制失败，请手动复制');
+      window.$message?.error('复制失败，请手动复制');
     }
   };
 

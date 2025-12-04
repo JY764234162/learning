@@ -123,7 +123,7 @@ export const Component = () => {
         });
       }
     } catch (error) {
-      message.error("加载数据失败");
+      window.$message?.error("加载数据失败");
     }
   };
 
@@ -180,9 +180,9 @@ export const Component = () => {
       //   setExpandedKeys([...expandedKeys, currentNode.key]);
       // }
 
-      message.success("新增节点成功");
+      window.$message?.success("新增节点成功");
     } catch (error) {
-      message.error("新增节点失败");
+      window.$message?.error("新增节点失败");
     }
   };
 
@@ -196,9 +196,9 @@ export const Component = () => {
       // 更新树数据
       setTreeData((prevData) => updateNodeInTree(prevData, currentNode.key as string, { title }));
 
-      message.success("编辑节点成功");
+      window.$message?.success("编辑节点成功");
     } catch (error) {
-      message.error("编辑节点失败");
+      window.$message?.error("编辑节点失败");
     }
   };
 
@@ -221,9 +221,9 @@ export const Component = () => {
             return updatedData;
           });
 
-          message.success("删除节点成功");
+          window.$message?.success("删除节点成功");
         } catch (error) {
-          message.error("删除节点失败");
+          window.$message?.error("删除节点失败");
         }
       },
     });

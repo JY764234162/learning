@@ -30,7 +30,7 @@ export const Component = () => {
   const handleSendMessage = () => {
     if (import.meta.hot) {
       import.meta.hot.send("vite:from-client", { msg: messageText });
-      message.success("消息已发送到服务器");
+      window.$message?.success("消息已发送到服务器");
     }
   };
 

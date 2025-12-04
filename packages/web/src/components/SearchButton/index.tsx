@@ -137,7 +137,7 @@ export function SearchButton() {
         onCancel={handleClose}
         footer={null}
         width={600}
-        destroyOnClose
+        destroyOnHidden
         closable={false}
         styles={{
           body: { padding: 0 },

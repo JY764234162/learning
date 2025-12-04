@@ -87,7 +87,7 @@ export const Component = () => {
             : item
         )
       );
-      message.error(`文件 ${file.name} 上传失败`);
+      window.$message?.error(`文件 ${file.name} 上传失败`);
     }
   };
 

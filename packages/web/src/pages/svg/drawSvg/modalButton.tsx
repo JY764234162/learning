@@ -41,7 +41,7 @@ export default function ModalButton() {
         className={styles["modalButton"]}
         width={800}
         open={open}
-        destroyOnClose
+        destroyOnHidden
         onOk={handleOk}
         onCancel={handleCancel}
       >

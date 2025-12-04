@@ -44,12 +44,12 @@ export const Component = () => {
       setPdfDoc(pdf);
       setNumPages(pdf.numPages);
       setParsing(false);
-      message.success("PDF 加载成功");
+      window.$message?.success("PDF 加载成功");
     } catch (err: any) {
       console.error("Error loading PDF:", err);
       setError(err.message || "加载 PDF 失败");
       setParsing(false);
-      message.error("PDF 加载失败");
+      window.$message?.error("PDF 加载失败");
     }
   };
 
@@ -189,14 +189,14 @@ export const Component = () => {
 
       setUploading(false);
       onSuccess?.(fileObj);
-      message.success("文件上传成功");
+      window.$message?.success("文件上传成功");
     } catch (err: any) {
       console.error("Upload error:", err);
       setUploading(false);
       setUploadProgress(0);
       setError(err.message || "文件上传失败");
       onError?.(err);
-      message.error("文件上传失败");
+      window.$message?.error("文件上传失败");
     }
   };
 
