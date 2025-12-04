@@ -23,12 +23,14 @@ import {
   AppstoreOutlined,
   BgColorsOutlined,
   DownOutlined,
+  PlayCircleOutlined,
 } from "@ant-design/icons";
 import dagre from "dagre";
 import { nodeTypes } from "./nodeTypes";
 import { CustomNode } from "./CustomNode";
 import { NodeEditorDrawer } from "./NodeEditorDrawer";
 import { localStg } from "@/utils/storage";
+import { topologicalSort, mockExecuteNode } from "./executionUtils";
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
@@ -42,6 +44,9 @@ export const FlowCanvas = () => {
   // 编辑抽屉状态
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [editingNode, setEditingNode] = useState<Node | null>(null);
+  
+  // 执行状态
+  const [isExecuting, setIsExecuting] = useState(false);
 
   // 从 localStorage 加载数据
   useEffect(() => {
@@ -222,6 +227,103 @@ export const FlowCanvas = () => {
     });
   }, [nodes, reactFlowInstance]);
 
+  // 执行流程
+  const handleExecute = useCallback(async () => {
+    if (nodes.length === 0) {
+      return;
+    }
+
+    setIsExecuting(true);
+
+    // 重置所有节点状态为待执行
+    setNodes((nds) =>
+      nds.map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          status: 'pending',
+        },
+      }))
+    );
+
+    // 拓扑排序确定执行顺序
+    const executionOrder = topologicalSort(nodes, edges);
+
+    // 依次执行每个节点
+    for (let i = 0; i < executionOrder.length; i++) {
+      const node = executionOrder[i];
+
+      // 更新节点状态为执行中
+      setNodes((nds) =>
+        nds.map((n) => {
+          if (n.id === node.id) {
+            return {
+              ...n,
+              data: {
+                ...n.data,
+                status: 'processing',
+              },
+            };
+          }
+          return n;
+        })
+      );
+
+      // 执行节点（流式模拟）
+      const stream = mockExecuteNode(node);
+      const reader = stream.getReader();
+      const decoder = new TextDecoder();
+
+      await new Promise<void>((resolve) => {
+        const readStream = async () => {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) {
+              // 执行完成，更新状态
+              setNodes((nds) =>
+                nds.map((n) => {
+                  if (n.id === node.id) {
+                    return {
+                      ...n,
+                      data: {
+                        ...n.data,
+                        status: 'completed',
+                      },
+                    };
+                  }
+                  return n;
+                })
+              );
+              resolve();
+              break;
+            }
+
+            const chunk = decoder.decode(value);
+            const lines = chunk.split('\n\n');
+
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                try {
+                  const data = JSON.parse(line.slice(6));
+                  // 可以在这里处理进度更新
+                  console.log(`Node ${node.id} progress: ${data.progress}%`);
+                } catch (e) {
+                  // 忽略解析错误
+                }
+              }
+            }
+          }
+        };
+        readStream();
+      });
+
+      // 节点之间延迟，让用户看清楚执行过程
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    }
+
+    setIsExecuting(false);
+  }, [nodes, edges]);
+
   // 保存节点编辑
   const handleSaveNode = useCallback((nodeId: string, updatedData: any) => {
     setNodes((nds) =>
@@ -274,6 +376,20 @@ export const FlowCanvas = () => {
         {/* 自动布局控制面板 */}
         <Panel position="top-right">
           <Space>
+            <Tooltip title="执行流程">
+              <Button
+                type="primary"
+                icon={<PlayCircleOutlined />}
+                onClick={handleExecute}
+                loading={isExecuting}
+                size="small"
+              >
+                执行流程
+              </Button>
+            </Tooltip>
+            
+            <div style={{ width: '1px', height: '20px', background: '#d9d9d9', margin: '0 8px' }} />
+            
             <Dropdown
               menu={{
                 items: [
