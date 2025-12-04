@@ -48,7 +48,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "ui",
     handle: {
       menuTitle: "UI组件",
-      icon: AppstoreOutlined,
+      icon: "AppstoreOutlined",
     },
     children: [
       createLeafRoute("bezierTabs", {
@@ -72,7 +72,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "interaction",
     handle: {
       menuTitle: "交互功能",
-      icon: InteractionOutlined,
+      icon: "InteractionOutlined",
     },
     children: [
       createLeafRoute("darg-upload", {
@@ -100,7 +100,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "image",
     handle: {
       menuTitle: "图片处理",
-      icon: FileTextOutlined,
+      icon: "FileTextOutlined",
     },
     children: [
       createLeafRoute("color-thief", {
@@ -123,7 +123,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "data",
     handle: {
       menuTitle: "数据处理",
-      icon: CodeOutlined,
+      icon: "CodeOutlined",
     },
     children: [
       createLeafRoute("keyword-high-light", {
@@ -151,7 +151,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "visualization",
     handle: {
       menuTitle: "可视化",
-      icon: TransactionOutlined,
+      icon: "TransactionOutlined",
     },
     children: [
       createLeafRoute("canvas-color-analyzer", {
@@ -168,7 +168,7 @@ export const authRoutes: ElegantConstRoute[] = [
       }),
       createLeafRoute("drawSvg", {
         menuTitle: "Svg绘画",
-        icon: EnvironmentOutlined,
+        icon: "EnvironmentOutlined",
       }),
       createLeafRoute("svgIcon", {
         menuTitle: "封装svgIcon",
@@ -186,7 +186,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "editor",
     handle: {
       menuTitle: "编辑器",
-      icon: EditOutlined,
+      icon: "EditOutlined",
     },
     children: [
       createLeafRoute("monaco-react", {
@@ -199,7 +199,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "document",
     handle: {
       menuTitle: "文档预览",
-      icon: FileTextOutlined,
+      icon: "FileTextOutlined",
     },
     children: [
       createLeafRoute("pdf-preview", {
@@ -215,7 +215,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "library",
     handle: {
       menuTitle: "工具库",
-      icon: ToolOutlined,
+      icon: "ToolOutlined",
     },
     children: [
       createLeafRoute("floating-ui", {
@@ -237,7 +237,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "react",
     handle: {
       menuTitle: "React特性",
-      icon: AppleOutlined,
+      icon: "AppleOutlined",
     },
     children: [
       createLeafRoute("error-boundary", {
@@ -262,7 +262,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "style",
     handle: {
       menuTitle: "样式",
-      icon: ChromeOutlined,
+      icon: "ChromeOutlined",
     },
     children: [
       createLeafRoute("css-filter", {
@@ -278,7 +278,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "devtools",
     handle: {
       menuTitle: "开发工具",
-      icon: ApiOutlined,
+      icon: "ApiOutlined",
     },
     children: [
       createLeafRoute("vite-hmr", {
@@ -294,7 +294,7 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "other",
     handle: {
       menuTitle: "其他",
-      icon: SearchOutlined,
+      icon: "SearchOutlined",
     },
     children: [
       createLeafRoute("resume", {
@@ -306,14 +306,14 @@ export const authRoutes: ElegantConstRoute[] = [
     path: "ai",
     handle: {
       menuTitle: "AI对话",
-      icon: OpenAIOutlined,
+      icon: "OpenAIOutlined",
     },
   },
   {
     path: "about",
     handle: {
       menuTitle: "关于",
-      icon: FileMarkdownOutlined,
+      icon: "FileMarkdownOutlined",
     },
   },
 ];
