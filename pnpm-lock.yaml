@@ -14,6 +14,9 @@ importers:
       '@types/node':
         specifier: 22.10.5
         version: 22.10.5
+      husky:
+        specifier: ^9.1.7
+        version: 9.1.7
       lerna:
         specifier: ^8.2.3
         version: 8.2.3(encoding@0.1.13)
@@ -4283,6 +4286,11 @@ packages:
   human-signals@2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
+
+  husky@9.1.7:
+    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   hyphenation.de@0.2.1:
     resolution: {integrity: sha512-s6Y4TFA8xWjRLneOPI6HV/+wzfm2c2yurTvFaXlznmsbeI6waZhMpxu94fSXGNGsrPxrzI1zTtYDEWeEeaANnw==}
@@ -12546,6 +12554,8 @@ snapshots:
   human-id@4.1.1: {}
 
   human-signals@2.1.0: {}
+
+  husky@9.1.7: {}
 
   hyphenation.de@0.2.1:
     dependencies:

@@ -8,5 +8,5 @@ package-lock.json
 .DS_Store
 .AppleDouble
 .LSOverride
-
+docs
 vite.config.ts.timestamp-*
