@@ -19,12 +19,14 @@ export class RichEditor {
   private history: CommandHistory;
   private options: EditorOptions;
   private contentChangeTimer: number | null = null;
+  private historyRecordTimer: number | null = null;
   private pluginManager: PluginManager;
+  private lastRecordedContent: string = "";
 
   constructor(container: HTMLElement, options: EditorOptions = {}) {
     this.container = container;
     this.options = options;
-    this.history = new CommandHistory(50);
+    this.history = new CommandHistory(100, container);
     this.pluginManager = new PluginManager(this);
 
     this.init();
@@ -54,6 +56,15 @@ export class RichEditor {
   private bindEvents(): void {
     // 内容变化事件（防抖）
     this.container.addEventListener("input", () => {
+      // 记录历史（防抖 - 300ms，更快响应）
+      if (this.historyRecordTimer) {
+        clearTimeout(this.historyRecordTimer);
+      }
+      this.historyRecordTimer = window.setTimeout(() => {
+        this.recordHistory();
+      }, 300);
+
+      // 触发内容变化回调（300ms）
       if (this.contentChangeTimer) {
         clearTimeout(this.contentChangeTimer);
       }
@@ -79,15 +90,33 @@ export class RichEditor {
       this.handleKeyDown(e);
     });
 
-    // 防止拖拽文件到页面
+    // 处理拖拽悬停事件，更新光标位置
     this.container.addEventListener("dragover", (e) => {
       e.preventDefault();
+      this.handleDragOver(e);
     });
 
     this.container.addEventListener("drop", (e) => {
       e.preventDefault();
       this.handleDrop(e);
     });
+
+    // 处理链接点击
+    this.container.addEventListener("click", (e) => {
+      this.handleClick(e);
+    });
+  }
+
+  /**
+   * 记录历史快照
+   */
+  private recordHistory(): void {
+    const content = this.container.innerHTML;
+    if (content !== this.lastRecordedContent) {
+      this.history.record(content);
+      this.lastRecordedContent = content;
+      console.log("📝 历史记录已保存，撤销栈大小:", this.history.getUndoCount());
+    }
   }
 
   /**
@@ -109,6 +138,38 @@ export class RichEditor {
   }
 
   /**
+   * 处理点击事件
+   */
+  private handleClick(e: MouseEvent): void {
+    const target = e.target as HTMLElement;
+    
+    // 检查是否点击了链接
+    let linkElement: HTMLAnchorElement | null = null;
+    if (target.tagName === "A") {
+      linkElement = target as HTMLAnchorElement;
+    } else {
+      // 检查父元素是否是链接
+      linkElement = target.closest("a");
+    }
+
+    if (linkElement && linkElement.href) {
+      // 如果按住 Ctrl/Cmd 键，或者点击事件带有特殊标记，打开链接
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        window.open(linkElement.href, "_blank");
+      } else {
+        // 普通点击时，显示提示（可选）
+        e.preventDefault();
+        // 可以添加一个提示，告诉用户按 Ctrl/Cmd + 点击来打开链接
+        const shouldOpen = confirm(`要打开链接吗？\n${linkElement.href}\n\n提示：按住 Ctrl/Cmd 并点击可直接打开链接`);
+        if (shouldOpen) {
+          window.open(linkElement.href, "_blank");
+        }
+      }
+    }
+  }
+
+  /**
    * 处理粘贴事件
    */
   private handlePaste(e: ClipboardEvent): void {
@@ -119,11 +180,45 @@ export class RichEditor {
       return;
     }
 
+    // 优先检查是否有图片文件
+    const items = clipboardData.items;
+    if (items && items.length > 0) {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        
+        // 检查是否是图片类型
+        if (item.type.indexOf("image") !== -1) {
+          const file = item.getAsFile();
+          if (file) {
+            // 粘贴图片（历史记录由 insertImage 方法内部处理）
+            this.insertImageFromFile(file);
+            return;
+          }
+        }
+      }
+    }
+
+    // 如果没有图片，检查 files（某些浏览器可能使用这种方式）
+    const files = clipboardData.files;
+    if (files && files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file.type.startsWith("image/")) {
+          // 粘贴图片（历史记录由 insertImage 方法内部处理）
+          this.insertImageFromFile(file);
+          return;
+        }
+      }
+    }
+
+    // 如果没有图片，处理文本内容
     // 优先获取纯文本
     const text = clipboardData.getData("text/plain");
     if (text) {
       SelectionHelper.insertText(text);
       this.handleContentChange();
+      // 粘贴后立即记录历史
+      setTimeout(() => this.recordHistory(), 0);
       return;
     }
 
@@ -133,6 +228,8 @@ export class RichEditor {
       const cleaned = this.cleanHTML(html);
       SelectionHelper.insertHTML(cleaned);
       this.handleContentChange();
+      // 粘贴后立即记录历史
+      setTimeout(() => this.recordHistory(), 0);
     }
   }
 
@@ -170,6 +267,110 @@ export class RichEditor {
   }
 
   /**
+   * 处理拖拽悬停事件，更新光标位置
+   */
+  private handleDragOver(e: DragEvent): void {
+    // 根据鼠标位置更新光标位置
+    const x = e.clientX;
+    const y = e.clientY;
+
+    // 获取鼠标位置对应的文本位置
+    let range: Range | null = null;
+
+    // 尝试使用 caretRangeFromPoint（WebKit/Blink）
+    if (document.caretRangeFromPoint) {
+      range = document.caretRangeFromPoint(x, y);
+    }
+    // 尝试使用 caretPositionFromPoint（Firefox）
+    else if ((document as any).caretPositionFromPoint) {
+      const caretPos = (document as any).caretPositionFromPoint(x, y);
+      if (caretPos) {
+        range = document.createRange();
+        range.setStart(caretPos.offsetNode, caretPos.offset);
+        range.collapse(true);
+      }
+    }
+    // 降级方案：使用 elementFromPoint
+    else {
+      const element = document.elementFromPoint(x, y);
+      if (element && this.container.contains(element)) {
+        // 尝试找到最近的文本节点
+        const textNode = this.findNearestTextNode(element, x, y);
+        if (textNode) {
+          range = document.createRange();
+          range.setStart(textNode, 0);
+          range.collapse(true);
+        }
+      }
+    }
+
+    // 更新选择范围
+    if (range && this.container.contains(range.startContainer)) {
+      const selection = window.getSelection();
+      if (selection) {
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+    }
+  }
+
+  /**
+   * 查找最近的文本节点
+   */
+  private findNearestTextNode(element: Node, x: number, y: number): Text | null {
+    if (element.nodeType === Node.TEXT_NODE) {
+      return element as Text;
+    }
+
+    if (element.nodeType === Node.ELEMENT_NODE) {
+      const el = element as HTMLElement;
+      const rect = el.getBoundingClientRect();
+      
+      // 如果鼠标在元素内，查找子节点
+      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+        for (let i = 0; i < el.childNodes.length; i++) {
+          const child = el.childNodes[i];
+          const childRect = child.nodeType === Node.ELEMENT_NODE 
+            ? (child as HTMLElement).getBoundingClientRect()
+            : this.getTextNodeRect(child as Text);
+          
+          if (x >= childRect.left && x <= childRect.right && 
+              y >= childRect.top && y <= childRect.bottom) {
+            const found = this.findNearestTextNode(child, x, y);
+            if (found) return found;
+          }
+        }
+        
+        // 如果没找到，返回第一个文本节点
+        const walker = document.createTreeWalker(
+          el,
+          NodeFilter.SHOW_TEXT,
+          null
+        );
+        const firstTextNode = walker.nextNode();
+        return firstTextNode as Text | null;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * 获取文本节点的边界矩形
+   */
+  private getTextNodeRect(textNode: Text): DOMRect {
+    try {
+      const range = document.createRange();
+      range.selectNodeContents(textNode);
+      return range.getBoundingClientRect();
+    } catch (error) {
+      // 如果失败，返回父元素的矩形
+      const parent = textNode.parentElement;
+      return parent ? parent.getBoundingClientRect() : new DOMRect();
+    }
+  }
+
+  /**
    * 处理拖拽文件
    */
   private handleDrop(e: DragEvent): void {
@@ -177,6 +378,9 @@ export class RichEditor {
     if (!files || files.length === 0) {
       return;
     }
+
+    // 在 drop 时再次更新光标位置，确保使用最新的位置
+    this.handleDragOver(e);
 
     const file = files[0];
     if (file.type.startsWith("image/")) {
@@ -188,12 +392,29 @@ export class RichEditor {
    * 从文件插入图片
    */
   private insertImageFromFile(file: File): void {
+    // 验证文件类型
+    if (!file.type.startsWith("image/")) {
+      console.warn("文件不是图片类型:", file.type);
+      return;
+    }
+
+    // 验证文件大小（限制为 10MB）
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSize) {
+      console.warn("图片文件过大，最大支持 10MB");
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target?.result as string;
       if (dataUrl) {
-        this.insertImage(dataUrl);
+        // insertImage 方法内部会处理历史记录
+        this.insertImage(dataUrl, file.name || "粘贴的图片");
       }
+    };
+    reader.onerror = () => {
+      console.error("读取图片文件失败");
     };
     reader.readAsDataURL(file);
   }
@@ -303,6 +524,10 @@ export class RichEditor {
     const img = `<img src="${src}" alt="${alt}" style="max-width: 100%; height: auto;" />`;
     SelectionHelper.insertHTML(img);
     this.handleContentChange();
+    // 插入图片后记录历史
+    setTimeout(() => {
+      this.recordHistory();
+    }, 0);
   }
 
   /**
@@ -327,8 +552,21 @@ export class RichEditor {
    * 撤销
    */
   undo(): void {
+    console.log("⬅️ 执行撤销，当前撤销栈大小:", this.history.getUndoCount());
+    
+    // 先清除定时器并立即记录当前状态
+    if (this.historyRecordTimer) {
+      clearTimeout(this.historyRecordTimer);
+      this.historyRecordTimer = null;
+    }
+    this.recordHistory();
+    
+    // 执行撤销
     if (this.history.undo()) {
+      console.log("✅ 撤销成功，剩余撤销栈大小:", this.history.getUndoCount());
       this.handleContentChange();
+    } else {
+      console.log("❌ 撤销失败，没有可撤销的内容");
     }
   }
 
@@ -336,6 +574,13 @@ export class RichEditor {
    * 重做
    */
   redo(): void {
+    // 先清除定时器
+    if (this.historyRecordTimer) {
+      clearTimeout(this.historyRecordTimer);
+      this.historyRecordTimer = null;
+    }
+    
+    // 执行重做
     if (this.history.redo()) {
       this.handleContentChange();
     }
@@ -368,6 +613,10 @@ export class RichEditor {
   setHTML(html: string): void {
     this.container.innerHTML = html;
     this.handleContentChange();
+    // 延迟记录初始状态
+    setTimeout(() => {
+      this.recordHistory();
+    }, 100);
   }
 
   /**

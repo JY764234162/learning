@@ -4,6 +4,7 @@ import { CodeOutlined, FullscreenOutlined, FullscreenExitOutlined } from "@ant-d
 import { RichEditor } from "./core/Editor";
 import { Toolbar } from "./components/Toolbar";
 import { SourceEditor } from "./components/SourceEditor";
+import { defaultContent } from "./defaultContent";
 import styles from "./index.module.less";
 
 export interface RichEditorProps {
@@ -12,14 +13,16 @@ export interface RichEditorProps {
   placeholder?: string;
   height?: number | string;
   readOnly?: boolean;
+  showDefaultContent?: boolean; // 是否显示默认内容
 }
 
 export const Component: React.FC<RichEditorProps> = ({
-  value = "",
+  value,
   onChange,
   placeholder = "请输入内容...",
-  height = 400,
+  height = 600,
   readOnly = false,
+  showDefaultContent = true, // 默认显示示例内容
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -65,8 +68,10 @@ export const Component: React.FC<RichEditorProps> = ({
     });
 
     // 设置初始内容
-    if (value) {
+    if (value !== undefined && value !== null) {
       editor.setHTML(value);
+    } else if (showDefaultContent) {
+      editor.setHTML(defaultContent);
     }
 
     return () => {
@@ -78,7 +83,7 @@ export const Component: React.FC<RichEditorProps> = ({
 
   // 同步外部 value 变化
   useEffect(() => {
-    if (editorInstanceRef.current && value !== editorInstanceRef.current.getHTML()) {
+    if (editorInstanceRef.current && value !== undefined && value !== null && value !== editorInstanceRef.current.getHTML()) {
       editorInstanceRef.current.setHTML(value);
     }
   }, [value]);
