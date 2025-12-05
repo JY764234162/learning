@@ -24,6 +24,7 @@ export const dynamicLazyMap: Record<string, () => Promise<any>> = {
   treeEditor: () => import("@/pages/component/treeEditor"),
   "xml-parser": () => import("@/pages/component/xml-parser"),
   "auto-height-modal": () => import("@/pages/component/auto-height-modal"),
+  "rich-editor": () => import("@/pages/component/rich-editor"),
   //css
   "css-filter": () => import("@/pages/css/css-filter"),
   "oracle-font": () => import("@/pages/css/oracle-font"),

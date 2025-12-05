@@ -168,7 +168,6 @@ export const authRoutes: ElegantConstRoute[] = [
       }),
       createLeafRoute("drawSvg", {
         menuTitle: "Svg绘画",
-        icon: "EnvironmentOutlined",
       }),
       createLeafRoute("svgIcon", {
         menuTitle: "封装svgIcon",
@@ -191,6 +190,10 @@ export const authRoutes: ElegantConstRoute[] = [
     children: [
       createLeafRoute("monaco-react", {
         menuTitle: "monaco编辑器",
+      }),
+      createLeafRoute("rich-editor", {
+        menuTitle: "富文本编辑器",
+        keyWords: ["富文本", "编辑器", "contenteditable"],
       }),
     ],
   },

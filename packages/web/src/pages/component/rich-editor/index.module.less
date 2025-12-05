@@ -1,0 +1,183 @@
+.richEditor {
+  width: 100%;
+
+  .card {
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .editorContent {
+    padding: 16px;
+    outline: none;
+    overflow-y: auto;
+    background: #fff;
+    line-height: 1.6;
+    font-size: 14px;
+    color: #333;
+
+    &:empty::before {
+      content: attr(data-placeholder);
+      color: #bfbfbf;
+      pointer-events: none;
+    }
+
+    // 图片样式
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 8px 0;
+      border-radius: 4px;
+    }
+
+    // 链接样式
+    a {
+      color: #1890ff;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    // 表格样式
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+
+      th,
+      td {
+        border: 1px solid #d9d9d9;
+        padding: 8px 12px;
+        text-align: left;
+      }
+
+      th {
+        background: #fafafa;
+        font-weight: 600;
+      }
+    }
+
+    // 列表样式
+    ul,
+    ol {
+      margin: 8px 0;
+      padding-left: 24px;
+    }
+
+    li {
+      margin: 4px 0;
+    }
+
+    // 引用块样式
+    blockquote {
+      margin: 16px 0;
+      padding: 12px 16px;
+      border-left: 4px solid #1890ff;
+      background: #f5f5f5;
+      color: #666;
+    }
+
+    // 代码块样式
+    pre {
+      margin: 16px 0;
+      padding: 12px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-family: "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    code {
+      padding: 2px 4px;
+      background: #f5f5f5;
+      border-radius: 2px;
+      font-family: "Courier New", monospace;
+      font-size: 13px;
+    }
+
+    pre code {
+      padding: 0;
+      background: transparent;
+    }
+
+    // 标题样式
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 16px 0 8px 0;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    h3 {
+      font-size: 18px;
+    }
+
+    h4 {
+      font-size: 16px;
+    }
+
+    h5 {
+      font-size: 14px;
+    }
+
+    h6 {
+      font-size: 12px;
+    }
+
+    // 段落样式
+    p {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    // 选中文本样式
+    ::selection {
+      background: #b3d4fc;
+    }
+  }
+}
+
+// 全屏模式
+.richEditor:fullscreen {
+  .card {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .editorContent {
+    flex: 1;
+    height: auto;
+  }
+}
+
+// 字数统计插件样式
+.word-count-plugin {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
