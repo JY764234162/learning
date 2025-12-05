@@ -1,0 +1,99 @@
+.homePage {
+  min-height: calc(100vh - 64px);
+  padding: 24px;
+  background: #f0f2f5;
+
+  .header {
+    padding: 48px 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 32px;
+  }
+
+  .content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .featureCard {
+    height: 100%;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .iconWrapper {
+      font-size: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      margin: 0 auto;
+      transition: all 0.3s ease;
+    }
+
+    &:hover .iconWrapper {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+      transform: scale(1.1);
+    }
+
+    :global {
+      .ant-card-body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+    }
+  }
+
+  .introCard {
+    margin-top: 32px;
+    border-radius: 8px;
+
+    ul {
+      padding-left: 20px;
+
+      li {
+        margin-bottom: 12px;
+        font-size: 15px;
+        line-height: 1.8;
+      }
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.8;
+    }
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .homePage {
+    padding: 16px;
+
+    .header {
+      padding: 32px 16px;
+    }
+
+    .content {
+      padding: 16px;
+    }
+
+    .featureCard .iconWrapper {
+      width: 60px;
+      height: 60px;
+      font-size: 36px;
+    }
+  }
+}
+

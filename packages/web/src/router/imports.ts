@@ -52,6 +52,7 @@ export const dynamicLazyMap: Record<string, () => Promise<any>> = {
   svgIcon: () => import("@/pages/svg/svgIcon"),
 
   //
+  home: () => import("@/pages/home"),
   ai: () => import("@/pages/ai"),
   about: () => import("@/pages/about"),
 

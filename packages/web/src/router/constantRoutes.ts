@@ -1,4 +1,4 @@
-import { RouteObject } from "react-router-dom";
+import { RouteObject, redirect } from "react-router-dom";
 import { Layout } from "@/Layout";
 import {
   AndroidOutlined,
@@ -17,6 +17,7 @@ import {
   CodeOutlined,
   ToolOutlined,
   ApiOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 import { NotFound } from "@/components/NotFound";
 //默认路由
@@ -26,6 +27,11 @@ export const constantRoutes: RouteObject[] = [
     path: "/",
     Component: Layout,
     children: [],
+  },
+  {
+    id: "root-redirect",
+    path: "/",
+    loader: () => redirect("/home"),
   },
   {
     id: "not-found",
@@ -43,6 +49,14 @@ const createLeafRoute = (path: string, handle: Record<string, any>) => {
 
 //没有lazy的路由，用于存储在store里，lazy不能序列化
 export const authRoutes: ElegantConstRoute[] = [
+  // ========== 首页 ==========
+  {
+    path: "home",
+    handle: {
+      menuTitle: "首页",
+      icon: "HomeOutlined",
+    },
+  },
   // ========== UI组件 ==========
   {
     path: "ui",
