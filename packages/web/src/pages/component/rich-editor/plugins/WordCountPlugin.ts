@@ -96,7 +96,6 @@ export class WordCountPlugin extends BasePlugin {
       this.wordCountElement.remove();
       this.wordCountElement = null;
     }
-    super.destroy();
+    super.destroy?.();
   }
 }
-
