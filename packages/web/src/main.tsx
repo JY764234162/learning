@@ -3,7 +3,7 @@ import { setupConsole, setupDayjs, setupHotModule, setupLoading, setupNProgress,
 import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import { router } from "./router/routers";
+
 
 async function setupApp() {
   //初始状态loading

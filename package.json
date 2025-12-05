@@ -12,8 +12,7 @@
     "build": "pnpm -F web run build",
     "format": "pnpm -F web run format",
     "prepare": "husky",
-    "type-check": "pnpm -F web exec tsc --noEmit",
-    "build-check": "pnpm -F web run build"
+    "type-check": "pnpm -F web exec tsc --noEmit"
   },
   "packageManager": "pnpm@9.15.3",
   "devDependencies": {
