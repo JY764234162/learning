@@ -10,12 +10,16 @@
     "dev": "pnpm -F web run dev",
     "preview": "pnpm -F web run preview",
     "build": "pnpm -F web run build",
-    "format": "pnpm -F web run format"
+    "format": "pnpm -F web run format",
+    "prepare": "husky",
+    "type-check": "pnpm -F web exec tsc --noEmit",
+    "build-check": "pnpm -F web run build"
   },
   "packageManager": "pnpm@9.15.3",
   "devDependencies": {
     "@changesets/cli": "^2.29.5",
-    "lerna": "^8.2.3",
-    "@types/node": "22.10.5"
+    "@types/node": "22.10.5",
+    "husky": "^9.1.7",
+    "lerna": "^8.2.3"
   }
 }

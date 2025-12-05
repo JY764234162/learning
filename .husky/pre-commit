@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running type check..."
+pnpm type-check
+
+if [ $? -ne 0 ]; then
+  echo "❌ Type check failed. Please fix the errors before committing."
+  exit 1
+fi
+
+echo "🔨 Running build check..."
+pnpm build-check
+
+if [ $? -ne 0 ]; then
+  echo "❌ Build check failed. Please fix the errors before committing."
+  exit 1
+fi
+
+echo "✅ All checks passed!"
