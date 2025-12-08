@@ -1,3 +1,4 @@
+import { layoutSlice } from "@/store/slice/layout";
 import { settingSlice } from "@/store/slice/setting";
 import { SettingOutlined } from "@ant-design/icons";
 import { Button, ColorPicker, Drawer, Form, Input, Radio, Switch, Tooltip } from "antd";
@@ -26,7 +27,7 @@ export function SettingButton() {
   const dispatch = useDispatch();
 
   const showDrawer = () => {
-    dispatch(settingSlice.actions.setSettingDrawerShow(true));
+    dispatch(layoutSlice.actions.setSettingDrawerVisible(true));
   };
 
   return (
@@ -39,9 +40,10 @@ export function SettingButton() {
 export const SettingDrawer = () => {
   const settings = useSelector(settingSlice.selectors.getSettings);
   const dispatch = useDispatch();
+  const layoutSetting = useSelector(layoutSlice.selectors.getLayoutSetting);
 
   const onClose = () => {
-    dispatch(settingSlice.actions.setSettingDrawerShow(false));
+    dispatch(layoutSlice.actions.setSettingDrawerVisible(false));
   };
   const resetSettings = () => {
     dispatch(settingSlice.actions.resetSetting());
@@ -51,7 +53,7 @@ export const SettingDrawer = () => {
   return (
     <Drawer
       title="设置"
-      open={settings.showSettingDrawer}
+      open={layoutSetting.settingDrawerVisible}
       onClose={onClose}
       extra={
         <Button type="primary" onClick={resetSettings}>
@@ -67,6 +69,7 @@ export const SettingDrawer = () => {
           primary: settings.color.primary,
           watermarkIsVisible: settings.watermark.visible,
           watermarkText: settings.watermark.text,
+          isOnlyExpandCurrentParentMenu: settings.isOnlyExpandCurrentParentMenu,  
         }}
       >
         <Form.Item label="是否灰度" name={"colourWeakness"}>
@@ -80,6 +83,13 @@ export const SettingDrawer = () => {
           <Switch
             onChange={(value) => {
               dispatch(settingSlice.actions.setGrayscale(value));
+            }}
+          />
+        </Form.Item>
+        <Form.Item label="是否只展示当前父级菜单" name={"isOnlyExpandCurrentParentMenu"}>
+          <Switch
+            onChange={(value) => {
+              dispatch(settingSlice.actions.changeOnlyExpandCurrentParentMenu(value));
             }}
           />
         </Form.Item>

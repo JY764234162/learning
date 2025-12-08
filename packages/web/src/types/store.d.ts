@@ -1,17 +1,19 @@
 declare namespace App {
   type LayoutMode = "vertical" | "horizontal";
   type ThemeMode = "light" | "dark";
+  interface LayoutSetting {
+    isMobile: boolean;
+    isCollapsed: boolean;
+    settingDrawerVisible: boolean;
+  }
   interface Setting {
     layout: {
       mode: LayoutMode;
       reverseHorizontalMix: boolean;
       scrollMode: "content" | "wrapper";
     };
-    collapsed:boolean
-    showSettingDrawer: boolean;
     colourWeakness: boolean;
     grayscale: boolean;
-    isInfoFollowPrimary: boolean;
     isOnlyExpandCurrentParentMenu: boolean;
     color: {
       primary: string;

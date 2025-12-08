@@ -7,20 +7,16 @@ const initialState: App.Setting = {
   colourWeakness: false,
   //是否灰度
   grayscale: false,
-  //是否消息色跟随主色
-  isInfoFollowPrimary: true,
   //是否只展开当前菜单父级
   isOnlyExpandCurrentParentMenu: true,
-  //是否展示设置抽屉
-  showSettingDrawer: false,
+
   //布局
   layout: {
     mode: "horizontal",
     reverseHorizontalMix: false,
     scrollMode: "content",
   },
-  //是否折叠
-  collapsed: false,
+
   //颜色
   color: {
     primary: "#646cff",
@@ -64,24 +60,12 @@ export const settingSlice = createSlice({
     setWaterMarkText(state, { payload }: PayloadAction<string>) {
       state.watermark.text = payload;
     },
-    //设置跟随主题色
-    setInfoFollowPrimary(state, { payload }: PayloadAction<boolean>) {
-      state.isInfoFollowPrimary = payload;
-    },
 
-    //设置抽屉
-    setSettingDrawerShow(state, { payload }: PayloadAction<boolean>) {
-      state.showSettingDrawer = payload;
-    },
-     //设置侧边菜单折叠状态
-    setCollapsed(state, { payload }: PayloadAction<boolean>) {
-      state.collapsed = payload;
-    },
     //设置布局模式
     changeLayoutMode(state, { payload }: PayloadAction<App.LayoutMode>) {
       state.layout.mode = payload;
     },
-   
+
     //设置只展开当前父级
     changeOnlyExpandCurrentParentMenu(state, { payload }: PayloadAction<boolean>) {
       state.isOnlyExpandCurrentParentMenu = payload;

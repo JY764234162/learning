@@ -2,7 +2,7 @@ import { ThemeContext } from "@/context/ThemeContext";
 import { settingSlice } from "@/store/slice/setting";
 import { Button, Menu, theme } from "antd";
 import { Header } from "antd/es/layout/layout";
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import GlobalLogo from "../global-logo";
 import { GlobalMenu } from "../global-menu";
@@ -11,28 +11,31 @@ import { FullScreenButton } from "@/components/FullScreenButton";
 import { SwitchThemeButton } from "@/components/SwitchThemeButton";
 import { SettingButton } from "@/components/SettingDrawerButton";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-
+import { layoutSlice } from "@/store/slice/layout";
 // console.log(Object.entries(modules));
 
 export const GlobalHeader = () => {
   const settings = useSelector(settingSlice.selectors.getSettings);
+  const layoutSetting = useSelector(layoutSlice.selectors.getLayoutSetting);
   const dispatch = useDispatch();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   const toggleCollapsed = () => {
-    dispatch(settingSlice.actions.setCollapsed(!settings.collapsed));
+    dispatch(layoutSlice.actions.setIsCollapsed(!layoutSetting.isCollapsed));
   };
 
-  const ButtonList = (
-    <>
-      <SearchButton />
-      <FullScreenButton />
-      <SwitchThemeButton />
-      <SettingButton />
-    </>
-  );
+  const ButtonListRender = useMemo(() => {
+    return (
+      <>
+        <SearchButton />
+        <FullScreenButton />
+        <SwitchThemeButton />
+        <SettingButton />
+      </>
+    );
+  }, []);
 
   return settings.layout.mode === "vertical" ? (
     <Header
@@ -46,15 +49,15 @@ export const GlobalHeader = () => {
         zIndex: 10,
       }}
     >
-      <Button type="text" icon={settings.collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={toggleCollapsed} />
+      <Button type="text" icon={layoutSetting.isCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={toggleCollapsed} />
       <div style={{ flex: 1 }}></div>
-      {ButtonList}
+      {ButtonListRender}
     </Header>
   ) : (
     <Header style={{ display: "flex", alignItems: "center", gap: 8, boxShadow: "0 1px 2px rgb(0, 21, 41, 0.08)" }}>
       <GlobalLogo />
       <GlobalMenu style={{ flex: 1, overflow: "hidden", border: "none" }} />
-      {ButtonList}
+      {ButtonListRender}
     </Header>
   );
 };

@@ -1,47 +1,49 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Breadcrumb, Layout as AntdLayout, Menu, theme, Button } from "antd";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { ThemeContext } from "@/context/ThemeContext";
 import { GlobalMenu } from "./global-menu";
-import { SwitchThemeButton } from "@/components/SwitchThemeButton";
-import { useSelector } from "react-redux";
-import { settingSlice } from "@/store/slice/setting";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import GlobalLogo from "./global-logo";
-import { SettingButton } from "@/components/SettingDrawerButton";
-import { FullScreenButton } from "@/components/FullScreenButton";
-import { SearchButton } from "@/components/SearchButton";
+
 import { GlobalHeader } from "./global-header";
-
-const { Header, Sider, Content, Footer } = AntdLayout;
-
-const siderWitch = 220;
+import { GlobalFooter } from "./global-footer";
+import { layoutSlice } from "@/store/slice/layout";
+import { useResponsive, configResponsive } from "ahooks";
+import { GlobalSider } from "./global-sider";
+//配置是否小屏
+configResponsive({
+  small: 768, //768px以下为小屏
+});
+const { Content, Footer } = AntdLayout;
 
 export const VerticalLayout: React.FC = () => {
-  const setting = useSelector(settingSlice.selectors.getSettings);
+  const dispatch = useDispatch();
+  const { small } = useResponsive();
+  const isMobile = !small;
+
+  
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  useEffect(() => {
+    dispatch(layoutSlice.actions.setIsMobile(isMobile));
+  }, [isMobile]);
+
   return (
     <AntdLayout className="h-screen w-screen">
-      <Sider collapsed={setting.collapsed} style={{ width: siderWitch, boxShadow: "2px 0 8px 0 rgb(29, 35, 41, 0.05)", zIndex: 100 }}>
-        <div className="h-full flex flex-col justify-center items-center">
-          <GlobalLogo showTitle={!setting.collapsed} className="w-full" />
-          <GlobalMenu inlineCollapsed={setting.collapsed} style={{ overflow: "auto", flex: 1, width: "100%", border: "none" }} />
-        </div>
-      </Sider>
+      <GlobalSider isMobile={isMobile} />
       <AntdLayout>
         <GlobalHeader />
         <Content
           style={{
-            minHeight: 280,
             background: colorBgContainer,
             overflow: "auto",
           }}
         >
           <Outlet />
         </Content>
+        <GlobalFooter />
       </AntdLayout>
     </AntdLayout>
   );
