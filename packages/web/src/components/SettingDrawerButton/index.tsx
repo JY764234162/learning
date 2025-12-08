@@ -1,8 +1,9 @@
 import { layoutSlice } from "@/store/slice/layout";
 import { settingSlice } from "@/store/slice/setting";
 import { SettingOutlined } from "@ant-design/icons";
-import { Button, ColorPicker, Drawer, Form, Input, Radio, Switch, Tooltip } from "antd";
+import { Button, ColorPicker, Divider, Drawer, Form, Input, Radio, Switch, Tooltip } from "antd";
 import { useSelector, useDispatch } from "react-redux";
+import { LayoutSelectItem } from "./LayoutSelectItem";
 
 const swatches: { color: string; name: string }[] = [
   { color: "#3b82f6", name: "海洋蓝" },
@@ -55,6 +56,7 @@ export const SettingDrawer = () => {
       title="设置"
       open={layoutSetting.settingDrawerVisible}
       onClose={onClose}
+      styles={{ body: { padding: "8px 24px" } }}
       extra={
         <Button type="primary" onClick={resetSettings}>
           重置样式
@@ -62,6 +64,30 @@ export const SettingDrawer = () => {
       }
     >
       <Form initialValues={settings}>
+        <Divider>主题模式</Divider>
+        
+        <Divider>布局</Divider>
+        <LayoutSelectItem />
+
+        <Divider>颜色</Divider>
+        <Form.Item label="主题色" name={["color", "primary"]}>
+          <ColorPicker
+            presets={[
+              {
+                label: "推荐色",
+                colors: swatches.map((item) => item.color),
+              },
+            ]}
+            onChange={(value) => {
+              dispatch(
+                settingSlice.actions.updateColor({
+                  key: "primary",
+                  color: value.toHexString(),
+                })
+              );
+            }}
+          />
+        </Form.Item>
         <Form.Item label="是否灰度" name={"colourWeakness"}>
           <Switch
             onChange={(value) => {
@@ -106,35 +132,6 @@ export const SettingDrawer = () => {
               </Form.Item>
             );
           }}
-        </Form.Item>
-        <Form.Item label="是否水平布局" name={["layout", "mode"]}>
-          <Radio.Group
-            options={[
-              { label: "水平布局", value: "horizontal" },
-              { label: "垂直布局", value: "vertical" },
-            ]}
-            onChange={(e) => {
-              dispatch(settingSlice.actions.changeLayoutMode(e.target.value));
-            }}
-          />
-        </Form.Item>
-        <Form.Item label="主题色" name={["color", "primary"]}>
-          <ColorPicker
-            presets={[
-              {
-                label: "推荐色",
-                colors: swatches.map((item) => item.color),
-              },
-            ]}
-            onChange={(value) => {
-              dispatch(
-                settingSlice.actions.updateColor({
-                  key: "primary",
-                  color: value.toHexString(),
-                })
-              );
-            }}
-          />
         </Form.Item>
       </Form>
     </Drawer>

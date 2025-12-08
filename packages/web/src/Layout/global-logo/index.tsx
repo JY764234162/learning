@@ -14,7 +14,7 @@ interface Props extends Omit<LinkProps, "to"> {
 const GlobalLogo: FC<Props> = memo(({ className, showTitle = true, ...props }) => {
   const primaryColor = useSelector(settingSlice.selectors.getPrimaryColor);
   return (
-    <Link className={ClassNames("w-40 h-16 flex justify-center items-center", className)} to="/" {...props}>
+    <Link className={ClassNames("h-16 flex justify-center items-center", className)} to="/" {...props}>
       <SvgIcon icon={logo} size={32} style={{ fill: primaryColor }} />
       <h2
         style={{
@@ -23,13 +23,13 @@ const GlobalLogo: FC<Props> = memo(({ className, showTitle = true, ...props }) =
           display: "block",
           color: primaryColor,
           overflow: "hidden",
-          width: showTitle ? "120px" : "0px",
+          width: showTitle ? "150px" : "0px",
           paddingLeft: showTitle ? 8 : 0,
           textWrap: "nowrap",
-          transition: "all 0.2s ease-in-out",
+          transition: "all 0.1s ease-in-out",
         }}
       >
-        后台管理系统
+        JY前端学习实验室
       </h2>
     </Link>
   );
