@@ -21,7 +21,6 @@ export const VerticalLayout: React.FC = () => {
   const { small } = useResponsive();
   const isMobile = !small;
 
-  
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -40,6 +39,7 @@ export const VerticalLayout: React.FC = () => {
             background: colorBgContainer,
             overflow: "auto",
           }}
+          id="__SCROLL_EL_ID__"
         >
           <Outlet />
         </Content>

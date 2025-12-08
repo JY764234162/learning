@@ -11,7 +11,7 @@ export const HorizontalLayout: React.FC = () => {
   return (
     <AntdLayout className="h-screen w-screen">
       <GlobalHeader />
-      <Content style={{ overflow: "auto" }}>
+      <Content style={{ overflow: "auto" }} id="__SCROLL_EL_ID__">
         <Outlet />
       </Content>
       <GlobalFooter />

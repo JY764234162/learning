@@ -61,17 +61,7 @@ export const SettingDrawer = () => {
         </Button>
       }
     >
-      <Form
-        initialValues={{
-          colourWeakness: settings.colourWeakness,
-          grayscale: settings.grayscale,
-          layoutMode: settings.layout.mode,
-          primary: settings.color.primary,
-          watermarkIsVisible: settings.watermark.visible,
-          watermarkText: settings.watermark.text,
-          isOnlyExpandCurrentParentMenu: settings.isOnlyExpandCurrentParentMenu,  
-        }}
-      >
+      <Form initialValues={settings}>
         <Form.Item label="是否灰度" name={"colourWeakness"}>
           <Switch
             onChange={(value) => {
@@ -94,19 +84,19 @@ export const SettingDrawer = () => {
           />
         </Form.Item>
 
-        <Form.Item label="是否开启水印" name={"watermarkIsVisible"}>
+        <Form.Item label="是否开启水印" name={["watermark", "visible"]}>
           <Switch
             onChange={(value) => {
               dispatch(settingSlice.actions.setWaterMarkIsVisible(value));
             }}
           />
         </Form.Item>
-        <Form.Item noStyle shouldUpdate={(prevValues, curValues) => prevValues.watermarkIsVisible !== curValues.watermarkIsVisible}>
+        <Form.Item noStyle shouldUpdate={(prevValues, curValues) => prevValues.watermark.visible !== curValues.watermark.visible}>
           {({ getFieldValue }) => {
-            const watermarkIsVisible = getFieldValue("watermarkIsVisible");
+            const watermarkIsVisible = getFieldValue(["watermark", "visible"]);
             if (!watermarkIsVisible) return null;
             return (
-              <Form.Item name="watermarkText" label={"水印文案"}>
+              <Form.Item name={["watermark", "text"]} label={"水印文案"}>
                 <Input
                   placeholder="请输入水印文案"
                   onChange={(e) => {
@@ -117,7 +107,7 @@ export const SettingDrawer = () => {
             );
           }}
         </Form.Item>
-        <Form.Item label="是否水平布局" name={"layoutMode"}>
+        <Form.Item label="是否水平布局" name={["layout", "mode"]}>
           <Radio.Group
             options={[
               { label: "水平布局", value: "horizontal" },
@@ -128,7 +118,7 @@ export const SettingDrawer = () => {
             }}
           />
         </Form.Item>
-        <Form.Item label="主题色" name={"primary"}>
+        <Form.Item label="主题色" name={["color", "primary"]}>
           <ColorPicker
             presets={[
               {
