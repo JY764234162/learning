@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toggleAuxiliaryColorModes, toggleGrayscaleMode } from "./shared";
 import { localStg } from "@/utils/storage";
 
-const initialState: App.Setting = {
+export const initialSetting: App.Setting = {
   themeMode: "light",
   //是否弱视
   colourWeakness: false,
@@ -41,7 +41,7 @@ const initialState: App.Setting = {
 
 export const settingSlice = createSlice({
   name: "setting",
-  initialState: localStg.get("settings") || initialState,
+  initialState: localStg.get("settings") || initialSetting,
   reducers: {
     //设置主题模式
     setThemeMode(state, { payload }: PayloadAction<App.ThemeMode>) {
@@ -49,12 +49,10 @@ export const settingSlice = createSlice({
     },
     //设置弱视
     setColourWeakness(state, { payload }: PayloadAction<boolean>) {
-      toggleAuxiliaryColorModes(payload);
       state.colourWeakness = payload;
     },
     //设置灰度
     setGrayscale(state, { payload }: PayloadAction<boolean>) {
-      toggleGrayscaleMode(payload);
       state.grayscale = payload;
     },
     //设置水印是否开启
@@ -80,7 +78,7 @@ export const settingSlice = createSlice({
       state.color[key] = color;
     },
     resetSetting: () => {
-      return initialState;
+      return initialSetting;
     },
   },
   selectors: {

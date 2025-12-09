@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { settingSlice } from "@/store/slice/setting";
 import { SettingDrawer } from "@/components/SettingDrawerButton";
@@ -13,6 +13,7 @@ import { GlobalFooter } from "./global-footer";
 import { useResponsive, configResponsive } from "ahooks";
 import { GlobalSider } from "./global-sider";
 import { layoutSlice } from "@/store/slice/layout";
+import { toggleAuxiliaryColorModes, toggleGrayscaleMode } from "@/store/slice/setting/shared";
 
 //配置是否小屏
 configResponsive({
@@ -26,7 +27,6 @@ export const Layout: React.FC = memo(() => {
   const dispatch = useDispatch();
   const { small } = useResponsive();
   const isMobile = !small;
-  console.log(isMobile);
   //设置是否移动端
   useUpdateEffect(() => {
     dispatch(layoutSlice.actions.setIsMobile(isMobile));
@@ -42,6 +42,13 @@ export const Layout: React.FC = memo(() => {
     localStg.set("settings", settings);
   }, [settings]);
 
+  //初始化弱视和灰度
+  useEffect(() => {
+    toggleAuxiliaryColorModes(settings.colourWeakness);
+    toggleGrayscaleMode(settings.grayscale);
+  },[settings.colourWeakness, settings.grayscale]);
+
+  
   return (
     <MenuContextProvider>
       {settings.layout.mode === "vertical" ? (
