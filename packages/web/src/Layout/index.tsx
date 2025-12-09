@@ -27,8 +27,9 @@ export const Layout: React.FC = memo(() => {
   const dispatch = useDispatch();
   const { small } = useResponsive();
   const isMobile = !small;
+
   //设置是否移动端
-  useUpdateEffect(() => {
+  useEffect(() => {
     dispatch(layoutSlice.actions.setIsMobile(isMobile));
   }, [isMobile]);
 
@@ -46,9 +47,8 @@ export const Layout: React.FC = memo(() => {
   useEffect(() => {
     toggleAuxiliaryColorModes(settings.colourWeakness);
     toggleGrayscaleMode(settings.grayscale);
-  },[settings.colourWeakness, settings.grayscale]);
+  }, [settings.colourWeakness, settings.grayscale]);
 
-  
   return (
     <MenuContextProvider>
       {settings.layout.mode === "vertical" ? (
