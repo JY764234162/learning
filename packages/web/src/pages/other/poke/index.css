@@ -91,7 +91,7 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 1fr 8fr 1fr; /* 横向：左 中 右 */
+  grid-template-columns: 1fr 4fr 1fr; /* 横向：左 中 右 */
   grid-template-rows: 1fr 2fr 1fr; /* 纵向：上 中 下 */
   gap: 0;
 }
@@ -263,8 +263,6 @@
 .card-suit-large {
   font-size: 42px;
   line-height: 1;
-  max-width: 100%;
-  max-height: 100%;
 }
 
 .suit-red {

@@ -318,6 +318,10 @@ export const authRoutes: ElegantConstRoute[] = [
       createLeafRoute("resume", {
         menuTitle: "简历",
       }),
+      createLeafRoute("poke", {
+        menuTitle: "扑克游戏",
+        keyWords: ["扑克", "游戏", "发牌"],
+      }),
     ],
   },
   {
@@ -332,14 +336,6 @@ export const authRoutes: ElegantConstRoute[] = [
     handle: {
       menuTitle: "关于",
       icon: "FileMarkdownOutlined",
-    },
-  },
-  {
-    path: "poke",
-    handle: {
-      menuTitle: "扑克游戏",
-      icon: "PlayCircleOutlined",
-      keyWords: ["扑克", "游戏", "发牌"],
     },
   },
 ];
