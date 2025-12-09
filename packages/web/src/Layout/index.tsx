@@ -1,10 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { settingSlice } from "@/store/slice/setting";
 import { SettingDrawer } from "@/components/SettingDrawerButton";
 import { router } from "@/router/routers";
 import { localStg } from "@/utils/storage";
-import "./scrollbar.scss";
 import { MenuContextProvider } from "@/context/MenuContext/provider";
 import { useMount, useUpdateEffect } from "ahooks";
 import { Layout as AntdLayout, theme } from "antd";
@@ -22,12 +21,12 @@ configResponsive({
 
 const { Content } = AntdLayout;
 
-export const Layout: React.FC = () => {
+export const Layout: React.FC = memo(() => {
   const settings = useSelector(settingSlice.selectors.getSettings);
   const dispatch = useDispatch();
   const { small } = useResponsive();
   const isMobile = !small;
-
+  console.log(isMobile);
   //设置是否移动端
   useUpdateEffect(() => {
     dispatch(layoutSlice.actions.setIsMobile(isMobile));
@@ -68,4 +67,4 @@ export const Layout: React.FC = () => {
       <SettingDrawer />
     </MenuContextProvider>
   );
-};
+});

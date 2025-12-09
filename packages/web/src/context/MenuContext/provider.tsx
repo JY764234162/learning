@@ -1,12 +1,13 @@
-import { FC, ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { FC, memo, ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { MenuContext } from ".";
 import { routesSlice } from "@/store/slice/route";
 import { transformToMenuItems, findFullPathByKey } from "@/store/slice/route/shared";
 import { settingSlice } from "@/store/slice/setting";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useUpdateEffect } from "ahooks";
 
-export const MenuContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
+export const MenuContextProvider: FC<{ children: ReactNode }> = memo(({ children }) => {
   const navigate = useNavigate();
   const settings = useSelector(settingSlice.selectors.getSettings);
   const isOnlyExpandCurrentParentMenu = settings.isOnlyExpandCurrentParentMenu;
@@ -52,7 +53,13 @@ export const MenuContextProvider: FC<{ children: ReactNode }> = ({ children }) =
     [isOnlyExpandCurrentParentMenu]
   );
 
+  useUpdateEffect(() => {
+    if (settings.layout.mode === "horizontal") {
+      setOpenKeys([]);
+    }
+  }, [settings.layout.mode]);
+
   return (
     <MenuContext.Provider value={{ openKeys, setOpenKeys, items, handleMenuClick, onMenuOpenChange }}>{children}</MenuContext.Provider>
   );
-};
+});

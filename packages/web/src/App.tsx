@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { settingSlice } from "./store/slice/setting";
 import { Watermark, WatermarkProps } from "antd";
 import "@/styles/index.css";
+import "@/styles/scrollbar.scss";
 
 const watermarkProps: WatermarkProps = {
   font: {
@@ -19,7 +20,7 @@ const watermarkProps: WatermarkProps = {
 
 export default function App() {
   const settings = useSelector(settingSlice.selectors.getSettings);
-  console.log(settings);
+  console.log("settings", settings);
   return (
     <AntdProvider>
       <AppProvider>

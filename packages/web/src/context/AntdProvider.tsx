@@ -26,11 +26,9 @@ const useTheme: () => ThemeConfig = () => {
         darkItemBg: "transparent",
         subMenuItemBg: "transparent",
         darkSubMenuItemBg: "transparent",
-        colorBgBase: colorBgContainer,
       },
     },
     token: {
-      colorBgContainer,
       colorPrimary: color.primary,
       colorError: color.error,
       colorSuccess: color.success,

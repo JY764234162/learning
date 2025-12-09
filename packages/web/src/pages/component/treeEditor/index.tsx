@@ -92,14 +92,6 @@ export const Component = () => {
   const [modalType, setModalType] = useState<"add" | "edit">("add");
   const [currentNode, setCurrentNode] = useState<TreeNodeData | null>(null);
   const [form] = Form.useForm();
-  console.log("渲染了");
-
-  const a = useMemo(() => {
-    console.log("在计算a");
-    return "a";
-  }, []);
-
-  
 
   // 加载根节点数据
   useEffect(() => {
@@ -318,4 +310,3 @@ export const Component = () => {
     </div>
   );
 };
-

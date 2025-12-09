@@ -17,9 +17,6 @@ export const GlobalHeader = memo(() => {
   const settings = useSelector(settingSlice.selectors.getSettings);
   const layoutSetting = useSelector(layoutSlice.selectors.getLayoutSetting);
   const dispatch = useDispatch();
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
   const toggleCollapsed = () => {
     dispatch(layoutSlice.actions.setIsCollapsed(!layoutSetting.isCollapsed));
@@ -40,7 +37,6 @@ export const GlobalHeader = memo(() => {
     <Header
       style={{
         padding: "0 16px",
-        background: colorBgContainer,
         display: "flex",
         gap: 16,
         alignItems: "center",
