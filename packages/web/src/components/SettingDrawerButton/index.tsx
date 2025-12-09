@@ -40,6 +40,7 @@ export function SettingButton() {
 
 export const SettingDrawer = () => {
   const settings = useSelector(settingSlice.selectors.getSettings);
+  const isMobile = useSelector(layoutSlice.selectors.getIsMobile);
   const dispatch = useDispatch();
   const layoutSetting = useSelector(layoutSlice.selectors.getLayoutSetting);
   const [form] = Form.useForm();
@@ -54,6 +55,7 @@ export const SettingDrawer = () => {
 
   return (
     <Drawer
+      width={isMobile ? 250 : undefined}
       title="设置"
       open={layoutSetting.settingDrawerVisible}
       onClose={onClose}
