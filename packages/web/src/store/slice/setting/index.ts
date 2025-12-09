@@ -3,6 +3,7 @@ import { toggleAuxiliaryColorModes, toggleGrayscaleMode } from "./shared";
 import { localStg } from "@/utils/storage";
 
 const initialState: App.Setting = {
+  themeMode: "light",
   //是否弱视
   colourWeakness: false,
   //是否灰度
@@ -42,6 +43,10 @@ export const settingSlice = createSlice({
   name: "setting",
   initialState: localStg.get("settings") || initialState,
   reducers: {
+    //设置主题模式
+    setThemeMode(state, { payload }: PayloadAction<App.ThemeMode>) {
+      state.themeMode = payload;
+    },
     //设置弱视
     setColourWeakness(state, { payload }: PayloadAction<boolean>) {
       toggleAuxiliaryColorModes(payload);

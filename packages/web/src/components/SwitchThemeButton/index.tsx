@@ -3,10 +3,16 @@ import { Button, Tooltip } from "antd";
 import { ButtonProps } from "antd/lib";
 import React, { useContext, useState } from "react";
 import "./index.css";
-import { ThemeContext } from "@/context/ThemeContext";
+import { useDispatch, useSelector } from "react-redux";
+import { settingSlice } from "@/store/slice/setting";
 
 export function SwitchThemeButton() {
-  const { isDarkMode, toggleThemeMode } = useContext(ThemeContext);
+
+  const dispatch = useDispatch();
+  const settings = useSelector(settingSlice.selectors.getSettings);
+  const isDarkMode = settings.themeMode === "dark";
+
+  
   const toggleDark: ButtonProps["onClick"] = (event) => {
     const x = event.clientX;
     const y = event.clientY;
@@ -22,7 +28,7 @@ export function SwitchThemeButton() {
       } else {
         htmlElementClassList.remove("dark");
       }
-      toggleThemeMode();
+      dispatch(settingSlice.actions.setThemeMode(newDarkMode ? "dark" : "light"));
     });
 
     transition.ready.then(() => {

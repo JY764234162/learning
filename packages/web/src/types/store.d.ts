@@ -7,6 +7,7 @@ declare namespace App {
     settingDrawerVisible: boolean;
   }
   interface Setting {
+    themeMode: ThemeMode;
     layout: {
       mode: LayoutMode;
       reverseHorizontalMix: boolean;

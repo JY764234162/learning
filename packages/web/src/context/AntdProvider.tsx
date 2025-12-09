@@ -2,12 +2,12 @@ import { settingSlice } from "@/store/slice/setting";
 import { App, ConfigProvider, theme, ThemeConfig } from "antd";
 import { memo, useContext } from "react";
 import { useSelector } from "react-redux";
-import { ThemeContext } from "./ThemeContext";
 import zhCN from "antd/locale/zh_CN";
 
 const useTheme: () => ThemeConfig = () => {
-  const color = useSelector(settingSlice.selectors.getColors);
-  const { isDarkMode } = useContext(ThemeContext);
+  const settings = useSelector(settingSlice.selectors.getSettings);
+  const color = settings.color;
+  const isDarkMode = settings.themeMode === "dark";
   //颜色算法
   const algorithm = [isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm];
   //容器背景色

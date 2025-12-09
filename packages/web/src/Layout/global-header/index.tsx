@@ -1,4 +1,3 @@
-import { ThemeContext } from "@/context/ThemeContext";
 import { settingSlice } from "@/store/slice/setting";
 import { Button, Menu, theme } from "antd";
 import { Header } from "antd/es/layout/layout";
