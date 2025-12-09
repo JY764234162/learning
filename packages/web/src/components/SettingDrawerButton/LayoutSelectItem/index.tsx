@@ -29,7 +29,7 @@ const LayoutSelect: FC<LayoutSelectProps> = ({ value, onChange }) => {
         onClick={() => onChange?.("horizontal")}
         className="w-25 h-18 flex flex-col  p-1.5 rounded-md cursor-pointer border-2 border-solid gap-1.5"
         style={{
-          borderColor: value === "horizontal" ? "var(--ant-color-primary)" : "#fff",
+          borderColor: value === "horizontal" ? "var(--ant-color-primary)" : "transparent",
           boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
         }}
       >
@@ -40,7 +40,7 @@ const LayoutSelect: FC<LayoutSelectProps> = ({ value, onChange }) => {
         onClick={() => onChange?.("vertical")}
         className="w-25 h-18 flex  p-1.5 rounded-md cursor-pointer border-2 border-solid gap-1.5"
         style={{
-          borderColor: value === "vertical" ? "var(--ant-color-primary)" : "#fff",
+          borderColor: value === "vertical" ? "var(--ant-color-primary)" : "transparent",
           boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
         }}
       >

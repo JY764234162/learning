@@ -5,13 +5,11 @@ import { SettingDrawer } from "@/components/SettingDrawerButton";
 import { router } from "@/router/routers";
 import { localStg } from "@/utils/storage";
 import "./scrollbar.scss";
-import { MenuContextProvider } from "./context/MenuContext/provider";
+import { MenuContextProvider } from "@/context/MenuContext/provider";
 import { useMount, useUpdateEffect } from "ahooks";
 import { Layout as AntdLayout, theme } from "antd";
-
 import { Outlet } from "react-router-dom";
 import { GlobalHeader } from "./global-header";
-
 import { GlobalFooter } from "./global-footer";
 import { useResponsive, configResponsive } from "ahooks";
 import { GlobalSider } from "./global-sider";
@@ -21,6 +19,7 @@ import { layoutSlice } from "@/store/slice/layout";
 configResponsive({
   small: 768, //768px以下为小屏
 });
+
 const { Content } = AntdLayout;
 
 export const Layout: React.FC = () => {
@@ -29,18 +28,17 @@ export const Layout: React.FC = () => {
   const { small } = useResponsive();
   const isMobile = !small;
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
+  //设置是否移动端
   useUpdateEffect(() => {
     dispatch(layoutSlice.actions.setIsMobile(isMobile));
   }, [isMobile]);
 
+  //初始化路由
   useMount(() => {
     router.navigate(router.state.matches[0].pathname);
   });
 
+  //持久化设置
   useUpdateEffect(() => {
     localStg.set("settings", settings);
   }, [settings]);
@@ -52,13 +50,7 @@ export const Layout: React.FC = () => {
           <GlobalSider isMobile={isMobile} />
           <AntdLayout>
             <GlobalHeader />
-            <Content
-              style={{
-                background: colorBgContainer,
-                overflow: "auto",
-              }}
-              id="__SCROLL_EL_ID__"
-            >
+            <Content style={{ overflow: "auto" }} id="__SCROLL_EL_ID__">
               <Outlet />
             </Content>
             <GlobalFooter />

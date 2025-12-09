@@ -1,7 +1,7 @@
 import { layoutSlice } from "@/store/slice/layout";
 import { settingSlice } from "@/store/slice/setting";
-import { SettingOutlined } from "@ant-design/icons";
-import { Button, ColorPicker, Divider, Drawer, Form, Input, Radio, Switch, Tooltip } from "antd";
+import { MoonOutlined, SettingOutlined, SunOutlined } from "@ant-design/icons";
+import { Button, ColorPicker, Divider, Drawer, Form, Input, Radio, Segmented, Switch, Tooltip } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { LayoutSelectItem } from "./LayoutSelectItem";
 
@@ -65,7 +65,19 @@ export const SettingDrawer = () => {
     >
       <Form initialValues={settings}>
         <Divider>主题模式</Divider>
-        
+
+        <Form.Item name={["themeMode"]}>
+          <Segmented
+            block
+            options={[
+              { value: "light", icon: <SunOutlined /> },
+              { value: "dark", icon: <MoonOutlined /> },
+            ]}
+            onChange={(value) => {
+              dispatch(settingSlice.actions.setThemeMode(value as App.ThemeMode));
+            }}
+          />
+        </Form.Item>
         <Divider>布局</Divider>
         <LayoutSelectItem />
 

@@ -4,7 +4,7 @@ import { Menu } from "antd";
 import { MenuProps } from "antd/lib";
 import { FC, memo, useCallback, useContext, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { MenuContext } from "../context/MenuContext";
+import { MenuContext } from "../../context/MenuContext";
 
 export const GlobalMenu: FC<MenuProps> = memo((props) => {
   const settings = useSelector(settingSlice.selectors.getSettings);
