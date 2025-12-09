@@ -6,15 +6,14 @@
   flex-direction: column;
   padding: 16px;
   box-sizing: border-box;
-  overflow-x: hidden;
-  overflow-y: auto;
+
   position: relative;
 }
 
 .game-controls {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
   margin-bottom: 16px;
   z-index: 1000;
   flex-wrap: wrap;
@@ -90,19 +89,11 @@
   flex: 1;
   position: relative;
   width: 100%;
-}
-
-.center-area {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 200px;
-  min-height: 100px;
-  z-index: 1;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 8fr 1fr; /* 横向：左 中 右 */
+  grid-template-rows: 1fr 2fr 1fr; /* 纵向：上 中 下 */
+  gap: 0;
 }
 
 .welcome-message {
@@ -131,21 +122,50 @@
   opacity: 0.9;
 }
 
-/* 玩家1 - 底部，水平排列，可以换行 */
+/* 玩家基础样式 */
 .player {
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
   padding: 10px;
   z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 玩家1 - 底部，占据底部整行 */
+.player-1 {
+  grid-row: 3;
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+/* 玩家2 - 右侧，占据右侧整列 */
+.player-2 {
+  grid-column: 3;
+  grid-row: 1 / -1;
+  width: 100%;
+  height: 100%;
+}
+
+/* 玩家3 - 顶部，占据顶部整行 */
+.player-3 {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+/* 玩家4 - 左侧，占据左侧整列 */
+.player-4 {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  width: 100%;
+  height: 100%;
 }
 
 .player .cards-container {
   width: fit-content;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap; /* 可以换行 */
+
   justify-content: center;
   align-items: center;
   gap: 0;
@@ -232,6 +252,7 @@
 
 .card-center {
   flex: 1;
+  line-height: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -336,7 +357,9 @@
 
 .selectable-card.selected {
   border: 3px solid #4caf50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3), 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 0 0 3px rgba(76, 175, 80, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .selected-badge {

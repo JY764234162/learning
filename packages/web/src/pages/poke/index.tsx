@@ -116,7 +116,7 @@ export const Component = () => {
   // 打开选牌界面
   const openCardSelector = () => {
     const deck = initializeDeck();
-    
+
     // 按牌的数字大小排序，相同数字再按花色排序
     const sortedDeck = deck.sort((a, b) => {
       // 首先按点数排序：3-K、A、2
@@ -135,12 +135,12 @@ export const Component = () => {
         A: 12,
         "2": 13,
       };
-      
+
       const rankDiff = rankOrder[a.rank] - rankOrder[b.rank];
       if (rankDiff !== 0) {
         return rankDiff;
       }
-      
+
       // 相同点数，按花色排序：♠、♥、♦、♣
       const suitOrder: Record<Suit, number> = {
         "♠": 1,
@@ -148,18 +148,16 @@ export const Component = () => {
         "♦": 3,
         "♣": 4,
       };
-      
+
       return suitOrder[a.suit] - suitOrder[b.suit];
     });
-    
+
     setAvailableCards(sortedDeck);
-    
+
     // 恢复上次选中的牌（如果存在），并验证有效性
-    const validLastSelected = lastSelectedCards.filter((savedCard) =>
-      sortedDeck.find((card) => card.id === savedCard.id)
-    );
+    const validLastSelected = lastSelectedCards.filter((savedCard) => sortedDeck.find((card) => card.id === savedCard.id));
     setSelectedCards(validLastSelected);
-    
+
     setShowCardSelector(true);
   };
 
@@ -187,9 +185,7 @@ export const Component = () => {
     }
 
     // 获取剩余的牌
-    const remainingCards = availableCards.filter(
-      (card) => !selectedCards.find((c) => c.id === card.id)
-    );
+    const remainingCards = availableCards.filter((card) => !selectedCards.find((c) => c.id === card.id));
 
     // 洗牌剩余的牌
     const shuffled = shuffleDeck(remainingCards);
@@ -236,10 +232,10 @@ export const Component = () => {
     setPlayers(newPlayers);
     setIsDealt(true);
     setShowCardSelector(false);
-    
+
     // 保存选中的牌到内存
     setLastSelectedCards([...selectedCards]);
-    
+
     setSelectedCards([]);
   };
 
@@ -251,11 +247,9 @@ export const Component = () => {
     }
 
     const deck = initializeDeck();
-    
+
     // 获取剩余的牌
-    const remainingCards = deck.filter(
-      (card) => !lastSelectedCards.find((c) => c.id === card.id)
-    );
+    const remainingCards = deck.filter((card) => !lastSelectedCards.find((c) => c.id === card.id));
 
     // 洗牌剩余的牌
     const shuffled = shuffleDeck(remainingCards);
@@ -312,8 +306,8 @@ export const Component = () => {
         <button onClick={openCardSelector} className="select-button">
           选牌
         </button>
-        <button 
-          onClick={quickDeal} 
+        <button
+          onClick={quickDeal}
           className="quick-deal-button"
           disabled={lastSelectedCards.length !== 13}
           title={lastSelectedCards.length !== 13 ? "请先使用选牌功能选择13张牌" : "使用上次选中的牌快速发牌"}
@@ -338,18 +332,9 @@ export const Component = () => {
           }}
         />
       )}
+      {/* 中央区域 */}
 
       <div className="game-table">
-        {/* 中央区域 */}
-        <div className="center-area">
-          {!isDealt && (
-            <div className="welcome-message">
-              <h2>扑克牌游戏</h2>
-              <p>点击"发牌"按钮开始游戏</p>
-            </div>
-          )}
-        </div>
-
         {/* 玩家1 - 底部，水平排列，可以换行 */}
         {players.find((p) => p.id === 1) && <PlayerArea player={players.find((p) => p.id === 1)!} />}
 
@@ -370,9 +355,12 @@ export const Component = () => {
 const PlayerArea: React.FC<{ player: Player }> = ({ player }) => {
   return (
     <div className={`player player-${player.id}`}>
-      <div className="cards-container">
+      <div
+        className="cards-container"
+        style={{ flexDirection: player.position === "left" || player.position === "right" ? "column" : "row" }}
+      >
         {player.cards.map((card, index) => (
-          <CardComponent key={card.id} card={card} index={index} />
+          <CardComponent key={card.id} card={card} index={index} playerId={player.id} />
         ))}
       </div>
     </div>
@@ -388,21 +376,13 @@ interface CardSelectorModalProps {
   onCancel: () => void;
 }
 
-const CardSelectorModal: React.FC<CardSelectorModalProps> = ({
-  availableCards,
-  selectedCards,
-  onToggleCard,
-  onConfirm,
-  onCancel,
-}) => {
+const CardSelectorModal: React.FC<CardSelectorModalProps> = ({ availableCards, selectedCards, onToggleCard, onConfirm, onCancel }) => {
   return (
     <div className="card-selector-modal-overlay" onClick={onCancel}>
       <div className="card-selector-modal" onClick={(e) => e.stopPropagation()}>
         <div className="card-selector-header">
           <h3>选择13张牌</h3>
-          <div className="selected-count">
-            已选择: {selectedCards.length} / 13
-          </div>
+          <div className="selected-count">已选择: {selectedCards.length} / 13</div>
         </div>
         <div className="card-selector-content">
           <div className="available-cards-grid">
@@ -412,9 +392,7 @@ const CardSelectorModal: React.FC<CardSelectorModalProps> = ({
               return (
                 <div
                   key={card.id}
-                  className={`selectable-card ${isSelected ? "selected" : ""} ${
-                    isRed ? "card-red" : "card-black"
-                  }`}
+                  className={`selectable-card ${isSelected ? "selected" : ""} ${isRed ? "card-red" : "card-black"}`}
                   onClick={() => onToggleCard(card)}
                 >
                   <div className="card-corner card-corner-top">
@@ -438,11 +416,7 @@ const CardSelectorModal: React.FC<CardSelectorModalProps> = ({
           <button onClick={onCancel} className="cancel-button">
             取消
           </button>
-          <button
-            onClick={onConfirm}
-            className="confirm-button"
-            disabled={selectedCards.length !== 13}
-          >
+          <button onClick={onConfirm} className="confirm-button" disabled={selectedCards.length !== 13}>
             确认 ({selectedCards.length}/13)
           </button>
         </div>
@@ -452,12 +426,39 @@ const CardSelectorModal: React.FC<CardSelectorModalProps> = ({
 };
 
 // 单张扑克牌组件
-const CardComponent: React.FC<{ card: Card; index: number }> = ({ card, index }) => {
+const CardComponent: React.FC<{ card: Card; index: number; playerId: number }> = ({ card, index, playerId }) => {
   const isRed = card.suit === "♥" || card.suit === "♦";
+  const isMobile = useSelector(layoutSlice.selectors.getIsMobile);
 
   // 根据玩家ID确定旋转角度和偏移方向
   let transform = "";
-  const isMobile = useSelector(layoutSlice.selectors.getIsMobile);
+  let marginStyle: React.CSSProperties = {};
+
+  if (playerId === 1) {
+    // 玩家1：底部，水平排列，向右偏移
+    marginStyle = {
+      marginLeft: index === 0 ? 0 : isMobile ? "-50px" : "-25px",
+      marginTop: 0,
+    };
+  } else if (playerId === 2) {
+    // 玩家2：右侧，垂直排列（逆时针90度），向下偏移
+    marginStyle = {
+      marginTop: index === 0 ? 0 : isMobile ? "-80px" : "-50px",
+      marginLeft: 0,
+    };
+  } else if (playerId === 3) {
+    // 玩家3：顶部，水平排列（逆时针180度，反向），由于使用row-reverse，使用marginLeft
+    marginStyle = {
+      marginLeft: index === 0 ? 0 : isMobile ? "-50px" : "-25px",
+      marginTop: 0,
+    };
+  } else if (playerId === 4) {
+    // 玩家4：左侧，垂直排列（逆时针270度，反向），由于使用column-reverse，使用marginTop
+    marginStyle = {
+      marginTop: index === 0 ? 0 : isMobile ? "-80px" : "-50px",
+      marginLeft: 0,
+    };
+  }
 
   return (
     <div
@@ -466,7 +467,7 @@ const CardComponent: React.FC<{ card: Card; index: number }> = ({ card, index })
         transform,
         zIndex: index, // 后面的牌z-index更大，叠在上面
         position: "relative",
-        marginLeft: index === 0 ? 0 : isMobile ? '-50px' : '-25px',
+        ...marginStyle,
       }}
     >
       <div className="card-corner card-corner-top">
