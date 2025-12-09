@@ -29,6 +29,7 @@ export const Component = () => {
   const [showCardSelector, setShowCardSelector] = useState(false);
   const [selectedCards, setSelectedCards] = useState<Card[]>([]);
   const [availableCards, setAvailableCards] = useState<Card[]>([]);
+  const [lastSelectedCards, setLastSelectedCards] = useState<Card[]>([]); // 保存上次选中的牌（内存中）
 
   // 初始化扑克牌
   const initializeDeck = (): Card[] => {
@@ -109,13 +110,56 @@ export const Component = () => {
     setIsDealt(false);
     setSelectedCards([]);
     setShowCardSelector(false);
+    // 注意：不清除 lastSelectedCards，保留在内存中
   };
 
   // 打开选牌界面
   const openCardSelector = () => {
     const deck = initializeDeck();
-    setAvailableCards(deck);
-    setSelectedCards([]);
+    
+    // 按牌的数字大小排序，相同数字再按花色排序
+    const sortedDeck = deck.sort((a, b) => {
+      // 首先按点数排序：3-K、A、2
+      const rankOrder: Record<Rank, number> = {
+        "3": 1,
+        "4": 2,
+        "5": 3,
+        "6": 4,
+        "7": 5,
+        "8": 6,
+        "9": 7,
+        "10": 8,
+        J: 9,
+        Q: 10,
+        K: 11,
+        A: 12,
+        "2": 13,
+      };
+      
+      const rankDiff = rankOrder[a.rank] - rankOrder[b.rank];
+      if (rankDiff !== 0) {
+        return rankDiff;
+      }
+      
+      // 相同点数，按花色排序：♠、♥、♦、♣
+      const suitOrder: Record<Suit, number> = {
+        "♠": 1,
+        "♥": 2,
+        "♦": 3,
+        "♣": 4,
+      };
+      
+      return suitOrder[a.suit] - suitOrder[b.suit];
+    });
+    
+    setAvailableCards(sortedDeck);
+    
+    // 恢复上次选中的牌（如果存在），并验证有效性
+    const validLastSelected = lastSelectedCards.filter((savedCard) =>
+      sortedDeck.find((card) => card.id === savedCard.id)
+    );
+    setSelectedCards(validLastSelected);
+    
     setShowCardSelector(true);
   };
 
@@ -192,7 +236,71 @@ export const Component = () => {
     setPlayers(newPlayers);
     setIsDealt(true);
     setShowCardSelector(false);
+    
+    // 保存选中的牌到内存
+    setLastSelectedCards([...selectedCards]);
+    
     setSelectedCards([]);
+  };
+
+  // 快速发牌：使用上次选中的牌直接发牌
+  const quickDeal = () => {
+    if (lastSelectedCards.length !== 13) {
+      alert("请先使用选牌功能选择13张牌！");
+      return;
+    }
+
+    const deck = initializeDeck();
+    
+    // 获取剩余的牌
+    const remainingCards = deck.filter(
+      (card) => !lastSelectedCards.find((c) => c.id === card.id)
+    );
+
+    // 洗牌剩余的牌
+    const shuffled = shuffleDeck(remainingCards);
+
+    // 创建玩家
+    const newPlayers: Player[] = [
+      { id: 1, name: "玩家1", cards: [], position: "bottom" }, // 底部 - 上次选中的13张
+      { id: 2, name: "玩家2", cards: [], position: "right" }, // 右侧
+      { id: 3, name: "玩家3", cards: [], position: "top" }, // 顶部
+      { id: 4, name: "玩家4", cards: [], position: "left" }, // 左侧
+    ];
+
+    // 玩家1获得上次选中的13张牌
+    newPlayers[0].cards = [...lastSelectedCards];
+
+    // 剩余的39张牌随机分配给玩家2、3、4
+    shuffled.forEach((card, index) => {
+      const playerIndex = (index % 3) + 1; // 玩家2、3、4
+      newPlayers[playerIndex].cards.push(card);
+    });
+
+    // 按点数排序：3-K、A、2
+    newPlayers.forEach((player) => {
+      player.cards.sort((a, b) => {
+        const rankOrder: Record<Rank, number> = {
+          "3": 1,
+          "4": 2,
+          "5": 3,
+          "6": 4,
+          "7": 5,
+          "8": 6,
+          "9": 7,
+          "10": 8,
+          J: 9,
+          Q: 10,
+          K: 11,
+          A: 12,
+          "2": 13,
+        };
+        return rankOrder[a.rank] - rankOrder[b.rank];
+      });
+    });
+
+    setPlayers(newPlayers);
+    setIsDealt(true);
   };
 
   return (
@@ -203,6 +311,14 @@ export const Component = () => {
         </button>
         <button onClick={openCardSelector} className="select-button">
           选牌
+        </button>
+        <button 
+          onClick={quickDeal} 
+          className="quick-deal-button"
+          disabled={lastSelectedCards.length !== 13}
+          title={lastSelectedCards.length !== 13 ? "请先使用选牌功能选择13张牌" : "使用上次选中的牌快速发牌"}
+        >
+          快速发牌
         </button>
         <button onClick={resetGame} className="reset-button">
           重新开始
