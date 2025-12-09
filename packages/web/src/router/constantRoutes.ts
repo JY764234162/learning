@@ -18,6 +18,7 @@ import {
   ToolOutlined,
   ApiOutlined,
   HomeOutlined,
+  PlayCircleOutlined,
 } from "@ant-design/icons";
 import { NotFound } from "@/components/NotFound";
 //默认路由
@@ -331,6 +332,14 @@ export const authRoutes: ElegantConstRoute[] = [
     handle: {
       menuTitle: "关于",
       icon: "FileMarkdownOutlined",
+    },
+  },
+  {
+    path: "poke",
+    handle: {
+      menuTitle: "扑克游戏",
+      icon: "PlayCircleOutlined",
+      keyWords: ["扑克", "游戏", "发牌"],
     },
   },
 ];
