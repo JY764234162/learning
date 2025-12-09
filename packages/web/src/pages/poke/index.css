@@ -124,15 +124,6 @@
   overflow-y: visible;
 }
 
-.player .card {
-  margin-left: -25px;
-  margin-top: 0;
-}
-
-.player .card:first-child {
-  margin-left: 0;
-}
-
 /* 单张扑克牌样式 */
 .card {
   width: 70px;

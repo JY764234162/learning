@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
+import { layoutSlice } from "@/store/slice/layout";
+import { useSelector } from "react-redux";
 
 // 花色类型
 type Suit = "♠" | "♥" | "♦" | "♣";
@@ -161,6 +163,7 @@ const CardComponent: React.FC<{ card: Card; index: number }> = ({ card, index })
 
   // 根据玩家ID确定旋转角度和偏移方向
   let transform = "";
+  const isMobile = useSelector(layoutSlice.selectors.getIsMobile);
 
   return (
     <div
@@ -169,6 +172,7 @@ const CardComponent: React.FC<{ card: Card; index: number }> = ({ card, index })
         transform,
         zIndex: index, // 后面的牌z-index更大，叠在上面
         position: "relative",
+        marginLeft: index === 0 ? 0 : isMobile ? '-50px' : '-25px',
       }}
     >
       <div className="card-corner card-corner-top">
