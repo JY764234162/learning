@@ -30,6 +30,12 @@ export const Component = () => {
   const [selectedCards, setSelectedCards] = useState<Card[]>([]);
   const [availableCards, setAvailableCards] = useState<Card[]>([]);
   const [lastSelectedCards, setLastSelectedCards] = useState<Card[]>([]); // 保存上次选中的牌（内存中）
+  
+  // 出牌相关状态
+  const [currentPlayer, setCurrentPlayer] = useState<number>(1); // 当前出牌玩家
+  const [playingCards, setPlayingCards] = useState<Card[]>([]); // 当前玩家选中要出的牌
+  const [lastPlayedCards, setLastPlayedCards] = useState<Card[]>([]); // 上一次出的牌（显示在中央）
+  const [lastPlayedBy, setLastPlayedBy] = useState<number | null>(null); // 上一次出牌的玩家
 
   // 初始化扑克牌
   const initializeDeck = (): Card[] => {
@@ -110,7 +116,63 @@ export const Component = () => {
     setIsDealt(false);
     setSelectedCards([]);
     setShowCardSelector(false);
+    setCurrentPlayer(1);
+    setPlayingCards([]);
+    setLastPlayedCards([]);
+    setLastPlayedBy(null);
     // 注意：不清除 lastSelectedCards，保留在内存中
+  };
+
+  // 切换要出的牌的选中状态
+  const togglePlayingCard = (card: Card, playerId: number) => {
+    // 只有当前玩家才能选牌
+    if (playerId !== currentPlayer) return;
+
+    setPlayingCards((prev) => {
+      const exists = prev.find((c) => c.id === card.id);
+      if (exists) {
+        return prev.filter((c) => c.id !== card.id);
+      } else {
+        return [...prev, card];
+      }
+    });
+  };
+
+  // 出牌
+  const playCards = () => {
+    if (playingCards.length === 0) {
+      alert("请选择要出的牌！");
+      return;
+    }
+
+    // 从当前玩家的手牌中移除选中的牌
+    setPlayers((prevPlayers) => {
+      return prevPlayers.map((player) => {
+        if (player.id === currentPlayer) {
+          return {
+            ...player,
+            cards: player.cards.filter((card) => !playingCards.find((c) => c.id === card.id)),
+          };
+        }
+        return player;
+      });
+    });
+
+    // 保存出的牌到中央显示
+    setLastPlayedCards([...playingCards]);
+    setLastPlayedBy(currentPlayer);
+
+    // 清空选中的牌
+    setPlayingCards([]);
+
+    // 切换到下一个玩家（1->2->3->4->1循环）
+    setCurrentPlayer((prev) => (prev % 4) + 1);
+  };
+
+  // 跳过（不出牌）
+  const passPlay = () => {
+    setPlayingCards([]);
+    setCurrentPlayer((prev) => (prev % 4) + 1);
   };
 
   // 打开选牌界面
@@ -317,6 +379,21 @@ export const Component = () => {
         <button onClick={resetGame} className="reset-button">
           重新开始
         </button>
+        
+        {/* 出牌控制区域 */}
+        {isDealt && (
+          <>
+            <div className="current-player-info">
+              轮到: <span className="current-player-name">玩家{currentPlayer}</span>
+            </div>
+            <button onClick={playCards} className="play-button" disabled={playingCards.length === 0}>
+              出牌 ({playingCards.length})
+            </button>
+            <button onClick={passPlay} className="pass-button">
+              不出
+            </button>
+          </>
+        )}
       </div>
 
       {/* 选牌模态框 */}
@@ -332,36 +409,114 @@ export const Component = () => {
           }}
         />
       )}
-      {/* 中央区域 */}
+      {/* 中央区域 - 显示出的牌 */}
+      {isDealt && lastPlayedCards.length > 0 && (
+        <div className="center-played-cards">
+          <div className="played-by">玩家{lastPlayedBy}出的牌</div>
+          <div className="played-cards-container">
+            {lastPlayedCards.map((card, index) => {
+              const isRed = card.suit === "♥" || card.suit === "♦";
+              return (
+                <div
+                  key={card.id}
+                  className={`card played-card ${isRed ? "card-red" : "card-black"}`}
+                  style={{ marginLeft: index === 0 ? 0 : "-25px", zIndex: index }}
+                >
+                  <div className="card-corner card-corner-top">
+                    <div className="card-rank">{card.rank}</div>
+                    <div className={`card-suit ${isRed ? "suit-red" : ""}`}>{card.suit}</div>
+                  </div>
+                  <div className="card-center">
+                    <div className={`card-suit-large ${isRed ? "suit-red" : ""}`}>{card.suit}</div>
+                  </div>
+                  <div className="card-corner card-corner-bottom">
+                    <div className="card-rank">{card.rank}</div>
+                    <div className={`card-suit ${isRed ? "suit-red" : ""}`}>{card.suit}</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <div className="game-table">
         {/* 玩家1 - 底部，水平排列，可以换行 */}
-        {players.find((p) => p.id === 1) && <PlayerArea player={players.find((p) => p.id === 1)!} />}
+        {players.find((p) => p.id === 1) && (
+          <PlayerArea
+            player={players.find((p) => p.id === 1)!}
+            isCurrentPlayer={currentPlayer === 1}
+            playingCards={playingCards}
+            onCardClick={togglePlayingCard}
+          />
+        )}
 
         {/* 玩家2 - 右侧，固定定位，垂直排列（相对于玩家1逆时针90度） */}
-        {players.find((p) => p.id === 2) && <PlayerArea player={players.find((p) => p.id === 2)!} />}
+        {players.find((p) => p.id === 2) && (
+          <PlayerArea
+            player={players.find((p) => p.id === 2)!}
+            isCurrentPlayer={currentPlayer === 2}
+            playingCards={playingCards}
+            onCardClick={togglePlayingCard}
+          />
+        )}
 
         {/* 玩家3 - 顶部，水平排列（相对于玩家2逆时针90度，反向） */}
-        {players.find((p) => p.id === 3) && <PlayerArea player={players.find((p) => p.id === 3)!} />}
+        {players.find((p) => p.id === 3) && (
+          <PlayerArea
+            player={players.find((p) => p.id === 3)!}
+            isCurrentPlayer={currentPlayer === 3}
+            playingCards={playingCards}
+            onCardClick={togglePlayingCard}
+          />
+        )}
 
         {/* 玩家4 - 左侧，固定定位，垂直排列（相对于玩家3逆时针90度，反向） */}
-        {players.find((p) => p.id === 4) && <PlayerArea player={players.find((p) => p.id === 4)!} />}
+        {players.find((p) => p.id === 4) && (
+          <PlayerArea
+            player={players.find((p) => p.id === 4)!}
+            isCurrentPlayer={currentPlayer === 4}
+            playingCards={playingCards}
+            onCardClick={togglePlayingCard}
+          />
+        )}
       </div>
     </div>
   );
 };
 
 // 玩家区域组件
-const PlayerArea: React.FC<{ player: Player }> = ({ player }) => {
+interface PlayerAreaProps {
+  player: Player;
+  isCurrentPlayer: boolean;
+  playingCards: Card[];
+  onCardClick: (card: Card, playerId: number) => void;
+}
+
+const PlayerArea: React.FC<PlayerAreaProps> = ({ player, isCurrentPlayer, playingCards, onCardClick }) => {
   return (
-    <div className={`player player-${player.id}`}>
+    <div className={`player player-${player.id} ${isCurrentPlayer ? "current-player" : ""}`}>
+      <div className="player-label">
+        {player.name} {isCurrentPlayer && <span className="turn-indicator">← 出牌</span>}
+      </div>
       <div
         className="cards-container"
         style={{ flexDirection: player.position === "left" || player.position === "right" ? "column" : "row" }}
       >
-        {player.cards.map((card, index) => (
-          <CardComponent key={card.id} card={card} index={index} playerId={player.id} />
-        ))}
+        {player.cards.map((card, index) => {
+          const isSelected = playingCards.find((c) => c.id === card.id);
+          return (
+            <CardComponent
+              key={card.id}
+              card={card}
+              index={index}
+              playerId={player.id}
+              isSelected={!!isSelected}
+              isCurrentPlayer={isCurrentPlayer}
+              onClick={() => onCardClick(card, player.id)}
+            />
+          );
+        })}
       </div>
     </div>
   );
@@ -426,12 +581,20 @@ const CardSelectorModal: React.FC<CardSelectorModalProps> = ({ availableCards, s
 };
 
 // 单张扑克牌组件
-const CardComponent: React.FC<{ card: Card; index: number; playerId: number }> = ({ card, index, playerId }) => {
+interface CardComponentProps {
+  card: Card;
+  index: number;
+  playerId: number;
+  isSelected: boolean;
+  isCurrentPlayer: boolean;
+  onClick: () => void;
+}
+
+const CardComponent: React.FC<CardComponentProps> = ({ card, index, playerId, isSelected, isCurrentPlayer, onClick }) => {
   const isRed = card.suit === "♥" || card.suit === "♦";
   const isMobile = useSelector(layoutSlice.selectors.getIsMobile);
 
   // 根据玩家ID确定旋转角度和偏移方向
-  let transform = "";
   let marginStyle: React.CSSProperties = {};
 
   if (playerId === 1) {
@@ -460,15 +623,19 @@ const CardComponent: React.FC<{ card: Card; index: number; playerId: number }> =
     };
   }
 
+  // 选中时向上平移
+  const translateY = isSelected ? "-15px" : "0";
+
   return (
     <div
-      className={`card ${isRed ? "card-red" : "card-black"} `}
+      className={`card ${isRed ? "card-red" : "card-black"} ${isSelected ? "card-selected" : ""} ${isCurrentPlayer ? "card-clickable" : ""}`}
       style={{
-        transform,
+        transform: `translateY(${translateY})`,
         zIndex: index, // 后面的牌z-index更大，叠在上面
         position: "relative",
         ...marginStyle,
       }}
+      onClick={onClick}
     >
       <div className="card-corner card-corner-top">
         <div className="card-rank">{card.rank}</div>

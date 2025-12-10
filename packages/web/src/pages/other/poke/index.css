@@ -422,6 +422,160 @@
   opacity: 0.6;
 }
 
+/* 出牌控制区域 */
+.current-player-info {
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.current-player-name {
+  color: #ffd700;
+  font-size: 16px;
+}
+
+.play-button,
+.pass-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+.play-button {
+  background: linear-gradient(135deg, #ff5722, #e64a19);
+  color: white;
+}
+
+.play-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e64a19, #ff5722);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+.play-button:disabled {
+  background: #9e9e9e;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pass-button {
+  background: linear-gradient(135deg, #607d8b, #546e7a);
+  color: white;
+}
+
+.pass-button:hover {
+  background: linear-gradient(135deg, #546e7a, #607d8b);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* 中央出牌区域 */
+.center-played-cards {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.played-by {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 6px 16px;
+  border-radius: 20px;
+}
+
+.played-cards-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.played-card {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+/* 玩家标签 */
+.player-label {
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  white-space: nowrap;
+}
+
+.turn-indicator {
+  color: #ffd700;
+  margin-left: 4px;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* 当前玩家高亮 */
+.current-player {
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 12px;
+}
+
+/* 选中的牌样式 */
+.card-selected {
+  border: 2px solid #ffd700 !important;
+  box-shadow:
+    0 0 10px rgba(255, 215, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* 可点击的牌（当前玩家） */
+.card-clickable {
+  cursor: pointer;
+}
+
+.card-clickable:hover {
+  transform: translateY(-12px) scale(1.05);
+}
+
+/* 非当前玩家的牌不可点击 */
+.player:not(.current-player) .card {
+  cursor: default;
+}
+
+.player:not(.current-player) .card:hover {
+  transform: none;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
   .card-selector-modal {
@@ -446,5 +600,39 @@
 
   .selected-count {
     font-size: 14px;
+  }
+
+  .center-played-cards {
+    position: fixed;
+  }
+
+  .played-card {
+    width: 50px;
+    height: 70px;
+  }
+
+  .played-by {
+    font-size: 12px;
+    padding: 4px 12px;
+  }
+
+  .current-player-info {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .current-player-name {
+    font-size: 14px;
+  }
+
+  .play-button,
+  .pass-button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .player-label {
+    font-size: 10px;
+    padding: 3px 8px;
   }
 }
