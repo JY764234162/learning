@@ -307,6 +307,24 @@ export const authRoutes: ElegantConstRoute[] = [
       }),
     ],
   },
+  // ========== 游戏 ==========
+  {
+    path: "game",
+    handle: {
+      menuTitle: "游戏",
+      icon: "PlayCircleOutlined",
+    },
+    children: [
+      createLeafRoute("poke", {
+        menuTitle: "扑克游戏",
+        keyWords: ["扑克", "游戏", "发牌"],
+      }),
+      createLeafRoute("plane-game", {
+        menuTitle: "飞机大战",
+        keyWords: ["飞机", "游戏", "射击"],
+      }),
+    ],
+  },
   // ========== 其他 ==========
   {
     path: "other",
@@ -317,10 +335,6 @@ export const authRoutes: ElegantConstRoute[] = [
     children: [
       createLeafRoute("resume", {
         menuTitle: "简历",
-      }),
-      createLeafRoute("poke", {
-        menuTitle: "扑克游戏",
-        keyWords: ["扑克", "游戏", "发牌"],
       }),
     ],
   },

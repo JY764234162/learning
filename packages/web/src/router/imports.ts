@@ -57,4 +57,7 @@ export const dynamicLazyMap: Record<string, () => Promise<any>> = {
   about: () => import("@/pages/about"),
 
   poke: () => import("@/pages/other/poke"),
+
+  //game
+  "plane-game": () => import("@/pages/game/plane-game"),
 };
