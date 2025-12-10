@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Typography, Card, Alert, Space, Button, Input } from "antd";
-import { parseXmlMeta, Translate } from "@/pages/component/xml-parser/jats";
+import { parseXmlMeta, Translate } from "@/pages/data/xml-parser/jats";
 import { DOMParser } from "xmldom";
 import xpath from "xpath";
 

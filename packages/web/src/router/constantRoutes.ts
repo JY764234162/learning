@@ -1,25 +1,5 @@
 import { RouteObject, redirect } from "react-router-dom";
 import { Layout } from "@/Layout";
-import {
-  AndroidOutlined,
-  AppleOutlined,
-  ChromeOutlined,
-  EditOutlined,
-  EnvironmentOutlined,
-  FileMarkdownOutlined,
-  JavaScriptOutlined,
-  OpenAIOutlined,
-  SearchOutlined,
-  TransactionOutlined,
-  AppstoreOutlined,
-  InteractionOutlined,
-  FileTextOutlined,
-  CodeOutlined,
-  ToolOutlined,
-  ApiOutlined,
-  HomeOutlined,
-  PlayCircleOutlined,
-} from "@ant-design/icons";
 import { NotFound } from "@/components/NotFound";
 //默认路由
 export const constantRoutes: RouteObject[] = [

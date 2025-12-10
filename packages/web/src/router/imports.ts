@@ -1,63 +1,78 @@
 //动态导入映射关系
 export const dynamicLazyMap: Record<string, () => Promise<any>> = {
-  //canvas
-  "canvas-color-analyzer": () => import("@/pages/canvas/canvas-color-analyzer"),
-  "canvas-pixelation": () => import("@/pages/canvas/canvas-pixelation"),
-  "canvas-watermark": () => import("@/pages/canvas/canvas-watermark"),
-  //component
-  bezierTabs: () => import("@/pages/component/bezierTabs"),
-  "color-thief": () => import("@/pages/component/color-thief"),
-  cron: () => import("@/pages/component/cron"),
-  "darg-upload": () => import("@/pages/component/darg-upload"),
-  "drag-list": () => import("@/pages/component/drag-list"),
-  "drag-sort": () => import("@/pages/component/drag-sort"),
-  "export-html": () => import("@/pages/component/export-html"),
-  "html-to-image": () => import("@/pages/component/html-to-image"),
-  "keyword-high-light": () => import("@/pages/component/keyword-high-light"),
-  lazyImage: () => import("@/pages/component/lazyImage"),
-  preLoad: () => import("@/pages/component/preLoad"),
-  progressiveImg: () => import("@/pages/component/progressiveImg"),
-  resume: () => import("@/pages/component/resume"),
-  "scroll-horizontal": () => import("@/pages/component/scroll-horizontal"),
-  scrollAndHighlight: () => import("@/pages/component/scrollAndHighlight"),
-  "string-diff": () => import("@/pages/component/string-diff"),
-  treeEditor: () => import("@/pages/component/treeEditor"),
-  "xml-parser": () => import("@/pages/component/xml-parser"),
-  "auto-height-modal": () => import("@/pages/component/auto-height-modal"),
-  "rich-editor": () => import("@/pages/component/rich-editor"),
-  //css
-  "css-filter": () => import("@/pages/css/css-filter"),
-  "oracle-font": () => import("@/pages/css/oracle-font"),
-  //lib
-  "floating-ui": () => import("@/pages/lib/floating-ui"),
-  "leaflet-map": () => import("@/pages/lib/leaflet-map"),
-  microapp: () => import("@/pages/lib/microapp"),
-  "monaco-react": () => import("@/pages/lib/monaco-react"),
-  "pdf-preview": () => import("@/pages/lib/pdf-preview"),
-  "word-preview": () => import("@/pages/lib/word-preview"),
-  state: () => import("@/pages/lib/state"),
-  threejs: () => import("@/pages/lib/threejs"),
-  "react-flow": () => import("@/pages/lib/react-flow"),
-  //origin
-  "error-boundary": () => import("@/pages/origin/error-boundary"),
-  notification: () => import("@/pages/origin/notification"),
-  strictMode: () => import("@/pages/origin/strictMode"),
-  suspense: () => import("@/pages/origin/suspense"),
-  useSyncExternalStore: () => import("@/pages/origin/useSyncExternalStore"),
-  //other
-  "vite-hmr": () => import("@/pages/other/vite-hmr"),
-  websocket: () => import("@/pages/other/websocket"),
-  //svg
-  drawSvg: () => import("@/pages/svg/drawSvg"),
-  svgIcon: () => import("@/pages/svg/svgIcon"),
+  // ========== UI组件 ==========
+  bezierTabs: () => import("@/pages/ui/bezierTabs"),
+  "auto-height-modal": () => import("@/pages/ui/auto-height-modal"),
+  treeEditor: () => import("@/pages/ui/treeEditor"),
+  cron: () => import("@/pages/ui/cron"),
 
-  //
+  // ========== 交互功能 ==========
+  "darg-upload": () => import("@/pages/interaction/darg-upload"),
+  "drag-list": () => import("@/pages/interaction/drag-list"),
+  "drag-sort": () => import("@/pages/interaction/drag-sort"),
+  "scroll-horizontal": () => import("@/pages/interaction/scroll-horizontal"),
+  scrollAndHighlight: () => import("@/pages/interaction/scrollAndHighlight"),
+
+  // ========== 图片处理 ==========
+  "color-thief": () => import("@/pages/image/color-thief"),
+  lazyImage: () => import("@/pages/image/lazyImage"),
+  preLoad: () => import("@/pages/image/preLoad"),
+  progressiveImg: () => import("@/pages/image/progressiveImg"),
+
+  // ========== 数据处理 ==========
+  "keyword-high-light": () => import("@/pages/data/keyword-high-light"),
+  "string-diff": () => import("@/pages/data/string-diff"),
+  "export-html": () => import("@/pages/data/export-html"),
+  "html-to-image": () => import("@/pages/data/html-to-image"),
+  "xml-parser": () => import("@/pages/data/xml-parser"),
+
+  // ========== 可视化 ==========
+  "canvas-color-analyzer": () => import("@/pages/visualization/canvas-color-analyzer"),
+  "canvas-pixelation": () => import("@/pages/visualization/canvas-pixelation"),
+  "canvas-watermark": () => import("@/pages/visualization/canvas-watermark"),
+  drawSvg: () => import("@/pages/visualization/drawSvg"),
+  svgIcon: () => import("@/pages/visualization/svgIcon"),
+  threejs: () => import("@/pages/visualization/threejs"),
+  "react-flow": () => import("@/pages/visualization/react-flow"),
+
+  // ========== 编辑器 ==========
+  "monaco-react": () => import("@/pages/editor/monaco-react"),
+  "rich-editor": () => import("@/pages/editor/rich-editor"),
+
+  // ========== 文档预览 ==========
+  "pdf-preview": () => import("@/pages/document/pdf-preview"),
+  "word-preview": () => import("@/pages/document/word-preview"),
+
+  // ========== 工具库 ==========
+  "floating-ui": () => import("@/pages/library/floating-ui"),
+  "leaflet-map": () => import("@/pages/library/leaflet-map"),
+  state: () => import("@/pages/library/state"),
+  microapp: () => import("@/pages/library/microapp"),
+
+  // ========== React特性 ==========
+  "error-boundary": () => import("@/pages/react/error-boundary"),
+  notification: () => import("@/pages/react/notification"),
+  strictMode: () => import("@/pages/react/strictMode"),
+  suspense: () => import("@/pages/react/suspense"),
+  useSyncExternalStore: () => import("@/pages/react/useSyncExternalStore"),
+
+  // ========== 样式 ==========
+  "css-filter": () => import("@/pages/style/css-filter"),
+  "oracle-font": () => import("@/pages/style/oracle-font"),
+
+  // ========== 开发工具 ==========
+  "vite-hmr": () => import("@/pages/devtools/vite-hmr"),
+  websocket: () => import("@/pages/devtools/websocket"),
+
+  // ========== 游戏 ==========
+  poke: () => import("@/pages/game/poke"),
+  "plane-game": () => import("@/pages/game/plane-game"),
+
+  // ========== 其他 ==========
+  resume: () => import("@/pages/other/resume"),
+
+  // ========== 顶级页面 ==========
   home: () => import("@/pages/home"),
   ai: () => import("@/pages/ai"),
   about: () => import("@/pages/about"),
-
-  poke: () => import("@/pages/other/poke"),
-
-  //game
-  "plane-game": () => import("@/pages/game/plane-game"),
 };

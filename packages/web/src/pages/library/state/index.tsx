@@ -2,14 +2,14 @@ import React from "react";
 import { useAtom } from "jotai";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Card, Alert, Space, Button, Divider } from "antd";
-import { countAtom, fetchDataAtom, asyncDataAtom } from "@/pages/lib/state/state/jotai";
-import { incremented, decremented, fetchRandomData, reset, RootState, AppDispatch } from "@/pages/lib/state/state/redux";
-import { useCountStore } from "@/pages/lib/state/state/zustand";
+import { countAtom, fetchDataAtom, asyncDataAtom } from "./state/jotai";
+import { incremented, decremented, fetchRandomData, reset, RootState, AppDispatch } from "./state/redux";
+import { useCountStore } from "./state/zustand";
 
 import "./style.css";
 import { RecoilRoot } from "recoil";
 import { Provider } from "react-redux";
-import { store } from "@/pages/lib/state/state/redux";
+import { store } from "./state/redux";
 
 const { Title, Paragraph, Text } = Typography;
 
