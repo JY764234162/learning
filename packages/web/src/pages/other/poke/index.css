@@ -375,12 +375,167 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* 被其他玩家选中的牌 */
+.selectable-card.selected-by-other {
+  opacity: 0.6;
+  border: 2px solid #ff9800;
+}
+
+.other-player-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  background: #ff9800;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 更大的选牌模态框 */
+.card-selector-modal-large {
+  max-width: 95vw;
+  width: 1200px;
+}
+
+/* 玩家选择标签 */
+.player-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.player-tab {
+  flex: 1;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.player-tab:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.player-tab.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-bottom-color: #4caf50;
+  color: white;
+}
+
+.tab-count {
+  margin-left: 6px;
+  font-size: 12px;
+  color: #4caf50;
+}
+
+/* 玩家已选牌预览 */
+.players-cards-preview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 16px 20px;
+  background: rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.player-preview {
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.player-preview.active {
+  border-color: #4caf50;
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.preview-label {
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.preview-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-height: 24px;
+}
+
+.preview-card {
+  padding: 2px 6px;
+  background: white;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.preview-card.red {
+  color: #d32f2f;
+}
+
+.preview-card.black {
+  color: #212121;
+}
+
+.no-cards {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* 当前选牌信息 */
+.current-selecting-info {
+  color: white;
+  font-size: 14px;
+  margin-bottom: 16px;
+  padding: 10px 16px;
+  background: rgba(76, 175, 80, 0.2);
+  border-radius: 8px;
+  border-left: 4px solid #4caf50;
+}
+
+.current-selecting-info strong {
+  color: #4caf50;
+}
+
+/* 总已选数量 */
+.total-selected-count {
+  font-size: 18px;
+  font-weight: bold;
+  color: #4caf50;
+}
+
 .card-selector-footer {
   padding: 20px;
   border-top: 2px solid rgba(255, 255, 255, 0.2);
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 12px;
+}
+
+.footer-info {
+  flex: 1;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
 }
 
 .cancel-button,
@@ -422,65 +577,6 @@
   opacity: 0.6;
 }
 
-/* 出牌控制区域 */
-.current-player-info {
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 6px;
-  color: white;
-  font-weight: bold;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.current-player-name {
-  color: #ffd700;
-  font-size: 16px;
-}
-
-.play-button,
-.pass-button {
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  white-space: nowrap;
-}
-
-.play-button {
-  background: linear-gradient(135deg, #ff5722, #e64a19);
-  color: white;
-}
-
-.play-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #e64a19, #ff5722);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
-}
-
-.play-button:disabled {
-  background: #9e9e9e;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.pass-button {
-  background: linear-gradient(135deg, #607d8b, #546e7a);
-  color: white;
-}
-
-.pass-button:hover {
-  background: linear-gradient(135deg, #546e7a, #607d8b);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
-}
-
 /* 中央出牌区域 */
 .center-played-cards {
   position: absolute;
@@ -516,6 +612,16 @@
     0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
+/* 玩家头部区域 */
+.player-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 /* 玩家标签 */
 .player-label {
   color: white;
@@ -524,30 +630,68 @@
   background: rgba(0, 0, 0, 0.4);
   padding: 4px 10px;
   border-radius: 12px;
-  margin-bottom: 8px;
   white-space: nowrap;
 }
 
-.turn-indicator {
-  color: #ffd700;
-  margin-left: 4px;
-  animation: blink 1s ease-in-out infinite;
+/* 玩家操作按钮区域 */
+.player-actions {
+  display: flex;
+  gap: 6px;
 }
 
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+.play-button-small,
+.pass-button-small {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+.play-button-small {
+  background: linear-gradient(135deg, #ff5722, #e64a19);
+  color: white;
+}
+
+.play-button-small:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e64a19, #ff5722);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.play-button-small:disabled {
+  background: #9e9e9e;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pass-button-small {
+  background: linear-gradient(135deg, #607d8b, #546e7a);
+  color: white;
+}
+
+.pass-button-small:hover {
+  background: linear-gradient(135deg, #546e7a, #607d8b);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
 }
 
 /* 当前玩家高亮 */
 .current-player {
-  background: rgba(255, 215, 0, 0.1);
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 193, 7, 0.1) 100%);
   border-radius: 12px;
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+  z-index: 200 !important; /* 当前玩家层级最高，避免选不到牌 */
+}
+
+.current-player .player-label {
+  background: linear-gradient(135deg, #ffd700, #ffb300);
+  color: #000;
 }
 
 /* 选中的牌样式 */
@@ -583,6 +727,10 @@
     max-height: 95vh;
   }
 
+  .card-selector-modal-large {
+    width: 100%;
+  }
+
   .available-cards-grid {
     grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
     gap: 8px;
@@ -598,8 +746,55 @@
     font-size: 18px;
   }
 
-  .selected-count {
+  .selected-count,
+  .total-selected-count {
     font-size: 14px;
+  }
+
+  /* 玩家标签响应式 */
+  .player-tabs {
+    padding: 0 12px;
+    gap: 4px;
+  }
+
+  .player-tab {
+    padding: 8px 8px;
+    font-size: 12px;
+  }
+
+  .tab-count {
+    display: block;
+    margin-left: 0;
+    margin-top: 2px;
+  }
+
+  /* 玩家预览响应式 */
+  .players-cards-preview {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .player-preview {
+    padding: 8px;
+  }
+
+  .preview-label {
+    font-size: 11px;
+  }
+
+  .preview-card {
+    font-size: 10px;
+    padding: 1px 4px;
+  }
+
+  .current-selecting-info {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .footer-info {
+    font-size: 12px;
   }
 
   .center-played-cards {
@@ -616,23 +811,44 @@
     padding: 4px 12px;
   }
 
-  .current-player-info {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-
-  .current-player-name {
-    font-size: 14px;
-  }
-
-  .play-button,
-  .pass-button {
-    padding: 8px 16px;
-    font-size: 12px;
+  /* 玩家区域响应式 */
+  .player-header {
+    gap: 6px;
   }
 
   .player-label {
     font-size: 10px;
     padding: 3px 8px;
+  }
+
+  .play-button-small,
+  .pass-button-small {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .player-tabs {
+    flex-wrap: wrap;
+  }
+
+  .player-tab {
+    flex: 1 1 45%;
+    min-width: 0;
+  }
+
+  .players-cards-preview {
+    grid-template-columns: 1fr;
+  }
+
+  .card-selector-footer {
+    flex-wrap: wrap;
+  }
+
+  .footer-info {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 8px;
   }
 }

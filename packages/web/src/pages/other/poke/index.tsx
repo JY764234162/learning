@@ -23,13 +23,19 @@ interface Player {
   position: "top" | "right" | "bottom" | "left";
 }
 
+// 每个玩家选中的牌类型
+type PlayerCardsMap = Record<number, Card[]>;
+
 export const Component = () => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [isDealt, setIsDealt] = useState(false);
   const [showCardSelector, setShowCardSelector] = useState(false);
-  const [selectedCards, setSelectedCards] = useState<Card[]>([]);
   const [availableCards, setAvailableCards] = useState<Card[]>([]);
-  const [lastSelectedCards, setLastSelectedCards] = useState<Card[]>([]); // 保存上次选中的牌（内存中）
+  
+  // 选牌相关状态 - 每个玩家分别选牌
+  const [playerSelectedCards, setPlayerSelectedCards] = useState<PlayerCardsMap>({ 1: [], 2: [], 3: [], 4: [] });
+  const [selectingPlayer, setSelectingPlayer] = useState<number>(1); // 当前正在为哪个玩家选牌
+  const [lastPlayerSelectedCards, setLastPlayerSelectedCards] = useState<PlayerCardsMap>({ 1: [], 2: [], 3: [], 4: [] }); // 保存上次选中的牌
   
   // 出牌相关状态
   const [currentPlayer, setCurrentPlayer] = useState<number>(1); // 当前出牌玩家
@@ -114,13 +120,14 @@ export const Component = () => {
   const resetGame = () => {
     setPlayers([]);
     setIsDealt(false);
-    setSelectedCards([]);
+    setPlayerSelectedCards({ 1: [], 2: [], 3: [], 4: [] });
+    setSelectingPlayer(1);
     setShowCardSelector(false);
     setCurrentPlayer(1);
     setPlayingCards([]);
     setLastPlayedCards([]);
     setLastPlayedBy(null);
-    // 注意：不清除 lastSelectedCards，保留在内存中
+    // 注意：不清除 lastPlayerSelectedCards，保留在内存中
   };
 
   // 切换要出的牌的选中状态
@@ -217,57 +224,93 @@ export const Component = () => {
     setAvailableCards(sortedDeck);
 
     // 恢复上次选中的牌（如果存在），并验证有效性
-    const validLastSelected = lastSelectedCards.filter((savedCard) => sortedDeck.find((card) => card.id === savedCard.id));
-    setSelectedCards(validLastSelected);
+    const validLastSelected: PlayerCardsMap = { 1: [], 2: [], 3: [], 4: [] };
+    for (let i = 1; i <= 4; i++) {
+      validLastSelected[i] = lastPlayerSelectedCards[i].filter((savedCard) =>
+        sortedDeck.find((card) => card.id === savedCard.id)
+      );
+    }
+    setPlayerSelectedCards(validLastSelected);
+    setSelectingPlayer(1);
 
     setShowCardSelector(true);
   };
 
+  // 获取所有已选的牌（所有玩家）
+  const getAllSelectedCards = (): Card[] => {
+    return Object.values(playerSelectedCards).flat();
+  };
+
   // 切换牌的选中状态
   const toggleCardSelection = (card: Card) => {
-    if (selectedCards.length >= 13 && !selectedCards.find((c) => c.id === card.id)) {
-      return; // 已选13张，不能再选
+    const currentPlayerCards = playerSelectedCards[selectingPlayer];
+    const allSelectedCards = getAllSelectedCards();
+
+    // 检查当前玩家是否已选中此牌
+    const isSelectedByCurrentPlayer = currentPlayerCards.find((c) => c.id === card.id);
+
+    // 检查此牌是否被其他玩家选中
+    const selectedByOtherPlayer = allSelectedCards.find((c) => c.id === card.id) && !isSelectedByCurrentPlayer;
+
+    if (selectedByOtherPlayer) {
+      alert("这张牌已被其他玩家选中！");
+      return;
     }
 
-    setSelectedCards((prev) => {
-      const exists = prev.find((c) => c.id === card.id);
+    // 检查当前玩家是否已选13张
+    if (currentPlayerCards.length >= 13 && !isSelectedByCurrentPlayer) {
+      alert("当前玩家已选择13张牌！");
+      return;
+    }
+
+    setPlayerSelectedCards((prev) => {
+      const playerCards = prev[selectingPlayer];
+      const exists = playerCards.find((c) => c.id === card.id);
       if (exists) {
-        return prev.filter((c) => c.id !== card.id);
+        return {
+          ...prev,
+          [selectingPlayer]: playerCards.filter((c) => c.id !== card.id),
+        };
       } else {
-        return [...prev, card];
+        return {
+          ...prev,
+          [selectingPlayer]: [...playerCards, card],
+        };
       }
     });
   };
 
   // 确认选牌并分配
   const confirmCardSelection = () => {
-    if (selectedCards.length !== 13) {
-      alert("请选择13张牌！");
-      return;
-    }
+    const allSelectedCards = getAllSelectedCards();
 
     // 获取剩余的牌
-    const remainingCards = availableCards.filter((card) => !selectedCards.find((c) => c.id === card.id));
+    const remainingCards = availableCards.filter((card) => !allSelectedCards.find((c) => c.id === card.id));
 
     // 洗牌剩余的牌
     const shuffled = shuffleDeck(remainingCards);
 
     // 创建玩家
     const newPlayers: Player[] = [
-      { id: 1, name: "玩家1", cards: [], position: "bottom" }, // 底部 - 选中的13张
-      { id: 2, name: "玩家2", cards: [], position: "right" }, // 右侧
-      { id: 3, name: "玩家3", cards: [], position: "top" }, // 顶部
-      { id: 4, name: "玩家4", cards: [], position: "left" }, // 左侧
+      { id: 1, name: "玩家1", cards: [...playerSelectedCards[1]], position: "bottom" },
+      { id: 2, name: "玩家2", cards: [...playerSelectedCards[2]], position: "right" },
+      { id: 3, name: "玩家3", cards: [...playerSelectedCards[3]], position: "top" },
+      { id: 4, name: "玩家4", cards: [...playerSelectedCards[4]], position: "left" },
     ];
 
-    // 玩家1获得选中的13张牌
-    newPlayers[0].cards = [...selectedCards];
+    // 找出需要补牌的玩家（手牌不足13张的）
+    const playersNeedCards = newPlayers.filter((p) => p.cards.length < 13);
 
-    // 剩余的39张牌随机分配给玩家2、3、4
-    shuffled.forEach((card, index) => {
-      const playerIndex = (index % 3) + 1; // 玩家2、3、4
-      newPlayers[playerIndex].cards.push(card);
-    });
+    // 随机分配剩余的牌给需要补牌的玩家
+    let cardIndex = 0;
+    while (cardIndex < shuffled.length) {
+      for (const player of playersNeedCards) {
+        if (player.cards.length < 13 && cardIndex < shuffled.length) {
+          player.cards.push(shuffled[cardIndex]);
+          cardIndex++;
+        }
+      }
+    }
 
     // 按点数排序：3-K、A、2
     newPlayers.forEach((player) => {
@@ -296,42 +339,55 @@ export const Component = () => {
     setShowCardSelector(false);
 
     // 保存选中的牌到内存
-    setLastSelectedCards([...selectedCards]);
+    setLastPlayerSelectedCards({ ...playerSelectedCards });
 
-    setSelectedCards([]);
+    setPlayerSelectedCards({ 1: [], 2: [], 3: [], 4: [] });
+  };
+
+  // 检查是否有上次的选牌记录
+  const hasLastSelection = (): boolean => {
+    return Object.values(lastPlayerSelectedCards).some((cards) => cards.length > 0);
   };
 
   // 快速发牌：使用上次选中的牌直接发牌
   const quickDeal = () => {
-    if (lastSelectedCards.length !== 13) {
-      alert("请先使用选牌功能选择13张牌！");
+    if (!hasLastSelection()) {
+      alert("请先使用选牌功能选择牌！");
       return;
     }
 
     const deck = initializeDeck();
 
+    // 获取所有上次选中的牌
+    const allLastSelectedCards = Object.values(lastPlayerSelectedCards).flat();
+
     // 获取剩余的牌
-    const remainingCards = deck.filter((card) => !lastSelectedCards.find((c) => c.id === card.id));
+    const remainingCards = deck.filter((card) => !allLastSelectedCards.find((c) => c.id === card.id));
 
     // 洗牌剩余的牌
     const shuffled = shuffleDeck(remainingCards);
 
-    // 创建玩家
+    // 创建玩家，使用上次选中的牌
     const newPlayers: Player[] = [
-      { id: 1, name: "玩家1", cards: [], position: "bottom" }, // 底部 - 上次选中的13张
-      { id: 2, name: "玩家2", cards: [], position: "right" }, // 右侧
-      { id: 3, name: "玩家3", cards: [], position: "top" }, // 顶部
-      { id: 4, name: "玩家4", cards: [], position: "left" }, // 左侧
+      { id: 1, name: "玩家1", cards: [...lastPlayerSelectedCards[1]], position: "bottom" },
+      { id: 2, name: "玩家2", cards: [...lastPlayerSelectedCards[2]], position: "right" },
+      { id: 3, name: "玩家3", cards: [...lastPlayerSelectedCards[3]], position: "top" },
+      { id: 4, name: "玩家4", cards: [...lastPlayerSelectedCards[4]], position: "left" },
     ];
 
-    // 玩家1获得上次选中的13张牌
-    newPlayers[0].cards = [...lastSelectedCards];
+    // 找出需要补牌的玩家（手牌不足13张的）
+    const playersNeedCards = newPlayers.filter((p) => p.cards.length < 13);
 
-    // 剩余的39张牌随机分配给玩家2、3、4
-    shuffled.forEach((card, index) => {
-      const playerIndex = (index % 3) + 1; // 玩家2、3、4
-      newPlayers[playerIndex].cards.push(card);
-    });
+    // 随机分配剩余的牌给需要补牌的玩家
+    let cardIndex = 0;
+    while (cardIndex < shuffled.length) {
+      for (const player of playersNeedCards) {
+        if (player.cards.length < 13 && cardIndex < shuffled.length) {
+          player.cards.push(shuffled[cardIndex]);
+          cardIndex++;
+        }
+      }
+    }
 
     // 按点数排序：3-K、A、2
     newPlayers.forEach((player) => {
@@ -371,41 +427,28 @@ export const Component = () => {
         <button
           onClick={quickDeal}
           className="quick-deal-button"
-          disabled={lastSelectedCards.length !== 13}
-          title={lastSelectedCards.length !== 13 ? "请先使用选牌功能选择13张牌" : "使用上次选中的牌快速发牌"}
+          disabled={!hasLastSelection()}
+          title={!hasLastSelection() ? "请先使用选牌功能选择牌" : "使用上次选中的牌快速发牌"}
         >
           快速发牌
         </button>
         <button onClick={resetGame} className="reset-button">
           重新开始
         </button>
-        
-        {/* 出牌控制区域 */}
-        {isDealt && (
-          <>
-            <div className="current-player-info">
-              轮到: <span className="current-player-name">玩家{currentPlayer}</span>
-            </div>
-            <button onClick={playCards} className="play-button" disabled={playingCards.length === 0}>
-              出牌 ({playingCards.length})
-            </button>
-            <button onClick={passPlay} className="pass-button">
-              不出
-            </button>
-          </>
-        )}
       </div>
 
       {/* 选牌模态框 */}
       {showCardSelector && (
         <CardSelectorModal
           availableCards={availableCards}
-          selectedCards={selectedCards}
+          playerSelectedCards={playerSelectedCards}
+          selectingPlayer={selectingPlayer}
+          onSelectingPlayerChange={setSelectingPlayer}
           onToggleCard={toggleCardSelection}
           onConfirm={confirmCardSelection}
           onCancel={() => {
             setShowCardSelector(false);
-            setSelectedCards([]);
+            setPlayerSelectedCards({ 1: [], 2: [], 3: [], 4: [] });
           }}
         />
       )}
@@ -448,6 +491,8 @@ export const Component = () => {
             isCurrentPlayer={currentPlayer === 1}
             playingCards={playingCards}
             onCardClick={togglePlayingCard}
+            onPlayCards={playCards}
+            onPassPlay={passPlay}
           />
         )}
 
@@ -458,6 +503,8 @@ export const Component = () => {
             isCurrentPlayer={currentPlayer === 2}
             playingCards={playingCards}
             onCardClick={togglePlayingCard}
+            onPlayCards={playCards}
+            onPassPlay={passPlay}
           />
         )}
 
@@ -468,6 +515,8 @@ export const Component = () => {
             isCurrentPlayer={currentPlayer === 3}
             playingCards={playingCards}
             onCardClick={togglePlayingCard}
+            onPlayCards={playCards}
+            onPassPlay={passPlay}
           />
         )}
 
@@ -478,6 +527,8 @@ export const Component = () => {
             isCurrentPlayer={currentPlayer === 4}
             playingCards={playingCards}
             onCardClick={togglePlayingCard}
+            onPlayCards={playCards}
+            onPassPlay={passPlay}
           />
         )}
       </div>
@@ -491,13 +542,35 @@ interface PlayerAreaProps {
   isCurrentPlayer: boolean;
   playingCards: Card[];
   onCardClick: (card: Card, playerId: number) => void;
+  onPlayCards: () => void;
+  onPassPlay: () => void;
 }
 
-const PlayerArea: React.FC<PlayerAreaProps> = ({ player, isCurrentPlayer, playingCards, onCardClick }) => {
+const PlayerArea: React.FC<PlayerAreaProps> = ({
+  player,
+  isCurrentPlayer,
+  playingCards,
+  onCardClick,
+  onPlayCards,
+  onPassPlay,
+}) => {
+  const selectedCount = playingCards.length;
+
   return (
     <div className={`player player-${player.id} ${isCurrentPlayer ? "current-player" : ""}`}>
-      <div className="player-label">
-        {player.name} {isCurrentPlayer && <span className="turn-indicator">← 出牌</span>}
+      <div className="player-header">
+        <div className="player-label">{player.name}</div>
+        {/* 出牌按钮 - 只在当前玩家显示 */}
+        {isCurrentPlayer && (
+          <div className="player-actions">
+            <button onClick={onPlayCards} className="play-button-small" disabled={selectedCount === 0}>
+              出牌{selectedCount > 0 && ` (${selectedCount})`}
+            </button>
+            <button onClick={onPassPlay} className="pass-button-small">
+              不出
+            </button>
+          </div>
+        )}
       </div>
       <div
         className="cards-container"
@@ -525,29 +598,99 @@ const PlayerArea: React.FC<PlayerAreaProps> = ({ player, isCurrentPlayer, playin
 // 选牌模态框组件
 interface CardSelectorModalProps {
   availableCards: Card[];
-  selectedCards: Card[];
+  playerSelectedCards: PlayerCardsMap;
+  selectingPlayer: number;
+  onSelectingPlayerChange: (playerId: number) => void;
   onToggleCard: (card: Card) => void;
   onConfirm: () => void;
   onCancel: () => void;
 }
 
-const CardSelectorModal: React.FC<CardSelectorModalProps> = ({ availableCards, selectedCards, onToggleCard, onConfirm, onCancel }) => {
+const CardSelectorModal: React.FC<CardSelectorModalProps> = ({
+  availableCards,
+  playerSelectedCards,
+  selectingPlayer,
+  onSelectingPlayerChange,
+  onToggleCard,
+  onConfirm,
+  onCancel,
+}) => {
+  // 获取所有已选的牌
+  const allSelectedCards = Object.values(playerSelectedCards).flat();
+  // 当前玩家选中的牌
+  const currentPlayerCards = playerSelectedCards[selectingPlayer];
+  // 总已选牌数
+  const totalSelected = allSelectedCards.length;
+
+  // 检查牌被哪个玩家选中
+  const getCardOwner = (card: Card): number | null => {
+    for (let i = 1; i <= 4; i++) {
+      if (playerSelectedCards[i].find((c) => c.id === card.id)) {
+        return i;
+      }
+    }
+    return null;
+  };
+
   return (
     <div className="card-selector-modal-overlay" onClick={onCancel}>
-      <div className="card-selector-modal" onClick={(e) => e.stopPropagation()}>
+      <div className="card-selector-modal card-selector-modal-large" onClick={(e) => e.stopPropagation()}>
         <div className="card-selector-header">
-          <h3>选择13张牌</h3>
-          <div className="selected-count">已选择: {selectedCards.length} / 13</div>
+          <h3>自由分配牌</h3>
+          <div className="total-selected-count">已分配: {totalSelected} / 52</div>
         </div>
+
+        {/* 玩家选择标签 */}
+        <div className="player-tabs">
+          {[1, 2, 3, 4].map((playerId) => (
+            <button
+              key={playerId}
+              className={`player-tab ${selectingPlayer === playerId ? "active" : ""}`}
+              onClick={() => onSelectingPlayerChange(playerId)}
+            >
+              玩家{playerId}
+              <span className="tab-count">({playerSelectedCards[playerId].length}/13)</span>
+            </button>
+          ))}
+        </div>
+
+        {/* 各玩家已选牌预览 */}
+        <div className="players-cards-preview">
+          {[1, 2, 3, 4].map((playerId) => (
+            <div key={playerId} className={`player-preview ${selectingPlayer === playerId ? "active" : ""}`}>
+              <div className="preview-label">玩家{playerId}: {playerSelectedCards[playerId].length}张</div>
+              <div className="preview-cards">
+                {playerSelectedCards[playerId].length === 0 ? (
+                  <span className="no-cards">未选牌</span>
+                ) : (
+                  playerSelectedCards[playerId].map((card) => {
+                    const isRed = card.suit === "♥" || card.suit === "♦";
+                    return (
+                      <span key={card.id} className={`preview-card ${isRed ? "red" : "black"}`}>
+                        {card.suit}{card.rank}
+                      </span>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
         <div className="card-selector-content">
+          <div className="current-selecting-info">
+            正在为 <strong>玩家{selectingPlayer}</strong> 选牌 ({currentPlayerCards.length}/13)
+          </div>
           <div className="available-cards-grid">
             {availableCards.map((card) => {
-              const isSelected = selectedCards.find((c) => c.id === card.id);
+              const cardOwner = getCardOwner(card);
+              const isSelectedByCurrentPlayer = cardOwner === selectingPlayer;
+              const isSelectedByOther = cardOwner !== null && cardOwner !== selectingPlayer;
               const isRed = card.suit === "♥" || card.suit === "♦";
               return (
                 <div
                   key={card.id}
-                  className={`selectable-card ${isSelected ? "selected" : ""} ${isRed ? "card-red" : "card-black"}`}
+                  className={`selectable-card ${isSelectedByCurrentPlayer ? "selected" : ""} ${isSelectedByOther ? "selected-by-other" : ""} ${isRed ? "card-red" : "card-black"}`}
                   onClick={() => onToggleCard(card)}
                 >
                   <div className="card-corner card-corner-top">
@@ -561,18 +704,22 @@ const CardSelectorModal: React.FC<CardSelectorModalProps> = ({ availableCards, s
                     <div className="card-rank">{card.rank}</div>
                     <div className={`card-suit ${isRed ? "suit-red" : ""}`}>{card.suit}</div>
                   </div>
-                  {isSelected && <div className="selected-badge">✓</div>}
+                  {isSelectedByCurrentPlayer && <div className="selected-badge">✓</div>}
+                  {isSelectedByOther && <div className="other-player-badge">P{cardOwner}</div>}
                 </div>
               );
             })}
           </div>
         </div>
         <div className="card-selector-footer">
+          <div className="footer-info">
+            剩余 {52 - totalSelected} 张牌将随机分配
+          </div>
           <button onClick={onCancel} className="cancel-button">
             取消
           </button>
-          <button onClick={onConfirm} className="confirm-button" disabled={selectedCards.length !== 13}>
-            确认 ({selectedCards.length}/13)
+          <button onClick={onConfirm} className="confirm-button">
+            确认发牌
           </button>
         </div>
       </div>
