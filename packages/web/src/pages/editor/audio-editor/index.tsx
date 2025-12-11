@@ -31,6 +31,7 @@ export const Component = () => {
   const wavesurferRef = useRef<WaveSurfer | null>(null);
   const regionsPluginRef = useRef<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const playingRegionIdRef = useRef<string | null>(null);
 
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -42,6 +43,7 @@ export const Component = () => {
   const [regions, setRegions] = useState<Region[]>([]);
   const [loading, setLoading] = useState(false);
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
+  const [playingRegionId, setPlayingRegionId] = useState<string | null>(null);
 
   // 初始化 WaveSurfer
   const initWaveSurfer = useCallback(() => {
@@ -78,12 +80,35 @@ export const Component = () => {
 
       // 监听播放状态
       wavesurfer.on('play', () => setIsPlaying(true));
-      wavesurfer.on('pause', () => setIsPlaying(false));
-      wavesurfer.on('finish', () => setIsPlaying(false));
+      wavesurfer.on('pause', () => {
+        setIsPlaying(false);
+        playingRegionIdRef.current = null;
+        setPlayingRegionId(null); // 清除选区播放状态
+      });
+      wavesurfer.on('finish', () => {
+        setIsPlaying(false);
+        playingRegionIdRef.current = null;
+        setPlayingRegionId(null); // 清除选区播放状态
+      });
 
       // 监听时间更新
       wavesurfer.on('timeupdate', (time: number) => {
         setCurrentTime(time);
+        
+        // 如果正在播放选区，检查是否到达选区结束
+        const currentPlayingRegionId = playingRegionIdRef.current;
+        if (currentPlayingRegionId && regionsPluginRef.current) {
+          const regions = regionsPluginRef.current.getRegions();
+          const region = regions.find((r: any) => r.id === currentPlayingRegionId);
+          if (region && time >= region.end) {
+            // 到达选区结束，停止播放
+            console.log('选区播放结束，停止播放，时间:', time, '选区结束:', region.end);
+            wavesurfer.pause();
+            wavesurfer.seekTo(region.start / wavesurfer.getDuration());
+            playingRegionIdRef.current = null;
+            setPlayingRegionId(null);
+          }
+        }
       });
 
       // 监听加载完成
@@ -111,6 +136,22 @@ export const Component = () => {
             color: region.color,
           },
         ]);
+
+        // 监听 region 播放事件
+        region.on('play', () => {
+          playingRegionIdRef.current = region.id;
+          setPlayingRegionId(region.id);
+        });
+        
+        // 监听 region 播放结束事件（备用方案）
+        region.on('out', () => {
+          if (wavesurferRef.current && playingRegionIdRef.current === region.id) {
+            wavesurferRef.current.pause();
+            wavesurferRef.current.seekTo(region.start / wavesurferRef.current.getDuration());
+            playingRegionIdRef.current = null;
+            setPlayingRegionId(null);
+          }
+        });
       });
 
       // 监听 region 更新
@@ -234,10 +275,18 @@ export const Component = () => {
 
   // 播放选区
   const playRegion = (regionId: string) => {
-    if (regionsPluginRef.current) {
+    if (regionsPluginRef.current && wavesurferRef.current) {
       const regions = regionsPluginRef.current.getRegions();
       const region = regions.find((r: any) => r.id === regionId);
       if (region) {
+        // 设置当前播放的选区ID（同时更新 ref 和 state）
+        playingRegionIdRef.current = regionId;
+        setPlayingRegionId(regionId);
+        
+        // 先跳转到选区开始位置
+        wavesurferRef.current.seekTo(region.start / wavesurferRef.current.getDuration());
+        
+        // 播放选区
         region.play();
       }
     }
@@ -274,24 +323,140 @@ export const Component = () => {
         }
       }
 
-      // 导出为 WAV
-      await exportAudioBuffer(newBuffer, `cut_${Date.now()}.wav`);
-      message.success('音频片段已导出！');
+      // 导出为 MP3（默认）
+      try {
+        await exportAudioBufferAsMP3(newBuffer, `cut_${Date.now()}.mp3`);
+        message.success('音频片段已导出为 MP3！');
+      } catch (error) {
+        message.warning('MP3 导出失败，已回退到 WAV 格式');
+      }
     } catch (error) {
       console.error('剪切失败:', error);
       message.error('剪切失败，请重试！');
     }
   };
 
-  // 导出完整音频
+  // 导出 AudioBuffer 为 MP3
+  const exportAudioBufferAsMP3 = async (buffer: AudioBuffer, filename: string) => {
+    try {
+      // 动态导入 lamejs
+      // @ts-ignore
+      const lamejs = await import('lamejs');
+      
+      // 获取 Mp3Encoder
+      let Mp3Encoder: any;
+      if (lamejs.default && lamejs.default.Mp3Encoder) {
+        Mp3Encoder = lamejs.default.Mp3Encoder;
+      } else if (lamejs.Mp3Encoder) {
+        Mp3Encoder = lamejs.Mp3Encoder;
+      } else {
+        Mp3Encoder = lamejs;
+      }
+
+      if (typeof Mp3Encoder !== 'function') {
+        throw new Error('无法找到 Mp3Encoder');
+      }
+
+      const mp3encoder = new Mp3Encoder(
+        buffer.numberOfChannels,
+        buffer.sampleRate,
+        128 // 比特率 128kbps
+      );
+
+      const sampleBlockSize = 1152;
+      const samples: Uint8Array[] = [];
+      
+      // 获取音频数据
+      const leftChannel = buffer.getChannelData(0);
+      const rightChannel = buffer.numberOfChannels > 1 ? buffer.getChannelData(1) : leftChannel;
+
+      // 将浮点样本转换为 16 位整数
+      const convertTo16BitPCM = (input: Float32Array): Int16Array => {
+        const output = new Int16Array(input.length);
+        for (let i = 0; i < input.length; i++) {
+          const s = Math.max(-1, Math.min(1, input[i]));
+          output[i] = s < 0 ? s * 0x8000 : s * 0x7fff;
+        }
+        return output;
+      };
+
+      const leftData = convertTo16BitPCM(leftChannel);
+      const rightData = convertTo16BitPCM(rightChannel);
+
+      // 编码 MP3
+      for (let i = 0; i < leftData.length; i += sampleBlockSize) {
+        const leftChunk = leftData.subarray(i, Math.min(i + sampleBlockSize, leftData.length));
+        const rightChunk = rightData.subarray(i, Math.min(i + sampleBlockSize, rightData.length));
+        
+        // 如果最后一个块不够 1152 个样本，需要填充
+        if (leftChunk.length < sampleBlockSize) {
+          const paddedLeft = new Int16Array(sampleBlockSize);
+          const paddedRight = new Int16Array(sampleBlockSize);
+          paddedLeft.set(leftChunk);
+          paddedRight.set(rightChunk);
+          const mp3buf = mp3encoder.encodeBuffer(paddedLeft, paddedRight);
+          if (mp3buf.length > 0) {
+            samples.push(mp3buf);
+          }
+        } else {
+          const mp3buf = mp3encoder.encodeBuffer(leftChunk, rightChunk);
+          if (mp3buf.length > 0) {
+            samples.push(mp3buf);
+          }
+        }
+      }
+
+      // 完成编码
+      const mp3buf = mp3encoder.flush();
+      if (mp3buf.length > 0) {
+        samples.push(mp3buf);
+      }
+
+      if (samples.length === 0) {
+        throw new Error('MP3 编码未产生任何数据');
+      }
+
+      // 合并所有 MP3 数据块
+      const totalLength = samples.reduce((sum, arr) => sum + arr.length, 0);
+      const mergedArray = new Uint8Array(totalLength);
+      let offset = 0;
+      for (const sample of samples) {
+        mergedArray.set(sample, offset);
+        offset += sample.length;
+      }
+
+      const mp3Blob = new Blob([mergedArray], { type: 'audio/mpeg' });
+      
+      // 下载文件
+      const url = URL.createObjectURL(mp3Blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('MP3 编码失败，回退到 WAV:', error);
+      // 回退到 WAV
+      await exportAudioBuffer(buffer, filename.replace('.mp3', '.wav'));
+      throw error;
+    }
+  };
+
+  // 导出完整音频（默认 MP3）
   const exportAudio = async () => {
     if (!audioBuffer) {
       message.warning('请先加载音频文件！');
       return;
     }
 
-    await exportAudioBuffer(audioBuffer, `edited_${Date.now()}.wav`);
-    message.success('音频已导出！');
+    try {
+      await exportAudioBufferAsMP3(audioBuffer, `edited_${Date.now()}.mp3`);
+      message.success('音频已导出为 MP3！');
+    } catch (error) {
+      message.warning('MP3 导出失败，已回退到 WAV 格式');
+    }
   };
 
   // 导出 AudioBuffer 为 WAV
@@ -387,6 +552,7 @@ export const Component = () => {
 
     loadAudio();
   }, [audioFile, initWaveSurfer]);
+
 
   // 清理
   useEffect(() => {
