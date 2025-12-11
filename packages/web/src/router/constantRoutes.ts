@@ -190,6 +190,10 @@ export const authRoutes: ElegantConstRoute[] = [
         menuTitle: "富文本编辑器",
         keyWords: ["富文本", "编辑器", "contenteditable"],
       }),
+      createLeafRoute("audio-editor", {
+        menuTitle: "音频编辑器",
+        keyWords: ["音频", "编辑器", "剪切", "wavesurfer"],
+      }),
     ],
   },
   // ========== 文档预览 ==========
