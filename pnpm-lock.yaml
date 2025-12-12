@@ -192,6 +192,9 @@ importers:
       jotai:
         specifier: ^2.12.1
         version: 2.12.5(@types/react@18.3.23)(react@18.3.1)
+      lamejs:
+        specifier: ^1.2.1
+        version: 1.2.1
       latex.js:
         specifier: ^0.12.6
         version: 0.12.6
@@ -4868,6 +4871,9 @@ packages:
   ktx-parse@1.0.1:
     resolution: {integrity: sha512-djwUWv/82Xc8LOVinJU4EBrVqYkO8OsUDSPEtY/OOVY8BSe3DMU7D7PlIAZ0pI7ZZtErj7mqpJcgffUTABvgaA==}
 
+  lamejs@1.2.1:
+    resolution: {integrity: sha512-s7bxvjvYthw6oPLCm5pFxvA84wUROODB8jEO2+CE1adhKgrIvVOlmMgY8zyugxGrvRaDHNJanOiS21/emty6dQ==}
+
   latex.js@0.12.6:
     resolution: {integrity: sha512-spMTeSq9cP4vidMQuPgoYGKmsQTMElZhDtNF3NyLIRc03XkuuPvMA0tzb0ShS/otaIJrB7DIHDk0GL3knCisEw==}
     engines: {node: '>= 14.0'}
@@ -7584,6 +7590,9 @@ packages:
   urix@0.1.0:
     resolution: {integrity: sha512-Am1ousAhSLBeB9cG/7k7r2R0zj50uDRlZHPGbazid5s9rlF1F/QKYObEKSIunSjIOkJZqwRRLpvewjEkM7pSqg==}
     deprecated: Please see https://github.com/lydell/urix#deprecated
+
+  use-strict@1.0.1:
+    resolution: {integrity: sha512-IeiWvvEXfW5ltKVMkxq6FvNf2LojMKvB2OCeja6+ct24S1XOmQw2dGr2JyndwACWAGJva9B7yPHwAmeA9QCqAQ==}
 
   use-sync-external-store@1.5.0:
     resolution: {integrity: sha512-Rb46I4cGGVBmjamjphe8L/UnvJD+uPPtTkNvX5mZgqdbavhI4EbgIWJiIHXJ8bc/i9EQGPRh4DwEURJ552Do0A==}
@@ -13123,6 +13132,10 @@ snapshots:
 
   ktx-parse@1.0.1: {}
 
+  lamejs@1.2.1:
+    dependencies:
+      use-strict: 1.0.1
+
   latex.js@0.12.6:
     dependencies:
       commander: 8.3.0
@@ -16556,6 +16569,8 @@ snapshots:
       punycode: 2.3.1
 
   urix@0.1.0: {}
+
+  use-strict@1.0.1: {}
 
   use-sync-external-store@1.5.0(react@18.3.1):
     dependencies:
