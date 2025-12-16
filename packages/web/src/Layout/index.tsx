@@ -56,19 +56,23 @@ export const Layout: React.FC = memo(() => {
           <GlobalSider isMobile={isMobile} />
           <AntdLayout>
             <GlobalHeader />
-            <Content style={{ overflow: "auto" }} id="__SCROLL_EL_ID__">
-              <Outlet />
-            </Content>
-            <GlobalFooter />
+            <div className="flex flex-col h-full">
+              <Content style={{ overflow: "auto" }} id="__SCROLL_EL_ID__">
+                <Outlet />
+              </Content>
+              <GlobalFooter />
+            </div>
           </AntdLayout>
         </AntdLayout>
       ) : (
         <AntdLayout className="h-screen w-screen">
           <GlobalHeader />
-          <Content style={{ overflow: "auto" }} id="__SCROLL_EL_ID__">
-            <Outlet />
-          </Content>
-          <GlobalFooter />
+          <div className="flex flex-col h-full">
+            <Content style={{ overflow: "auto" }} id="__SCROLL_EL_ID__">
+              <Outlet />
+            </Content>
+            <GlobalFooter />
+          </div>
         </AntdLayout>
       )}
       <SettingDrawer />
