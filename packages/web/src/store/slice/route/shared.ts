@@ -88,19 +88,6 @@ export const transformToReactRoutes: (route: ElegantConstRoute[]) => RouteObject
   });
 
   return result;
-  // return routes.map((item) => {
-  //   if (item.name) {
-  //     return {
-  //       path: item.path,
-  //       id: item.name,
-  //       lazy: dynamicLazyMap?.[item.name],
-  //       children: item?.children ? transformToReactRoutes(item.children) : [],
-  //       handle: item.meta,
-  //     };
-  //   } else {
-  //     return item;
-  //   }
-  // });
 };
 
 //转化为菜单结构

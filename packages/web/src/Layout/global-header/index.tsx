@@ -11,6 +11,7 @@ import { SwitchThemeButton } from "@/components/SwitchThemeButton";
 import { SettingButton } from "@/components/SettingDrawerButton";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { layoutSlice } from "@/store/slice/layout";
+import { GlobalBreadcrumb } from "../global-breadcrumb";
 // console.log(Object.entries(modules));
 
 export const GlobalHeader = memo(() => {
@@ -45,7 +46,9 @@ export const GlobalHeader = memo(() => {
       }}
     >
       <Button type="text" icon={layoutSetting.isCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={toggleCollapsed} />
-      <div style={{ flex: 1 }}></div>
+      <div style={{ flex: 1 }}>
+        <GlobalBreadcrumb />
+      </div>
       {ButtonListRender}
     </Header>
   ) : (

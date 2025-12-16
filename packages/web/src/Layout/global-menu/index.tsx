@@ -8,7 +8,7 @@ import { MenuContext } from "../../context/MenuContext";
 
 export const GlobalMenu: FC<MenuProps> = memo((props) => {
   const settings = useSelector(settingSlice.selectors.getSettings);
-  const { openKeys, items, handleMenuClick, onMenuOpenChange } = useContext(MenuContext);
+  const { openKeys, selectedKeys, items, handleMenuClick, onMenuOpenChange } = useContext(MenuContext);
   const isVertical = settings.layout.mode === "vertical";
   const mode = isVertical ? "inline" : "horizontal";
 
@@ -17,7 +17,7 @@ export const GlobalMenu: FC<MenuProps> = memo((props) => {
       theme={settings.themeMode}
       mode={mode}
       items={items}
-      selectedKeys={router.state.matches[router.state.matches.length - 1].pathname.split("/")}
+      selectedKeys={selectedKeys}
       onClick={handleMenuClick}
       openKeys={openKeys}
       onOpenChange={onMenuOpenChange}
