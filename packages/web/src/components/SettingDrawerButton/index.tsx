@@ -3,7 +3,7 @@ import { initialSetting, settingSlice } from "@/store/slice/setting";
 import { MoonOutlined, SettingOutlined, SunOutlined } from "@ant-design/icons";
 import { Button, ColorPicker, Divider, Drawer, Form, Input, Radio, Segmented, Switch, Tooltip } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { LayoutSelectItem } from "./LayoutSelectItem";
+import { LayoutSelect } from "./LayoutSelectItem";
 
 const swatches: { color: string; name: string }[] = [
   { color: "#3b82f6", name: "海洋蓝" },
@@ -82,7 +82,7 @@ export const SettingDrawer = () => {
           />
         </Form.Item>
         <Divider>布局</Divider>
-        <LayoutSelectItem />
+        <LayoutSelect />
 
         <Divider>颜色</Divider>
         <Form.Item label="主题色" name={["color", "primary"]}>
