@@ -27,6 +27,9 @@ const useTheme: () => ThemeConfig = () => {
         subMenuItemBg: "transparent",
         darkSubMenuItemBg: "transparent",
       },
+      Button: {
+        primaryShadow: "unset",
+      },
     },
     token: {
       colorPrimary: color.primary,

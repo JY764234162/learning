@@ -4,6 +4,11 @@ import { NotFound } from "@/components/NotFound";
 //默认路由
 export const constantRoutes: RouteObject[] = [
   {
+    id: "login",
+    path: "/login",
+    lazy: () => import("@/pages/login"),
+  },
+  {
     id: "layout",
     path: "/",
     Component: Layout,

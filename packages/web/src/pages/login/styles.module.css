@@ -1,0 +1,311 @@
+.loginContainer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* 背景渐变和波浪 */
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 20%, #6366f1 40%, #3b82f6 60%, #6366f1 80%, #8b5cf6 100%);
+  z-index: 0;
+  overflow: hidden;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.wave1,
+.wave2,
+.wave3 {
+  position: absolute;
+  width: 300%;
+  height: 300%;
+  opacity: 0.15;
+  border-radius: 45%;
+  animation: waveAnimation 25s infinite ease-in-out;
+}
+
+.wave1 {
+  background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.4) 0%, transparent 60%);
+  top: -100%;
+  left: -50%;
+  animation-delay: 0s;
+}
+
+.wave2 {
+  background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.3) 0%, transparent 60%);
+  top: -80%;
+  right: -40%;
+  animation-delay: 8s;
+}
+
+.wave3 {
+  background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.3) 0%, transparent 60%);
+  bottom: -90%;
+  left: -30%;
+  animation-delay: 15s;
+}
+
+@keyframes waveAnimation {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translate(50px, 30px) rotate(5deg) scale(1.05);
+  }
+  66% {
+    transform: translate(-30px, 40px) rotate(-5deg) scale(0.95);
+  }
+}
+
+/* 右侧浮动图标 */
+.sideIcons {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 10;
+}
+
+.iconButton {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #666;
+}
+
+.iconButton:hover {
+  background: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.iconButton:last-child {
+  color: #ff6b9d;
+  font-weight: 600;
+}
+
+/* 登录卡片 */
+.loginCard {
+  position: relative;
+  z-index: 10;
+  width: 420px;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* 头部 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1890ff;
+}
+
+.headerActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.actionIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  color: #666;
+}
+
+.actionIcon:hover {
+  background: #e6f7ff;
+  color: #1890ff;
+}
+
+/* 登录标题 */
+.loginTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 24px;
+}
+
+/* 输入框 */
+.input {
+  height: 48px;
+  border-radius: 6px;
+}
+
+/* 表单选项 */
+.formOptions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.forgotLink {
+  color: #1890ff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+}
+
+/* 提交按钮 */
+.submitButton {
+  height: 48px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+/* 切换按钮 */
+.switchButtons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.switchButton {
+  flex: 1;
+  height: 40px;
+  border-radius: 6px;
+  border-color: #d9d9d9;
+  color: #1890ff;
+}
+
+.switchButton:hover {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+/* 分割线 */
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 24px 0;
+  color: #999;
+  font-size: 14px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #e8e8e8;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+/* 角色按钮 */
+.roleButtons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.roleButton {
+  flex: 1;
+  height: 40px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* 验证码按钮 */
+.codeButton {
+  height: 48px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .loginCard {
+    width: 90%;
+    max-width: 420px;
+    padding: 32px 24px;
+  }
+
+  .sideIcons {
+    right: 20px;
+  }
+
+  .iconButton {
+    width: 40px;
+    height: 40px;
+  }
+
+  .roleButtons {
+    flex-direction: column;
+  }
+
+  .roleButton {
+    width: 100%;
+  }
+}
