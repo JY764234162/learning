@@ -47,7 +47,7 @@ export const GlobalHeader = memo(() => {
     >
       <Button type="text" icon={layoutSetting.isCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={toggleCollapsed} />
       <div style={{ flex: 1 }}>
-        <GlobalBreadcrumb />
+       {layoutSetting.isMobile ? null : <GlobalBreadcrumb />}
       </div>
       {ButtonListRender}
     </Header>

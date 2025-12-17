@@ -31,6 +31,9 @@ export const Layout: React.FC = memo(() => {
   //设置是否移动端
   useEffect(() => {
     dispatch(layoutSlice.actions.setIsMobile(isMobile));
+    if (isMobile) {
+      dispatch(settingSlice.actions.changeLayoutMode("vertical"));
+    }
   }, [isMobile]);
 
   //初始化路由
