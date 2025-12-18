@@ -14,7 +14,7 @@ import {
 import { UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
 import styles from "./styles.module.css";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 
 const { Title, Paragraph, Text } = Typography;
 const { Option } = Select;
