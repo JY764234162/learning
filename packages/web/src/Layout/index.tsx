@@ -7,14 +7,14 @@ import { localStg } from "@/utils/storage";
 import { MenuContextProvider } from "@/context/MenuContext/provider";
 import { useMount, useUpdateEffect } from "ahooks";
 import { Layout as AntdLayout, theme } from "antd";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { GlobalHeader } from "./global-header";
 import { GlobalFooter } from "./global-footer";
 import { useResponsive, configResponsive } from "ahooks";
 import { GlobalSider } from "./global-sider";
 import { layoutSlice } from "@/store/slice/layout";
 import { toggleAuxiliaryColorModes, toggleGrayscaleMode } from "@/store/slice/setting/shared";
-
+import "./style.css";
 //配置是否小屏
 configResponsive({
   small: 768, //768px以下为小屏
@@ -27,7 +27,7 @@ export const Layout: React.FC = memo(() => {
   const dispatch = useDispatch();
   const { small } = useResponsive();
   const isMobile = !small;
-
+  const location = useLocation();
   //设置是否移动端
   useEffect(() => {
     dispatch(layoutSlice.actions.setIsMobile(isMobile));
@@ -60,7 +60,7 @@ export const Layout: React.FC = memo(() => {
           <AntdLayout>
             <GlobalHeader />
             <div className="flex flex-col h-full">
-              <Content style={{ overflow: "auto" }} id="__SCROLL_EL_ID__">
+              <Content key={location.pathname} style={{ overflow: "auto" }} id="__SCROLL_EL_ID__" className="fade">
                 <Outlet />
               </Content>
               <GlobalFooter />
@@ -71,7 +71,7 @@ export const Layout: React.FC = memo(() => {
         <AntdLayout className="h-screen w-screen">
           <GlobalHeader />
           <div className="flex flex-col h-full">
-            <Content style={{ overflow: "auto" }} id="__SCROLL_EL_ID__">
+            <Content key={location.pathname} style={{ overflow: "auto" }} id="__SCROLL_EL_ID__" className="fade">
               <Outlet />
             </Content>
             <GlobalFooter />
