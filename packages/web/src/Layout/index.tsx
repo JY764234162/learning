@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { settingSlice } from "@/store/slice/setting";
 import { SettingDrawer } from "@/components/SettingDrawerButton";
@@ -28,6 +28,7 @@ export const Layout: React.FC = memo(() => {
   const { small } = useResponsive();
   const isMobile = !small;
   const location = useLocation();
+  const scrollRef = useRef<HTMLDivElement>(null);
   //设置是否移动端
   useEffect(() => {
     dispatch(layoutSlice.actions.setIsMobile(isMobile));
@@ -40,6 +41,13 @@ export const Layout: React.FC = memo(() => {
   useMount(() => {
     router.navigate(router.state.matches[0].pathname);
   });
+
+  useUpdateEffect(() => {
+    const scrollElement = scrollRef.current;
+    if (scrollElement) {
+      scrollElement.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300 });
+    }
+  }, [location]);
 
   //持久化设置
   useUpdateEffect(() => {
@@ -60,7 +68,7 @@ export const Layout: React.FC = memo(() => {
           <AntdLayout>
             <GlobalHeader />
             <div className="flex flex-col h-full">
-              <Content key={location.pathname} style={{ overflow: "auto" }} id="__SCROLL_EL_ID__" className="fade">
+              <Content key={location.pathname} style={{ overflow: "auto" }} ref={scrollRef} className="scroll-bar">
                 <Outlet />
               </Content>
               <GlobalFooter />
@@ -71,7 +79,7 @@ export const Layout: React.FC = memo(() => {
         <AntdLayout className="h-screen w-screen">
           <GlobalHeader />
           <div className="flex flex-col h-full">
-            <Content key={location.pathname} style={{ overflow: "auto" }} id="__SCROLL_EL_ID__" className="fade">
+            <Content key={location.pathname} style={{ overflow: "auto" }} ref={scrollRef} className="scroll-bar">
               <Outlet />
             </Content>
             <GlobalFooter />

@@ -23,7 +23,11 @@ export const GlobalSider: React.FC<GlobalSiderProps> = memo(({ isMobile }) => {
     return (
       <div className="h-full flex flex-col justify-center items-center">
         <GlobalLogo showTitle={!collapsed} className="w-full" />
-        <GlobalMenu id="__SCROLL_SIDE_ID__" inlineCollapsed={collapsed} style={{ overflow: "auto", flex: 1, width: "100%", border: "none" }} />
+        <GlobalMenu
+          inlineCollapsed={collapsed}
+          style={{ overflow: "auto", flex: 1, width: "100%", border: "none" }}
+          className="scroll-bar"
+        />
       </div>
     );
   }, [collapsed]);

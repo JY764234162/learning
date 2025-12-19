@@ -23,7 +23,6 @@
   }
 }
 
-#__SCROLL_EL_ID__,
-#__SCROLL_SIDE_ID__ {
+.scroll-bar {
   @include scrollbar();
 }
