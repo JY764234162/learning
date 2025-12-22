@@ -11,3 +11,8 @@
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 }
+
+/* 全局鼠标样式 */
+html {
+  cursor: url("../assets/blue.cur"), auto;
+}
