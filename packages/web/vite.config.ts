@@ -59,49 +59,45 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       outDir: "../../docs",
       // 启用压缩
       minify: "terser",
-
       // 代码分割优化
       rollupOptions: {
         input: {
           main: path.resolve(__dirname, "./index.html"),
           404: path.resolve(__dirname, "./404.html"),
         },
-        output: {
-          // 手动代码分割，将大型库单独打包
-          manualChunks: (id) => {
-            // node_modules 中的依赖
-            if (id.includes("node_modules")) {
-              // React 相关
-              if (id.includes("react") || id.includes("react-dom") || id.includes("react-router")) {
-                return "vendor-react";
-              }
-              // Ant Design 相关
-              if (id.includes("antd") || id.includes("@ant-design")) {
-                return "vendor-antd";
-              }
-              // // Monaco Editor - 大型编辑器，单独打包
-              if (id.includes("monaco-editor")) {
-                return "vendor-monaco";
-              }
-              // Three.js 相关 - 3D 库，单独打包
-              if (id.includes("three") || id.includes("@react-three")) {
-                return "vendor-three";
-              }
-              // PDF.js - PDF 预览库，单独打包
-              if (id.includes("pdfjs-dist")) {
-                return "vendor-pdf";
-              }
-              // 其他大型库
-              if (id.includes("wavesurfer") || id.includes("leaflet") || id.includes("@xyflow")) {
-                return "vendor-libs";
-              }
-              // 其他 node_modules 依赖
-              return "vendor";
-            }
-          },
-          // 优化 chunk 大小警告
-          chunkSizeWarningLimit: 1000,
-        },
+        // output: {
+        //   // 手动代码分割，将大型库单独打包
+        //   manualChunks: (id) => {
+        //     // node_modules 中的依赖
+        //     if (id.includes("node_modules")) {
+        //       // React 相关
+        //       if (id.includes("react") || id.includes("react-dom") || id.includes("react-router")) {
+        //         return "vendor-react";
+        //       }
+        //       // Ant Design 相关
+        //       if (id.includes("antd") || id.includes("@ant-design")) {
+        //         return "vendor-antd";
+        //       }
+
+        //       // Three.js 相关 - 3D 库，单独打包
+        //       if (id.includes("three") || id.includes("@react-three")) {
+        //         return "vendor-three";
+        //       }
+        //       // PDF.js - PDF 预览库，单独打包
+        //       if (id.includes("pdfjs-dist")) {
+        //         return "vendor-pdf";
+        //       }
+        //       // 其他大型库
+        //       if (id.includes("wavesurfer") || id.includes("leaflet") || id.includes("@xyflow")) {
+        //         return "vendor-libs";
+        //       }
+        //       // 其他 node_modules 依赖
+        //       return "vendor";
+        //     }
+        //   },
+        //   // 优化 chunk 大小警告
+        //   chunkSizeWarningLimit: 1000,
+        // },
       },
       // CSS 压缩
       cssMinify: true,
